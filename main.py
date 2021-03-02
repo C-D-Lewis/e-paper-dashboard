@@ -8,7 +8,7 @@ from datetime import datetime
 fontdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'font')
 
 font_48 = ImageFont.truetype(os.path.join(fontdir, 'KeepCalm-Medium.ttf'), 48)
-font_64 = ImageFont.truetype(os.path.join(fontdir, 'KeepCalm-Medium.ttf'), 64)
+font_80 = ImageFont.truetype(os.path.join(fontdir, 'KeepCalm-Medium.ttf'), 80)
 
 # Only runs on Pi
 if 'arm' not in platform.machine():
@@ -27,7 +27,7 @@ def draw_date_and_time(image_draw):
   time_str = now.strftime("%H:%M")
   image_draw.text((10, 10), time_str, font = font_64, fill = 0)
   date_str = now.strftime("%B %d, %Y")
-  image_draw.text((10, 75), date_str, font = font_48, fill = 0)
+  image_draw.text((10, 95), date_str, font = font_48, fill = 0)
 
 # Draw things
 def draw():
@@ -52,7 +52,7 @@ def main():
   while True:
     draw()
     epd.sleep()
-    time.sleep(60)
+    time.sleep(58)
     epd.init()
 
 if __name__ in '__main__':
