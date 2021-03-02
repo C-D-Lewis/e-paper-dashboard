@@ -43,11 +43,6 @@ def draw():
   epd.display(epd.getbuffer(image))
   time.sleep(2)
 
-# Send display to sleep (avoid damage)
-def sleep():
-  epd.sleep()
-  print('Sleeping')
-
 # The main function
 def main():
   epd.init()
@@ -56,7 +51,7 @@ def main():
   # Update once a minute
   while True:
     draw()
-    sleep()
+    epd.sleep()
     time.sleep(60)
     epd.init()
 
