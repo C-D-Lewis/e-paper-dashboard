@@ -62,12 +62,8 @@ def draw_weather(canvas, image):
   image.paste(ICON_CLOUD, (510, 10))
   temp_str = f"{weather_data['current_temp']}°C"
   canvas.text((650, 30), temp_str, font = FONT_48, fill = 0)
-  # temp_high_str = f"{weather_data['temp_high']}°C"
-  temp_high_str = "22°C"
-  canvas.text((650, 80), temp_high_str, font = FONT_28, fill = 0)
-  # temp_low_str = f"{weather_data['temp_low']}°C"
-  temp_low_str = "22°C"
-  canvas.text((720, 80), temp_low_str, font = FONT_28, fill = 0)
+  temp_high_low_str = f"{weather_data['temp_high']}°C | {weather_data['temp_low']}°C"
+  canvas.text((650, 80), temp_high_low_str, font = FONT_28, fill = 0)
 
 # Draw things
 def draw():
