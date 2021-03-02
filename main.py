@@ -55,8 +55,8 @@ def draw_divider(canvas, x, y, w, h):
   canvas.rectangle([x, y, x + w, y + h], fill = 0)
 
 # Draw the weather icon, temperature, and conditions
-def draw_weather(canvas):
-  canvas.paste(ICON_CLOUD, (400,20))
+def draw_weather(image):
+  image.paste(ICON_CLOUD, (400,20))
 
 # Draw things
 def draw():
@@ -68,7 +68,7 @@ def draw():
   # Draw content
   draw_date_and_time(canvas)
   draw_divider(canvas, 14, 155, width - 28, 5)
-  draw_weather(canvas)
+  draw_weather(image)
   
   # Update display
   epd.display(epd.getbuffer(image))
