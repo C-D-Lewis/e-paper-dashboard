@@ -42,7 +42,7 @@ def draw():
 
   # Draw content
   draw_date_and_time(image_draw)
-  draw_divider(image_draw, 10, 120, width - 20, 5)
+  draw_divider(image_draw, 13, 135, width - 26, 5)
   
   # Update display
   epd.display(epd.getbuffer(image))
@@ -65,5 +65,5 @@ if __name__ in '__main__':
     main()
   except KeyboardInterrupt:    
     print('Exiting')
-    epd.epdconfig.module_exit()
+    epd7in5_V2.epdconfig.module_exit()
     exit()
