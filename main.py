@@ -16,8 +16,8 @@ from lib.waveshare_epd import epd7in5_V2
 
 def init():
   epd = epd7in5_V2.EPD()
-  epd.init(epd.lut_full_update)
-  epd.Clear(255)
+  epd.init()
+  epd.Clear()
   print('Cleared')
 
 #
