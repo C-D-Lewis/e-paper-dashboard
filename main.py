@@ -1,14 +1,24 @@
-import platform
-import sys
-import os
-import time
+import platform, sys, os, time
+import urllib.request, json
 from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime
 
-fontdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'font')
+# Read env
+DARKSKY_KEY = os.environ.get('DARKSKY_KEY')
+LATITUDE = os.environ.get('LATITUDE')
+LONGITUDE = os.environ.get('LONGITUDE')
 
-font_48 = ImageFont.truetype(os.path.join(fontdir, 'KeepCalm-Medium.ttf'), 48)
-font_80 = ImageFont.truetype(os.path.join(fontdir, 'KeepCalm-Medium.ttf'), 80)
+FONT_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'font')
+FONT_48 = ImageFont.truetype(os.path.join(FONT_DIR, 'KeepCalm-Medium.ttf'), 48)
+FONT_80 = ImageFont.truetype(os.path.join(FONT_DIR, 'KeepCalm-Medium.ttf'), 80)
+WEATHER_URL = f"https://api.darksky.net/forecast/{DARKSKY_KEY}/{LATITUDE},{LONGITUDE}?units=auto&exclude=hourly"
+WEATHER_UPDATE_S = 1000 * 60 * 15
+
+weather_data = {
+  'last_update': 0,
+  'current_temp': 0,
+  'current_conditions': 'unknown',
+}
 
 # Only runs on Pi
 if 'arm' not in platform.machine():
@@ -21,13 +31,19 @@ epd = epd7in5_V2.EPD()
 width = epd.width
 height = epd.height
 
+# Get some JSON
+def get_json(url):
+  with urllib.request.urlopen(url) as req:
+    data = json.loads(req.read().decode())
+    return data
+
 # Draw time module
 def draw_date_and_time(image_draw):
   now = datetime.now()
   time_str = now.strftime("%H:%M")
-  image_draw.text((10, 10), time_str, font = font_80, fill = 0)
+  image_draw.text((10, 10), time_str, font = FONT_80, fill = 0)
   date_str = now.strftime("%B %d, %Y")
-  image_draw.text((10, 95), date_str, font = font_48, fill = 0)
+  image_draw.text((10, 95), date_str, font = FONT_48, fill = 0)
 
 # Draw a divider
 def draw_divider(image_draw, x, y, w, h):
@@ -48,6 +64,17 @@ def draw():
   epd.display(epd.getbuffer(image))
   time.sleep(2)
 
+# Update weather data
+def update_weather_data():
+  new_data = get_json(WEATHER_URL)
+  print(new_data)
+
+# Update all the things
+def update():
+  now = time.time()
+  if now - weather_data.last_update > WEATHER_UPDATE_S:
+    update_weather_data()
+
 # The main function
 def main():
   epd.init()
@@ -55,6 +82,7 @@ def main():
 
   # Update once a minute
   while True:
+    update()
     draw()
     epd.sleep()
     time.sleep(58)
