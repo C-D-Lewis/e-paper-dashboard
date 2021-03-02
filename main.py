@@ -63,9 +63,9 @@ def draw_weather(canvas, image):
   temp_str = f"{weather_data['current_temp']}°C"
   canvas.text((660, 50), temp_str, font = FONT_48, fill = 0)
   temp_high_str = f"{weather_data['temp_high']}°C"
-  canvas.text((660, 80), temp_high_str, font = FONT_28, fill = 0)
+  canvas.text((660, 100), temp_high_str, font = FONT_28, fill = 0)
   temp_low_str = f"{weather_data['temp_low']}°C"
-  canvas.text((700, 80), temp_low_str, font = FONT_28, fill = 0)
+  canvas.text((660, 130), temp_low_str, font = FONT_28, fill = 0)
 
 # Draw things
 def draw():
