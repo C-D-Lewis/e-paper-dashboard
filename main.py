@@ -61,11 +61,11 @@ def draw_divider(canvas, x, y, w, h):
 def draw_weather(canvas, image):
   image.paste(ICON_CLOUD, (520, 10))
   temp_str = f"{weather_data['current_temp']}°C"
-  canvas.text((660, 50), temp_str, font = FONT_48, fill = 0)
+  canvas.text((660, 30), temp_str, font = FONT_48, fill = 0)
   temp_high_str = f"{weather_data['temp_high']}°C"
-  canvas.text((660, 100), temp_high_str, font = FONT_28, fill = 0)
+  canvas.text((660, 80), temp_high_str, font = FONT_28, fill = 0)
   temp_low_str = f"{weather_data['temp_low']}°C"
-  canvas.text((660, 130), temp_low_str, font = FONT_28, fill = 0)
+  canvas.text((660, 110), temp_low_str, font = FONT_28, fill = 0)
 
 # Draw things
 def draw():
@@ -89,8 +89,8 @@ def update_weather_data():
   weather_data['current_temp'] = round(new_data['currently']['apparentTemperature'])
   weather_data['current_summary'] = new_data['currently']['summary']
   weather_data['current_icon'] = new_data['currently']['icon']
-  weather_data['temp_high'] = new_data['daily']['data'][0]['apparentTemperatureHigh']
-  weather_data['temp_low'] = new_data['daily']['data'][0]['apparentTemperatureLow']
+  weather_data['temp_high'] = round(new_data['daily']['data'][0]['apparentTemperatureHigh'])
+  weather_data['temp_low'] = round(new_data['daily']['data'][0]['apparentTemperatureLow'])
   print(weather_data)
 
 # Update all the things
