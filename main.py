@@ -30,9 +30,9 @@ def init():
 # Draw things
 def draw():
   # Prepare
-  image = Image.new('1', (epd.width, epd.height), 255)  # Mode = 1bit
+  image = Image.new('1', (width, height), 255)  # Mode = 1bit
   draw = ImageDraw.Draw(image)
-  draw.rectangle((0, 0, epd.width, epd.height), fill = 255)
+  draw.rectangle((0, 0, width, height), fill = 255)
 
   # Draw content
   now = datetime.now()
@@ -52,13 +52,14 @@ def sleep():
 # The main function
 def main():
   print('Starting')
+  init()
 
   # Update once a minute
   while True:
     draw()
     sleep()
     time.sleep(60)
-    # epd.init()
+    epd.init()
 
 if __name__ in '__main__':
   try:
