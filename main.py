@@ -27,6 +27,12 @@ def init():
   epd.Clear()
   print('Cleared')
 
+# Draw time module
+def draw_time():
+  now = datetime.now()
+  time_str = now.strftime("%H:%M")
+  draw.text((10, 20), time_str, font = font_64, fill = 0)
+
 # Draw things
 def draw():
   # Prepare
@@ -35,10 +41,7 @@ def draw():
   draw.rectangle((0, 0, width, height), fill = 255)
 
   # Draw content
-  now = datetime.now()
-  time_str = now.strftime("%H:%M")
-  draw.text((10, 0), time_str, font = font_48, fill = 0)
-  draw.text((10, 100), 'I SAY I SAY I SAY', font = font_64, fill = 0)
+  draw_time()
   
   # Update display
   epd.display(epd.getbuffer(image))
@@ -66,5 +69,5 @@ if __name__ in '__main__':
     main()
   except KeyboardInterrupt:    
     print('Exiting')
-    epd7in5_V2.epdconfig.module_exit()
+    epd.sleep()
     exit()
