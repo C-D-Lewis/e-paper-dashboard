@@ -47,6 +47,6 @@ if __name__ in '__main__':
   try:
     main()
   except KeyboardInterrupt:    
-    logging.info('Exiting')
+    print('Exiting')
     epd7in5_V2.epdconfig.module_exit()
     exit()
