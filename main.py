@@ -3,6 +3,7 @@ import sys
 import os
 import time
 from PIL import Image, ImageDraw, ImageFont
+from datetime import datetime
 
 fontdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'font')
 
@@ -17,12 +18,16 @@ if 'arm' not in platform.machine():
 from lib.waveshare_epd import epd7in5_V2
 
 epd = epd7in5_V2.EPD()
+width = epd.width
+height = epd.height
 
+# Initialise the display
 def init():
   epd.init()
   epd.Clear()
   print('Cleared')
 
+# Draw things
 def draw():
   # Prepare
   image = Image.new('1', (epd.width, epd.height), 255)  # Mode = 1bit
@@ -30,22 +35,30 @@ def draw():
   draw.rectangle((0, 0, epd.width, epd.height), fill = 255)
 
   # Draw content
-  draw.text((10, 0), 'hello, world!', font = heading_pro_book_48, fill = 0)
+  now = datetime.now()
+  time_str = now.strftime("%H:%M")
+  draw.text((10, 0), time_str, font = heading_pro_book_48, fill = 0)
   draw.text((10, 100), 'I SAY I SAY I SAY', font = heading_pro_book_64, fill = 0)
   
   # Update display
   epd.display(epd.getbuffer(image))
   time.sleep(2)
 
+# Send display to sleep (avoid damage)
 def sleep():
   epd.sleep()
   print('Sleeping')
 
+# The main function
 def main():
   print('Starting')
   init()
-  draw()
-  sleep()
+
+  # Update once a minute
+  while True:
+    draw()
+    sleep()
+    time.sleep(60)
 
 if __name__ in '__main__':
   try:
