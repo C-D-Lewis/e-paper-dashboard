@@ -37,7 +37,7 @@ def draw():
   # Draw content
   now = datetime.now()
   time_str = now.strftime("%H:%M")
-  draw.text((10, 0), time_str, font = heading_pro_book_48, fill = 0)
+  draw.text((10, 0), 'Hello there, mum! Enjoy the bath!', font = heading_pro_book_48, fill = 0)
   draw.text((10, 100), 'I SAY I SAY I SAY', font = heading_pro_book_64, fill = 0)
   
   # Update display
