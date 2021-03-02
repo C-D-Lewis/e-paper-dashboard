@@ -14,11 +14,11 @@ if 'arm' not in platform.machine():
 
 from lib.waveshare_epd import epd7in5_V2
 
-display = epd7in5_V2.EPD()
+epd = epd7in5_V2.EPD()
 
 def init():
-  display.init()
-  display.Clear()
+  epd.init()
+  epd.Clear()
   print('Cleared')
 
 def draw():
@@ -30,7 +30,7 @@ def draw():
   time.sleep(2)
 
 def sleep():
-  display.sleep()
+  epd.sleep()
   print('Sleeping')
 
 def main():
