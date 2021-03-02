@@ -40,7 +40,7 @@ def main():
   sleep()
 
 if __name__ in '__main__':
-  try
+  try:
     main()
   except KeyboardInterrupt:    
     logging.info('Exiting')
