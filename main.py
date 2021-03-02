@@ -58,7 +58,7 @@ def main():
     draw()
     sleep()
     time.sleep(60)
-    epd.init()
+    # epd.init()
 
 if __name__ in '__main__':
   try:
