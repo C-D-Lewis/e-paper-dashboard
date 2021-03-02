@@ -55,10 +55,10 @@ def main():
   init()
 
   # Update once a minute
-  while True:
-    draw()
-    sleep()
-    time.sleep(60)
+  # while True:
+  draw()
+  sleep()
+    # time.sleep(60)
 
 if __name__ in '__main__':
   try:
