@@ -17,20 +17,32 @@ from lib.waveshare_epd import epd7in5_V2
 display = epd7in5_V2.EPD()
 
 def init():
-  
   display.init()
   display.Clear()
   print('Cleared')
 
-#
-def low_power():
+def draw():
+  # Mode = 1bit
+  image = Image.new('1', (epd.width, epd.height), 255)
+  draw = ImageDraw.Draw(image)
+  draw.text((10, 0), 'hello, world!', font = heading_pro_book_24, fill = 0)
+  epd.display(epd.getbuffer(image))
+  time.sleep(2)
+
+def sleep():
   display.sleep()
   print('Sleeping')
 
 def main():
   print('Starting')
   init()
-  low_power()
+  draw()
+  sleep()
 
 if __name__ in '__main__':
-  main()
+  try
+    main()
+  except KeyboardInterrupt:    
+    logging.info('Exiting')
+    epd7in5_V2.epdconfig.module_exit()
+    exit()
