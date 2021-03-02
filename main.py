@@ -27,7 +27,7 @@ def draw_date_and_time(image_draw):
   time_str = now.strftime("%H:%M")
   image_draw.text((10, 10), time_str, font = font_64, fill = 0)
   date_str = now.strftime("%B %d, %Y")
-  image_draw.text((10, 60), date_str, font = font_48, fill = 0)
+  image_draw.text((10, 75), date_str, font = font_48, fill = 0)
 
 # Draw things
 def draw():
