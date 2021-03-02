@@ -31,7 +31,7 @@ def draw_date_and_time(image_draw):
 
 # Draw a divider
 def draw_divider(image_draw, x, y, w, h):
-  image_draw.rectangle((x, y, w, h), fill = 0)
+  image_draw.rectangle([x, y, x + w, y + h], fill = 0)
 
 # Draw things
 def draw():
@@ -65,5 +65,5 @@ if __name__ in '__main__':
     main()
   except KeyboardInterrupt:    
     print('Exiting')
-    epd.sleep()
+    epd.epdconfig.module_exit()
     exit()
