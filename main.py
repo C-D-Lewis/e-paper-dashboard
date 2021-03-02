@@ -89,8 +89,8 @@ def update_weather_data():
   weather_data['current_temp'] = round(new_data['currently']['apparentTemperature'])
   weather_data['current_summary'] = new_data['currently']['summary']
   weather_data['current_icon'] = new_data['currently']['icon']
-  weather_data['temp_high'] = new_data['daily'][0]['apparentTemperatureHigh']
-  weather_data['temp_low'] = new_data['daily'][0]['apparentTemperatureLow']
+  weather_data['temp_high'] = new_data['daily']['data'][0]['apparentTemperatureHigh']
+  weather_data['temp_low'] = new_data['daily']['data'][0]['apparentTemperatureLow']
   print(weather_data)
 
 # Update all the things
