@@ -25,7 +25,7 @@ height = epd.height
 def draw_date_and_time(image_draw):
   now = datetime.now()
   time_str = now.strftime("%H:%M")
-  image_draw.text((10, 10), time_str, font = font_64, fill = 0)
+  image_draw.text((10, 10), time_str, font = font_80, fill = 0)
   date_str = now.strftime("%B %d, %Y")
   image_draw.text((10, 95), date_str, font = font_48, fill = 0)
 
