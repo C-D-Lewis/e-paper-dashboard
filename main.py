@@ -24,24 +24,24 @@ height = epd.height
 # Initialise the display
 def init():
   epd.init()
-  epd.Clear()
-  print('Cleared')
+  # epd.Clear()
+  print('Ready')
 
 # Draw time module
-def draw_time():
+def draw_time(image_draw):
   now = datetime.now()
   time_str = now.strftime("%H:%M")
-  draw.text((10, 20), time_str, font = font_64, fill = 0)
+  image_draw.text((10, 20), time_str, font = font_64, fill = 0)
 
 # Draw things
 def draw():
   # Prepare
   image = Image.new('1', (width, height), 255)  # Mode = 1bit
-  draw = ImageDraw.Draw(image)
-  draw.rectangle((0, 0, width, height), fill = 255)
+  image_draw = ImageDraw.Draw(image)
+  image_draw.rectangle((0, 0, width, height), fill = 255)
 
   # Draw content
-  draw_time()
+  draw_time(image_draw)
   
   # Update display
   epd.display(epd.getbuffer(image))
