@@ -42,7 +42,7 @@ def draw():
 
   # Draw content
   draw_date_and_time(image_draw)
-  draw_divider(image_draw, 14, 145, width - 28, 5)
+  draw_divider(image_draw, 14, 155, width - 28, 5)
   
   # Update display
   epd.display(epd.getbuffer(image))
