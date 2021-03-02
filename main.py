@@ -14,15 +14,17 @@ if 'arm' not in platform.machine():
 
 from lib.waveshare_epd import epd7in5_V2
 
+display = epd7in5_V2.EPD()
+
 def init():
-  epd = epd7in5_V2.EPD()
-  epd.init()
-  epd.Clear()
+  
+  display.init()
+  display.Clear()
   print('Cleared')
 
 #
 def low_power():
-  epd.sleep()
+  display.sleep()
   print('Sleeping')
 
 def main():
