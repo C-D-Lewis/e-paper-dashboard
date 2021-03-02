@@ -1,6 +1,7 @@
 import platform
 import sys
 import os
+import time
 from PIL import Image, ImageDraw, ImageFont
 
 fontdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'font')
