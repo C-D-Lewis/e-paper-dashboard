@@ -56,7 +56,7 @@ def draw_divider(canvas, x, y, w, h):
 
 # Draw the weather icon, temperature, and conditions
 def draw_weather(image):
-  image.paste(ICON_CLOUD, (400,20))
+  image.paste(ICON_CLOUD, (420, 20))
 
 # Draw things
 def draw():
