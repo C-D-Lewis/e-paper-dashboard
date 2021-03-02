@@ -26,7 +26,10 @@ def draw():
   # Mode = 1bit
   image = Image.new('1', (epd.width, epd.height), 255)
   draw = ImageDraw.Draw(image)
+  draw.rectangle((0, 0, epc.width, epc.height), fill = 255)
+
   draw.text((10, 0), 'hello, world!', font = heading_pro_book_48, fill = 0)
+  
   epd.display(epd.getbuffer(image))
   time.sleep(2)
 
