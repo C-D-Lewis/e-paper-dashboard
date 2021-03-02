@@ -72,7 +72,7 @@ def update_weather_data():
 # Update all the things
 def update():
   now = time.time()
-  if now - weather_data.last_update > WEATHER_UPDATE_S:
+  if now - weather_data['last_update'] > WEATHER_UPDATE_S:
     update_weather_data()
 
 # The main function
