@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 fontdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'font')
 
-heading_pro_book_24 = ImageFont.truetype(os.path.join(fontdir, 'Heading-Pro-Book-trial.ttf'), 24)
+heading_pro_book_48 = ImageFont.truetype(os.path.join(fontdir, 'Heading-Pro-Book-trial.ttf'), 48)
 
 # Only runs on Pi
 if 'arm' not in platform.machine():
@@ -26,7 +26,7 @@ def draw():
   # Mode = 1bit
   image = Image.new('1', (epd.width, epd.height), 255)
   draw = ImageDraw.Draw(image)
-  draw.text((10, 0), 'hello, world!', font = heading_pro_book_24, fill = 0)
+  draw.text((10, 0), 'hello, world!', font = heading_pro_book_48, fill = 0)
   epd.display(epd.getbuffer(image))
   time.sleep(2)
 
