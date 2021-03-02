@@ -21,17 +21,13 @@ epd = epd7in5_V2.EPD()
 width = epd.width
 height = epd.height
 
-# Initialise the display
-def init():
-  epd.init()
-  # epd.Clear()
-  print('Ready')
-
 # Draw time module
-def draw_time(image_draw):
+def draw_date_and_time(image_draw):
   now = datetime.now()
   time_str = now.strftime("%H:%M")
-  image_draw.text((10, 20), time_str, font = font_64, fill = 0)
+  image_draw.text((10, 10), time_str, font = font_64, fill = 0)
+  date_str = now.strftime("%B %d, %Y")
+  image_draw.text((10, 40), date_str, font = font_48, fill = 0)
 
 # Draw things
 def draw():
@@ -41,7 +37,7 @@ def draw():
   image_draw.rectangle((0, 0, width, height), fill = 255)
 
   # Draw content
-  draw_time(image_draw)
+  draw_date_and_time(image_draw)
   
   # Update display
   epd.display(epd.getbuffer(image))
@@ -54,8 +50,8 @@ def sleep():
 
 # The main function
 def main():
-  print('Starting')
-  init()
+  epd.init()
+  print('Ready')
 
   # Update once a minute
   while True:
