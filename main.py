@@ -52,13 +52,13 @@ def sleep():
 # The main function
 def main():
   print('Starting')
-  init()
 
   # Update once a minute
-  # while True:
-  draw()
-  sleep()
-    # time.sleep(60)
+  while True:
+    draw()
+    sleep()
+    time.sleep(60)
+    epd.init()
 
 if __name__ in '__main__':
   try:
