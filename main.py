@@ -48,8 +48,7 @@ def draw_date_and_time(canvas):
   now = datetime.now()
   time_str = now.strftime("%H:%M")
   canvas.text((10, 10), time_str, font = FONT_80, fill = 0)
-  # date_str = now.strftime("%B %d, %Y")
-  date_str = 'December 22, 2021'
+  date_str = now.strftime("%B %d, %Y")
   canvas.text((10, 95), date_str, font = FONT_48, fill = 0)
 
 # Draw a divider
