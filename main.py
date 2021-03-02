@@ -9,6 +9,7 @@ LATITUDE = os.environ.get('LATITUDE')
 LONGITUDE = os.environ.get('LONGITUDE')
 
 FONTS_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'fonts')
+FONT_28 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 28)
 FONT_48 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 48)
 FONT_80 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 80)
 
@@ -55,8 +56,9 @@ def draw_divider(canvas, x, y, w, h):
   canvas.rectangle([x, y, x + w, y + h], fill = 0)
 
 # Draw the weather icon, temperature, and conditions
-def draw_weather(image):
-  image.paste(ICON_CLOUD, (420, 20))
+def draw_weather(canvas, image):
+  image.paste(ICON_CLOUD, (500, 0))
+  canvas.text((500, 130), weather_data['current_summary'], font = FONT_28, fill = 0)
 
 # Draw things
 def draw():
@@ -68,7 +70,7 @@ def draw():
   # Draw content
   draw_date_and_time(canvas)
   draw_divider(canvas, 14, 155, width - 28, 5)
-  draw_weather(image)
+  draw_weather(canvas, image)
   
   # Update display
   epd.display(epd.getbuffer(image))
