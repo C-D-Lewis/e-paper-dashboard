@@ -11,13 +11,14 @@ LONGITUDE = os.environ.get('LONGITUDE')
 FONT_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'font')
 FONT_48 = ImageFont.truetype(os.path.join(FONT_DIR, 'KeepCalm-Medium.ttf'), 48)
 FONT_80 = ImageFont.truetype(os.path.join(FONT_DIR, 'KeepCalm-Medium.ttf'), 80)
-WEATHER_URL = f"https://api.darksky.net/forecast/{DARKSKY_KEY}/{LATITUDE},{LONGITUDE}?units=auto&exclude=hourly"
+WEATHER_URL = f"https://api.darksky.net/forecast/{DARKSKY_KEY}/{LATITUDE},{LONGITUDE}?units=auto&exclude=hourly,minutely"
 WEATHER_UPDATE_S = 1000 * 60 * 15
 
 weather_data = {
   'last_update': 0,
   'current_temp': 0,
-  'current_conditions': 'unknown',
+  'current_summary': 'unknown',
+  'current_icon': 'unknown'
 }
 
 # Only runs on Pi
@@ -67,13 +68,18 @@ def draw():
 # Update weather data
 def update_weather_data():
   new_data = get_json(WEATHER_URL)
-  print(new_data)
+  weather_data['current_temp'] = new_data['currently']['apparentTemperature']
+  weather_data['current_summary'] = new_data['currently']['summary']
+  weather_data['current_icon'] = new_data['currently']['icon']
+  print(weather_data)
 
 # Update all the things
 def update():
   now = time.time()
+
   if now - weather_data['last_update'] > WEATHER_UPDATE_S:
     update_weather_data()
+    weather_data['last_update'] = now
 
 # The main function
 def main():
