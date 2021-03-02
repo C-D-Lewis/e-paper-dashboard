@@ -29,6 +29,10 @@ def draw_date_and_time(image_draw):
   date_str = now.strftime("%B %d, %Y")
   image_draw.text((10, 95), date_str, font = font_48, fill = 0)
 
+# Draw a divider
+def draw_divider(image_draw, x, y, w, h):
+  draw.rectangle((x, y, w, h), fill = 0)
+
 # Draw things
 def draw():
   # Prepare
@@ -38,6 +42,7 @@ def draw():
 
   # Draw content
   draw_date_and_time(image_draw)
+  draw_divider(image_draw, 10, 120, width - 20, 5)
   
   # Update display
   epd.display(epd.getbuffer(image))
