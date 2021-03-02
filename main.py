@@ -7,8 +7,8 @@ from datetime import datetime
 
 fontdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'font')
 
-heading_pro_book_48 = ImageFont.truetype(os.path.join(fontdir, 'Heading-Pro-Book-trial.ttf'), 48)
-heading_pro_book_64 = ImageFont.truetype(os.path.join(fontdir, 'Heading-Pro-Book-trial.ttf'), 64)
+font_48 = ImageFont.truetype(os.path.join(fontdir, 'KeepCalm-Medium.ttf'), 48)
+font_64 = ImageFont.truetype(os.path.join(fontdir, 'KeepCalm-Medium.ttf'), 64)
 
 # Only runs on Pi
 if 'arm' not in platform.machine():
@@ -37,8 +37,8 @@ def draw():
   # Draw content
   now = datetime.now()
   time_str = now.strftime("%H:%M")
-  draw.text((10, 0), 'Hello there, mum! Enjoy the bath!', font = heading_pro_book_48, fill = 0)
-  draw.text((10, 100), 'I SAY I SAY I SAY', font = heading_pro_book_64, fill = 0)
+  draw.text((10, 0), time_str, font = font_48, fill = 0)
+  draw.text((10, 100), 'I SAY I SAY I SAY', font = font_64, fill = 0)
   
   # Update display
   epd.display(epd.getbuffer(image))
