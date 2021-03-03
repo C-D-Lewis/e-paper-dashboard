@@ -177,9 +177,9 @@ def draw_divider(canvas, x, y, w, h):
 def draw_weather(canvas, image):
   image.paste(get_weather_icon(), (520, 10))
   temp_str = f"{weather_data['current_temp']}°C"
-  canvas.text((660, 35), temp_str, font = FONT_48, fill = 0)
+  canvas.text((660, 30), temp_str, font = FONT_48, fill = 0)
   temp_high_low_str = f"{weather_data['temp_high']} | {weather_data['temp_low']}"
-  canvas.text((660, 90), temp_high_low_str, font = FONT_28, fill = 0)
+  canvas.text((660, 85), temp_high_low_str, font = FONT_28, fill = 0)
 
 # Draw rail statuses
 def draw_rail_status(canvas, image):
