@@ -220,11 +220,11 @@ def draw_rail_status(canvas, image):
 # Draw crypto values
 def draw_crypto_values(canvas, image):
   image.paste(ICON_BTC, (15, 335))
-  str = f"£{crypto_data['BTC']}"
+  str = f"£{crypto_data['BTC']['value']}"
   canvas.text((95, 351), str, font = FONT_28, fill = 0)
 
   image.paste(ICON_ETH, (15, 409))
-  str = f"£{crypto_data['ETH']}"
+  str = f"£{crypto_data['ETH']['value']}"
   canvas.text((95, 425), str, font = FONT_28, fill = 0)
 
 ################################## Main loop ###################################
