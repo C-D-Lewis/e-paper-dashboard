@@ -210,13 +210,13 @@ def draw_rail_status(canvas, image):
 
 # Draw crypto values
 def draw_crypto_values(canvas, image):
-  image.paste(ICON_BTC, (15, 320))
+  image.paste(ICON_BTC, (15, 330))
   str = f"£{crypto_data['BTC']}"
-  canvas.text((95, 336), str, font = FONT_28, fill = 0)
+  canvas.text((95, 346), str, font = FONT_28, fill = 0)
 
-  image.paste(ICON_ETH, (15, 394))
+  image.paste(ICON_ETH, (15, 404))
   str = f"£{crypto_data['ETH']}"
-  canvas.text((95, 410), str, font = FONT_28, fill = 0)
+  canvas.text((95, 420), str, font = FONT_28, fill = 0)
 
 ################################## Main loop ###################################
 
@@ -232,6 +232,7 @@ def draw():
   draw_divider(canvas, 14, 155, width - 28, 5)
   draw_weather(canvas, image)
   draw_rail_status(canvas, image)
+  draw_divider(canvas, 14, 390, 300, 2)
   draw_crypto_values(canvas, image)
   
   # Update display
