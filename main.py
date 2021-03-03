@@ -214,9 +214,9 @@ def draw_crypto_values(canvas, image):
   str = f"£{crypto_data['BTC']}"
   canvas.text((95, 336), str, font = FONT_28, fill = 0)
 
-  image.paste(ICON_ETH, (15, 384))
+  image.paste(ICON_ETH, (15, 394))
   str = f"£{crypto_data['ETH']}"
-  canvas.text((95, 400), str, font = FONT_28, fill = 0)
+  canvas.text((95, 410), str, font = FONT_28, fill = 0)
 
 ################################## Main loop ###################################
 
