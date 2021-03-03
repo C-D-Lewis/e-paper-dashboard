@@ -3,10 +3,7 @@ import urllib.request, json
 from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime
 
-# Read env
-DARKSKY_KEY = os.environ.get('DARKSKY_KEY')
-LATITUDE = os.environ.get('LATITUDE')
-LONGITUDE = os.environ.get('LONGITUDE')
+CONFIG_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.json')
 
 # Fonts
 FONTS_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'fonts')
@@ -23,13 +20,18 @@ ICON_SUN = Image.open(os.path.join(IMAGES_DIR, 'sun.bmp'))
 ICON_MOON = Image.open(os.path.join(IMAGES_DIR, 'moon.bmp'))
 ICON_STORM = Image.open(os.path.join(IMAGES_DIR, 'storm.bmp'))
 ICON_SNOW = Image.open(os.path.join(IMAGES_DIR, 'snow.bmp'))
+ICON_FROST = Image.open(os.path.join(IMAGES_DIR, 'frost.bmp'))
+ICON_FOG = Image.open(os.path.join(IMAGES_DIR, 'fog.bmp'))
 ICON_QUESTION_MARK = Image.open(os.path.join(IMAGES_DIR, 'question.bmp'))
 
 # Constants
-WEATHER_URL = f"https://api.darksky.net/forecast/{DARKSKY_KEY}/{LATITUDE},{LONGITUDE}?units=auto&exclude=hourly,minutely"
 WEATHER_UPDATE_S = 1000 * 60 * 15
+RAIL_URL = 'http://www.nationalrail.co.uk/service_disruptions/indicator.aspx'
+RAIL_UPDATE_S = 1000 * 60 * 10
 DAY_START_HOUR = 6
 DAY_END_HOUR = 18
+
+config = {}
 
 weather_data = {
   'last_update': 0,
@@ -38,6 +40,10 @@ weather_data = {
   'current_icon': 'unknown',
   'temp_high': 0,
   'temp_low': 0
+}
+
+rail_data = {
+  'last_update': 0
 }
 
 # Only runs on Pi
@@ -53,49 +59,80 @@ height = epd.height
 
 ################################### Helpers ####################################
 
+# Read local config.json file
+def load_config():
+  global config
+
+  print(CONFIG_PATH)
+  with open(CONFIG_PATH, 'r') as file:
+    config = json.loads(file.read())
+  print(config)
+
 # Get an appropriate weather icon
 def get_weather_icon():
-  summary_lower = weather_data['current_summary'].lower()
+  current_icon = weather_data['current_icon'].lower()
   now = datetime.now()
   hours = now.hour
 
-  if 'cloud' in summary_lower or 'overcast' in summary_lower:
+  if 'cloud' in current_icon or 'overcast' in current_icon:
     return ICON_CLOUD
-  if 'wind' in summary_lower:
+  if 'wind' in current_icon:
     return ICON_WIND
-  if 'rain' in summary_lower:
+  if 'rain' in current_icon:
     return ICON_RAIN
-  if 'clear' in summary_lower or 'sun' in summary_lower:
+  if 'clear' in current_icon or 'sun' in current_icon:
     if hours > DAY_START_HOUR and hours < DAY_END_HOUR:
       return ICON_SUN
     else:
       return ICON_MOON
-  if 'thunder' in summary_lower or 'storm' in summary_lower or 'lighting' in summary_lower:
+  if 'thunder' in current_icon or 'storm' in current_icon or 'lighting' in current_icon:
     return ICON_STORM
-  if 'snow' in summary_lower:
+  if 'snow' in current_icon:
     return ICON_SNOW
-  # ice
-  # mist | fog
+  if 'ice' in current_icon or 'frost' in current_icon:
+    return ICON_FROST
+  if 'mist' in current_icon or 'fog' in current_icon or 'haz' in current_icon:
+    return ICON_FOG
 
-  return ICON_QUESTION_MARK
+  return ICON_QUESTION_MARK  
 
 #################################### Network ###################################
 
-# Get some JSON
-def get_json(url):
+# Get a page body
+def fetch_text(url):
   with urllib.request.urlopen(url) as req:
-    data = json.loads(req.read().decode())
-    return data
+    return req.read().decode()
+
+# Get some JSON
+def fetch_json(url):
+  return json.loads(fetch_text(url))
 
 # Update weather data
 def update_weather_data():
-  new_data = get_json(WEATHER_URL)
+  url = f"https://api.darksky.net/forecast/{config['DARKSKY_KEY']}/{config['LATITUDE']},{config['LONGITUDE']}?units=auto&exclude=hourly,minutely"
+  new_data = fetch_json(url)
   weather_data['current_temp'] = round(new_data['currently']['apparentTemperature'])
   weather_data['current_summary'] = new_data['currently']['summary']
   weather_data['current_icon'] = new_data['currently']['icon']
   weather_data['temp_high'] = round(new_data['daily']['data'][0]['apparentTemperatureHigh'])
   weather_data['temp_low'] = round(new_data['daily']['data'][0]['apparentTemperatureLow'])
   print(weather_data)
+
+# Fetch rail operator status
+def fetch_operator_status(operator_name):
+  body = fetch_text(RAIL_URL)
+  start = body.index(f"{operator_name}</td>")
+  temp = body[start:]
+  start = temp.index('<td>') + 4
+  temp = temp[start:]
+  end = temp.index('</td>')
+  return temp[:end]
+
+# Fetch rail network delays status
+def update_rail_data():
+  for name in config['RAIL_OPERATORS']:
+    rail_data[name] = fetch_operator_status(name)
+  print(rail_data)
 
 ################################# Draw modules #################################
 
@@ -115,9 +152,9 @@ def draw_divider(canvas, x, y, w, h):
 def draw_weather(canvas, image):
   image.paste(get_weather_icon(), (520, 10))
   temp_str = f"{weather_data['current_temp']}°C"
-  canvas.text((660, 30), temp_str, font = FONT_48, fill = 0)
+  canvas.text((660, 35), temp_str, font = FONT_48, fill = 0)
   temp_high_low_str = f"{weather_data['temp_high']} | {weather_data['temp_low']}"
-  canvas.text((660, 85), temp_high_low_str, font = FONT_28, fill = 0)
+  canvas.text((660, 90), temp_high_low_str, font = FONT_28, fill = 0)
 
 ################################## Main loop ###################################
 
@@ -145,8 +182,13 @@ def update():
     update_weather_data()
     weather_data['last_update'] = now
 
+  if now - rail_data['last_update'] > RAIL_UPDATE_S:
+    update_rail_data()
+    rail_data['last_update'] = now
+
 # The main function
 def main():
+  load_config()
   epd.init()
   print('Ready')
 

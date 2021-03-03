@@ -1,0 +1,9 @@
+{
+  "LATITUDE": "51.513770",
+  "LONGITUDE": "-0.075949",
+  "DARKSKY_KEY": "",
+  "RAIL_OPERATORS": [
+    "TfL Rail",
+    "Greater Anglia"
+  ]
+}
