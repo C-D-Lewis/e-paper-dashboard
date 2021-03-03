@@ -171,8 +171,8 @@ def update_crypto_data():
     print(crypto_data)
   except Exception as err:
     print("update_crypto_data error: {0}".format(err))
-      crypto_data['BTC'] = 0
-      crypto_data['ETH'] = 0
+    crypto_data['BTC'] = 0
+    crypto_data['ETH'] = 0
 
 ################################# Draw modules #################################
 
