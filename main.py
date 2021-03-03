@@ -24,6 +24,8 @@ ICON_FROST = Image.open(os.path.join(IMAGES_DIR, 'frost.bmp'))
 ICON_FOG = Image.open(os.path.join(IMAGES_DIR, 'fog.bmp'))
 ICON_TFL = Image.open(os.path.join(IMAGES_DIR, 'tfl.bmp'))
 ICON_GA = Image.open(os.path.join(IMAGES_DIR, 'ga.bmp'))
+ICON_BTC = Image.open(os.path.join(IMAGES_DIR, 'btc.bmp'))
+ICON_ETH = Image.open(os.path.join(IMAGES_DIR, 'eth.bmp'))
 ICON_ERROR = Image.open(os.path.join(IMAGES_DIR, 'error.bmp'))
 ICON_QUESTION_MARK = Image.open(os.path.join(IMAGES_DIR, 'question.bmp'))
 
@@ -166,8 +168,8 @@ def update_crypto_data():
     url = f"https://api.nomics.com/v1/currencies/ticker?key={config['NOMICS_KEY']}&ids=BTC,ETH&interval=1d,30d&convert=GBP"
     res = fetch_json(url)
     
-    crypto_data['BTC'] = config['BTC_AMOUNT'] * float(res[0]['price'])
-    crypto_data['ETH'] = config['ETH_AMOUNT'] * float(res[1]['price'])
+    crypto_data['BTC'] = round(config['BTC_AMOUNT'] * float(res[0]['price']), 2)
+    crypto_data['ETH'] = round(config['ETH_AMOUNT'] * float(res[1]['price']), 2)
     print(crypto_data)
   except Exception as err:
     print("update_crypto_data error: {0}".format(err))
@@ -198,19 +200,23 @@ def draw_weather(canvas, image):
 
 # Draw rail statuses
 def draw_rail_status(canvas, image):
-  root_x = 15
-  root_y = 180
-  gap_y  = 64
-
-  image.paste(ICON_TFL, (root_x, root_y))
+  image.paste(ICON_TFL, (15, 180))
   str = f"{rail_data['TfL Rail']}"
-  canvas.text((root_x + 80, root_y + 16), str, font = FONT_28, fill = 0)
+  canvas.text((95, 196), str, font = FONT_28, fill = 0)
 
-  root_y += gap_y
-
-  image.paste(ICON_GA, (root_x, root_y))
+  image.paste(ICON_GA, (15, 244))
   str = f"{rail_data['Greater Anglia']}"
-  canvas.text((root_x + 80, root_y + 16), str, font = FONT_28, fill = 0)
+  canvas.text((95, 260), str, font = FONT_28, fill = 0)
+
+# Draw crypto values
+def draw_crypto_values(canvas, image):
+  image.paste(ICON_BTC, (15, 300))
+  str = f"£{crypto_data['BTC']}"
+  canvas.text((95, 316), str, font = FONT_28, fill = 0)
+
+  image.paste(ICON_ETH, (15, 244))
+  str = f"£{crypto_data['ETH']}"
+  canvas.text((95, 380), str, font = FONT_28, fill = 0)
 
 ################################## Main loop ###################################
 
@@ -226,6 +232,7 @@ def draw():
   draw_divider(canvas, 14, 155, width - 28, 5)
   draw_weather(canvas, image)
   draw_rail_status(canvas, image)
+  draw_crypto_values(canvas, image)
   
   # Update display
   epd.display(epd.getbuffer(image))
