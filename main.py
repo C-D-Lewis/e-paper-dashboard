@@ -200,13 +200,13 @@ def draw_weather(canvas, image):
 
 # Draw rail statuses
 def draw_rail_status(canvas, image):
-  image.paste(ICON_TFL, (15, 180))
+  image.paste(ICON_TFL, (15, 175))
   str = f"{rail_data['TfL Rail']}"
-  canvas.text((95, 196), str, font = FONT_28, fill = 0)
+  canvas.text((95, 191), str, font = FONT_28, fill = 0)
 
-  image.paste(ICON_GA, (15, 244))
+  image.paste(ICON_GA, (15, 239))
   str = f"{rail_data['Greater Anglia']}"
-  canvas.text((95, 260), str, font = FONT_28, fill = 0)
+  canvas.text((95, 255), str, font = FONT_28, fill = 0)
 
 # Draw crypto values
 def draw_crypto_values(canvas, image):
