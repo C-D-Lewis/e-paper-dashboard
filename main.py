@@ -173,10 +173,11 @@ def update_crypto_data():
   try:
     url = f"https://api.nomics.com/v1/currencies/ticker?key={config['NOMICS_KEY']}&ids=BTC,ETH&interval=1d,30d&convert=GBP"
     res = fetch_json(url)
-    print(res)
     
     crypto_data['BTC']['value'] = round(config['BTC_AMOUNT'] * float(res[0]['price']), 2)
+    crypto_data['BTC']['change'] = rount(res[0]['1d']['price_change'], 2)
     crypto_data['ETH']['value'] = round(config['ETH_AMOUNT'] * float(res[1]['price']), 2)
+    crypto_data['ETH']['change'] = rount(res[1]['1d']['price_change'], 2)
     print(crypto_data)
   except Exception as err:
     print("update_crypto_data error: {0}".format(err))
@@ -220,11 +221,13 @@ def draw_rail_status(canvas, image):
 # Draw crypto values
 def draw_crypto_values(canvas, image):
   image.paste(ICON_BTC, (15, 335))
-  str = f"£{crypto_data['BTC']['value']}"
+  arrow = '▲' if crypto_data['BTC']['change'] > 0 else '▼'
+  str = f"£{crypto_data['BTC']['value']} | {arrow} £{crypto_data['BTC']['change']}"
   canvas.text((95, 351), str, font = FONT_28, fill = 0)
 
   image.paste(ICON_ETH, (15, 409))
-  str = f"£{crypto_data['ETH']['value']}"
+  arrow = '▲' if crypto_data['ETH']['change'] > 0 else '▼'
+  str = f"£{crypto_data['ETH']['value']} | {arrow} £{crypto_data['ETH']['change']}"
   canvas.text((95, 425), str, font = FONT_28, fill = 0)
 
 ################################## Main loop ###################################
