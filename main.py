@@ -250,7 +250,7 @@ def draw():
   draw_rail_status(canvas, image)
   draw_divider(canvas, 14, 310, 310, 5)
   draw_crypto_values(canvas, image)
-  draw_divider(canvas, 350, 185, 5, 290)
+  draw_divider(canvas, 350, 185, 5, 280)
   
   # Update display
   epd.display(epd.getbuffer(image))
