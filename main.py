@@ -192,7 +192,7 @@ def draw_rail_status(canvas, image):
     icon = operator['icon']
     image.paste(icon, (root_x, root_y))
     str = f"{rail_data[name]}"
-    canvas.text((root_x + 80, root_y + 14), str, font = FONT_28, fill = 0)
+    canvas.text((root_x + 80, root_y + 16), str, font = FONT_28, fill = 0)
 
     root_y += gap_y
 
