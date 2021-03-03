@@ -30,13 +30,10 @@ ICON_QUESTION_MARK = Image.open(os.path.join(IMAGES_DIR, 'question.bmp'))
 # Constants
 WEATHER_UPDATE_S = 1000 * 60 * 15
 RAIL_URL = 'http://www.nationalrail.co.uk/service_disruptions/indicator.aspx'
-RAIL_OPERATORS = [
-  { 'name': 'TfL Rail',       'icon': ICON_TFL },
-  { 'name': 'Greater Anglia', 'icon': ICON_GA  }
-]
 RAIL_UPDATE_S = 1000 * 60 * 10
 DAY_START_HOUR = 6
 DAY_END_HOUR = 18
+CRYPTO_UPDATE_S = 1000 * 60 * 10
 
 config = {}
 
@@ -51,6 +48,12 @@ weather_data = {
 
 rail_data = {
   'last_update': 0
+}
+
+crypto_data = {
+  'last_update': 0,
+  'BTC': 0,
+  'ETH': 0
 }
 
 # Only runs on Pi
@@ -149,15 +152,27 @@ def fetch_operator_status(operator_name):
 # Fetch rail network delays status
 def update_rail_data():
   try:
-    for operator in RAIL_OPERATORS:
-      name = operator['name']
-      rail_data[name] = fetch_operator_status(name)
+    rail_data['TfL Rail'] = fetch_operator_status('TfL Rail')
+    rail_data['Greater Anglia'] = fetch_operator_status('Greater Anglia')
     print(rail_data)
   except Exception as err:
     print("update_rail_data error: {0}".format(err))
-    for operator in RAIL_OPERATORS:
-      name = operator['name']
-      rail_data[name] = 'error'
+    rail_data['TfL Rail'] = 'error'
+    rail_data['Greater Anglia'] = 'error'
+
+# Update crypto portfolio
+def update_crypto_data():
+  try:
+    url = f"https://api.nomics.com/v1/currencies/ticker?key={config['NOMICS_KEY']}&ids=BTC,ETH&interval=1d,30d&convert=GBP"
+    res = fetch_json(url)
+    
+    crypto_data['BTC'] = config['BTC_AMOUNT'] * float(res[0]['price'])
+    crypto_data['ETH'] = config['ETH_AMOUNT'] * float(res[1]['price'])
+    print(crypto_data)
+  except Exception as err:
+    print("update_crypto_data error: {0}".format(err))
+      crypto_data['BTC'] = 0
+      crypto_data['ETH'] = 0
 
 ################################# Draw modules #################################
 
@@ -183,18 +198,19 @@ def draw_weather(canvas, image):
 
 # Draw rail statuses
 def draw_rail_status(canvas, image):
-  root_x = 12
+  root_x = 15
   root_y = 180
   gap_y  = 64
 
-  for index, operator in enumerate(RAIL_OPERATORS):
-    name = operator['name']
-    icon = operator['icon']
-    image.paste(icon, (root_x, root_y))
-    str = f"{rail_data[name]}"
-    canvas.text((root_x + 80, root_y + 16), str, font = FONT_28, fill = 0)
+  image.paste(ICON_TFL, (root_x, root_y))
+  str = f"{rail_data['TfL Rail']}"
+  canvas.text((root_x + 80, root_y + 16), str, font = FONT_28, fill = 0)
 
-    root_y += gap_y
+  root_y += gap_y
+
+  image.paste(ICON_GA, (root_x, root_y))
+  str = f"{rail_data['Greater Anglia']}"
+  canvas.text((root_x + 80, root_y + 16), str, font = FONT_28, fill = 0)
 
 ################################## Main loop ###################################
 
@@ -226,6 +242,10 @@ def update():
   if now - rail_data['last_update'] > RAIL_UPDATE_S:
     update_rail_data()
     rail_data['last_update'] = now
+
+  if now - crypto_data['last_update'] > CRYPTO_UPDATE_S:
+    update_crypto_data()
+    crypto_data['last_update'] = now
 
 # The main function
 def main():
