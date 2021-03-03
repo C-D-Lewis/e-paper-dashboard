@@ -232,7 +232,7 @@ def draw():
   draw_divider(canvas, 14, 155, width - 28, 5)
   draw_weather(canvas, image)
   draw_rail_status(canvas, image)
-  draw_divider(canvas, 14, 390, 300, 2)
+  draw_divider(canvas, 14, 300, 300, 2)
   draw_crypto_values(canvas, image)
   
   # Update display
