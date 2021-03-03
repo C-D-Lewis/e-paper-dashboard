@@ -30,13 +30,10 @@ ICON_QUESTION_MARK = Image.open(os.path.join(IMAGES_DIR, 'question.bmp'))
 # Constants
 WEATHER_UPDATE_S = 1000 * 60 * 15
 RAIL_URL = 'http://www.nationalrail.co.uk/service_disruptions/indicator.aspx'
-RAIL_OPERATORS = [{
-  'name': 'TfL Rail',
-  'icon': ICON_TFL
- }, {
-   'name': 'Greater Anglia',
-   'icon': ICON_GA
- }]
+RAIL_OPERATORS = [
+  { 'name': 'TfL Rail',       'icon': ICON_TFL },
+  { 'name': 'Greater Anglia', 'icon': ICON_GA  }
+]
 RAIL_UPDATE_S = 1000 * 60 * 10
 DAY_START_HOUR = 6
 DAY_END_HOUR = 18
@@ -186,15 +183,18 @@ def draw_weather(canvas, image):
 
 # Draw rail statuses
 def draw_rail_status(canvas, image):
-  root_x = 10
-  root_y = 200
+  root_x = 12
+  root_y = 190
+  gap_y  = 64
 
-  for operator in RAIL_OPERATORS:
+  for index, operator in enumerate(RAIL_OPERATORS):
     name = operator['name']
     icon = operator['icon']
     image.paste(icon, (root_x, root_y))
     str = f"{name}: {rail_data[name]}"
     canvas.text((root_x + 75, root_y + 24), str, font = FONT_28, fill = 0)
+
+    root_y += gap_y
 
 ################################## Main loop ###################################
 
