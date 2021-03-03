@@ -224,15 +224,15 @@ def draw_crypto_values(canvas, image):
   arrow = '+' if crypto_data['BTC']['change'] > 0 else '-'
   value_str = f"£{crypto_data['BTC']['value']}"
   change_str = f"{arrow} £{crypto_data['BTC']['change']}"
-  canvas.text((95, 341), value_str, font = FONT_28, fill = 0)
-  canvas.text((95, 371), change_str, font = FONT_28, fill = 0)
+  canvas.text((95, 338), value_str, font = FONT_28, fill = 0)
+  canvas.text((95, 374), change_str, font = FONT_28, fill = 0)
 
   image.paste(ICON_ETH, (15, 409))
   arrow = '+' if crypto_data['ETH']['change'] > 0 else '-'
   value_str = f"£{crypto_data['ETH']['value']}"
   change_str = f"{arrow} £{crypto_data['ETH']['change']}"
-  canvas.text((95, 415), value_str, font = FONT_28, fill = 0)
-  canvas.text((95, 445), change_str, font = FONT_28, fill = 0)
+  canvas.text((95, 412), value_str, font = FONT_28, fill = 0)
+  canvas.text((95, 448), change_str, font = FONT_28, fill = 0)
 
 ################################## Main loop ###################################
 
@@ -250,6 +250,7 @@ def draw():
   draw_rail_status(canvas, image)
   draw_divider(canvas, 14, 310, 300, 5)
   draw_crypto_values(canvas, image)
+  draw_divider(canvas, 350, 175, 5, 300)
   
   # Update display
   epd.display(epd.getbuffer(image))
