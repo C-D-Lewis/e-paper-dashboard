@@ -59,7 +59,7 @@ def get_weather_icon():
   now = datetime.now()
   hours = now.hour
 
-  if 'cloud' in summary_lower:
+  if 'cloud' in summary_lower or 'overcast' in summary_lower:
     return ICON_CLOUD
   if 'wind' in summary_lower:
     return ICON_WIND
