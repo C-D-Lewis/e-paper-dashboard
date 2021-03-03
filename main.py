@@ -13,6 +13,7 @@ FONT_80 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 80)
 
 # Images
 IMAGES_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'images')
+ICON_ERROR = Image.open(os.path.join(IMAGES_DIR, 'error.bmp'))
 ICON_CLOUD = Image.open(os.path.join(IMAGES_DIR, 'cloud.bmp'))
 ICON_WIND = Image.open(os.path.join(IMAGES_DIR, 'wind.bmp'))
 ICON_RAIN = Image.open(os.path.join(IMAGES_DIR, 'rain.bmp'))
@@ -63,7 +64,6 @@ height = epd.height
 def load_config():
   global config
 
-  print(CONFIG_PATH)
   with open(CONFIG_PATH, 'r') as file:
     config = json.loads(file.read())
   print(config)
@@ -94,6 +94,8 @@ def get_weather_icon():
   if 'mist' in current_icon or 'fog' in current_icon or 'haz' in current_icon:
     return ICON_FOG
 
+  if 'error' in current_icon:
+    return ICON_ERROR
   return ICON_QUESTION_MARK  
 
 #################################### Network ###################################
@@ -109,14 +111,24 @@ def fetch_json(url):
 
 # Update weather data
 def update_weather_data():
-  url = f"https://api.darksky.net/forecast/{config['DARKSKY_KEY']}/{config['LATITUDE']},{config['LONGITUDE']}?units=auto&exclude=hourly,minutely"
-  new_data = fetch_json(url)
-  weather_data['current_temp'] = round(new_data['currently']['apparentTemperature'])
-  weather_data['current_summary'] = new_data['currently']['summary']
-  weather_data['current_icon'] = new_data['currently']['icon']
-  weather_data['temp_high'] = round(new_data['daily']['data'][0]['apparentTemperatureHigh'])
-  weather_data['temp_low'] = round(new_data['daily']['data'][0]['apparentTemperatureLow'])
-  print(weather_data)
+  global weather_data
+
+  try:
+    url = f"https://api.darksky.net/forecast/{config['DARKSKY_KEY']}/{config['LATITUDE']},{config['LONGITUDE']}?units=auto&exclude=hourly,minutely"
+    new_data = fetch_json(url)
+    weather_data['current_temp'] = round(new_data['currently']['apparentTemperature'])
+    weather_data['current_summary'] = new_data['currently']['summary']
+    weather_data['current_icon'] = new_data['currently']['icon']
+    weather_data['temp_high'] = round(new_data['daily']['data'][0]['apparentTemperatureHigh'])
+    weather_data['temp_low'] = round(new_data['daily']['data'][0]['apparentTemperatureLow'])
+    print(weather_data)
+  except Exception as err:
+    print("update_weather_data error: {0}".format(err))
+    weather_data['current_temp'] = '!'
+    weather_data['current_summary'] = 'error'
+    weather_data['current_icon'] = 'error'
+    weather_data['temp_high'] = '!'
+    weather_data['temp_low'] = '!'
 
 # Fetch rail operator status
 def fetch_operator_status(operator_name):
@@ -130,9 +142,14 @@ def fetch_operator_status(operator_name):
 
 # Fetch rail network delays status
 def update_rail_data():
-  for name in config['RAIL_OPERATORS']:
-    rail_data[name] = fetch_operator_status(name)
-  print(rail_data)
+  try:
+    for name in config['RAIL_OPERATORS']:
+      rail_data[name] = fetch_operator_status(name)
+    print(rail_data)
+  except Exception as err:
+    print("update_rail_data error: {0}".format(err))
+    for name in config['RAIL_OPERATORS']:
+      rail_data[name] = 'error'
 
 ################################# Draw modules #################################
 
