@@ -175,9 +175,9 @@ def update_crypto_data():
     res = fetch_json(url)
     
     crypto_data['BTC']['value'] = round(config['BTC_AMOUNT'] * float(res[0]['price']), 2)
-    crypto_data['BTC']['change'] = rount(res[0]['1d']['price_change'], 2)
+    crypto_data['BTC']['change'] = round(res[0]['1d']['price_change'], 2)
     crypto_data['ETH']['value'] = round(config['ETH_AMOUNT'] * float(res[1]['price']), 2)
-    crypto_data['ETH']['change'] = rount(res[1]['1d']['price_change'], 2)
+    crypto_data['ETH']['change'] = round(res[1]['1d']['price_change'], 2)
     print(crypto_data)
   except Exception as err:
     print("update_crypto_data error: {0}".format(err))
