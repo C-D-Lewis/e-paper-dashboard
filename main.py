@@ -221,12 +221,12 @@ def draw_rail_status(canvas, image):
 # Draw crypto values
 def draw_crypto_values(canvas, image):
   image.paste(ICON_BTC, (15, 335))
-  arrow = '▲' if crypto_data['BTC']['change'] > 0 else '▼'
+  arrow = '^' if crypto_data['BTC']['change'] > 0 else 'v'
   str = f"£{crypto_data['BTC']['value']} | {arrow} £{crypto_data['BTC']['change']}"
   canvas.text((95, 351), str, font = FONT_28, fill = 0)
 
   image.paste(ICON_ETH, (15, 409))
-  arrow = '▲' if crypto_data['ETH']['change'] > 0 else '▼'
+  arrow = '^' if crypto_data['ETH']['change'] > 0 else 'v'
   str = f"£{crypto_data['ETH']['value']} | {arrow} £{crypto_data['ETH']['change']}"
   canvas.text((95, 425), str, font = FONT_28, fill = 0)
 
