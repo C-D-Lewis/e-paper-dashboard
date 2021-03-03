@@ -184,7 +184,7 @@ def draw_weather(canvas, image):
 # Draw rail statuses
 def draw_rail_status(canvas, image):
   root_x = 12
-  root_y = 190
+  root_y = 180
   gap_y  = 64
 
   for index, operator in enumerate(RAIL_OPERATORS):
