@@ -13,7 +13,6 @@ FONT_80 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 80)
 
 # Images
 IMAGES_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'images')
-ICON_ERROR = Image.open(os.path.join(IMAGES_DIR, 'error.bmp'))
 ICON_CLOUD = Image.open(os.path.join(IMAGES_DIR, 'cloud.bmp'))
 ICON_WIND = Image.open(os.path.join(IMAGES_DIR, 'wind.bmp'))
 ICON_RAIN = Image.open(os.path.join(IMAGES_DIR, 'rain.bmp'))
@@ -23,11 +22,21 @@ ICON_STORM = Image.open(os.path.join(IMAGES_DIR, 'storm.bmp'))
 ICON_SNOW = Image.open(os.path.join(IMAGES_DIR, 'snow.bmp'))
 ICON_FROST = Image.open(os.path.join(IMAGES_DIR, 'frost.bmp'))
 ICON_FOG = Image.open(os.path.join(IMAGES_DIR, 'fog.bmp'))
+ICON_TFL = Image.open(os.path.join(IMAGES_DIR, 'tfl.bmp'))
+ICON_GA = Image.open(os.path.join(IMAGES_DIR, 'ga.bmp'))
+ICON_ERROR = Image.open(os.path.join(IMAGES_DIR, 'error.bmp'))
 ICON_QUESTION_MARK = Image.open(os.path.join(IMAGES_DIR, 'question.bmp'))
 
 # Constants
 WEATHER_UPDATE_S = 1000 * 60 * 15
 RAIL_URL = 'http://www.nationalrail.co.uk/service_disruptions/indicator.aspx'
+RAIL_OPERATORS = [{
+  'name': 'TfL Rail',
+  'icon': ICON_TFL
+ }, {
+   'name': 'Greater Anglia',
+   'icon': ICON_GA
+ }]
 RAIL_UPDATE_S = 1000 * 60 * 10
 DAY_START_HOUR = 6
 DAY_END_HOUR = 18
@@ -143,12 +152,14 @@ def fetch_operator_status(operator_name):
 # Fetch rail network delays status
 def update_rail_data():
   try:
-    for name in config['RAIL_OPERATORS']:
+    for operator in RAIL_OPERATORS:
+      name = operator['name']
       rail_data[name] = fetch_operator_status(name)
     print(rail_data)
   except Exception as err:
     print("update_rail_data error: {0}".format(err))
-    for name in config['RAIL_OPERATORS']:
+    for operator in RAIL_OPERATORS:
+      name = operator['name']
       rail_data[name] = 'error'
 
 ################################# Draw modules #################################
@@ -173,6 +184,18 @@ def draw_weather(canvas, image):
   temp_high_low_str = f"{weather_data['temp_high']} | {weather_data['temp_low']}"
   canvas.text((660, 90), temp_high_low_str, font = FONT_28, fill = 0)
 
+# Draw rail statuses
+def draw_rail_status(canvas, image):
+  root_x = 10
+  root_y = 200
+
+  for operator in RAIL_OPERATORS:
+    name = operator['name']
+    icon = operator['icon']
+    image.paste(icon, (root_x, root_y))
+    str = f"{name}: {rail_data[name]}"
+    canvas.text((root_x + 75, root_y + 24), str, font = FONT_28, fill = 0)
+
 ################################## Main loop ###################################
 
 # Draw things
@@ -186,6 +209,7 @@ def draw():
   draw_date_and_time(canvas)
   draw_divider(canvas, 14, 155, width - 28, 5)
   draw_weather(canvas, image)
+  draw_rail_status(canvas, image)
   
   # Update display
   epd.display(epd.getbuffer(image))
