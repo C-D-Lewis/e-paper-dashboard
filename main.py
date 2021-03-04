@@ -8,7 +8,7 @@ CONFIG_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.
 
 # Fonts
 FONTS_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'fonts')
-FONT_22 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 22)
+FONT_20 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 20)
 FONT_28 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 28)
 FONT_48 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 48)
 FONT_80 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 80)
@@ -294,9 +294,9 @@ def draw_news_stories(canvas, image):
   stories = news_data['stories']
   for story in stories:
     image.paste(ICON_NEWS, (root_x, root_y))
-    lines = get_wrapped_lines(story['title'], FONT_22, 400)[:2]
+    lines = get_wrapped_lines(story['title'], FONT_20, 400)[:2]
     for index, line in enumerate(lines):
-      canvas.text((root_x + 55, root_y + (index * 25)), line, font = FONT_22, fill = 0)
+      canvas.text((root_x + 55, root_y + 5 + (index * 25)), line, font = FONT_20, fill = 0)
 
     root_y += gap_y
 
