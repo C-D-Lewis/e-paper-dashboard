@@ -30,12 +30,12 @@ ICON_ERROR = Image.open(os.path.join(IMAGES_DIR, 'error.bmp'))
 ICON_QUESTION_MARK = Image.open(os.path.join(IMAGES_DIR, 'question.bmp'))
 
 # Constants
-WEATHER_UPDATE_S = 1000 * 60 * 15
+WEATHER_UPDATE_S = 60 * 15
 RAIL_URL = 'http://www.nationalrail.co.uk/service_disruptions/indicator.aspx'
-RAIL_UPDATE_S = 1000 * 60 * 10
+RAIL_UPDATE_S = 60 * 10
 DAY_START_HOUR = 6
 DAY_END_HOUR = 18
-CRYPTO_UPDATE_S = 1000 * 60 * 10
+CRYPTO_UPDATE_S = 60 * 10
 
 config = {}
 
