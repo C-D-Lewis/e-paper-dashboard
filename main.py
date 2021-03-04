@@ -123,7 +123,25 @@ def get_weather_icon():
 
   if 'error' in current_icon:
     return ICON_ERROR
-  return ICON_QUESTION_MARK  
+  return ICON_QUESTION_MARK
+
+# Wrap text based on line length
+# Adapted from https://itnext.io/how-to-wrap-text-on-image-using-python-8f569860f89e
+def get_wrapped_lines(text, font, max_width):
+  lines = []
+  
+  words = text.split(' ')
+  i = 0
+  while i < len(words):
+    line = ''
+    while i < len(words) and font.getsize(line + words[i])[0] <= max_width:
+      line = line + words[i]+ " "
+      i += 1
+    if not line:
+      line = words[i]
+      i += 1
+    lines.append(line)
+  return lines
 
 #################################### Network ###################################
 
@@ -275,7 +293,9 @@ def draw_news_stories(canvas, image):
   stories = news_data['stories']
   for story in stories:
     image.paste(ICON_NEWS, (root_x, root_y))
-    canvas.text((root_x + 50, root_y + 10), story['title'], font = FONT_22, fill = 0)
+    lines = get_wrapped_lines(story['title'], FONT_22, 400)[:2]
+    for index, line in enumerate(lines):
+      canvas.text((root_x + 50, root_y + 10 + (index * 20)), line, font = FONT_22, fill = 0)
 
     root_y += gap_y
 
