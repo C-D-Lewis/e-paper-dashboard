@@ -259,7 +259,7 @@ def draw_crypto_values(canvas, image):
   arrow = '+' if crypto_data['BTC']['change'] > 0 else '-'
   value_str = f"£{crypto_data['BTC']['value']}"
   change_str = f"{arrow} £{abs(crypto_data['BTC']['change'])}"
-  canvas.text((95, 355), f"{value_str} ( {change_str})", font = FONT_28, fill = 0)
+  canvas.text((95, 355), f"{value_str} ({change_str})", font = FONT_28, fill = 0)
 
   image.paste(ICON_ETH, (15, 409))
   arrow = '+' if crypto_data['ETH']['change'] > 0 else '-'
@@ -275,7 +275,7 @@ def draw_news_stories(canvas, image):
   stories = news_data['stories']
   for story in stories:
     image.paste(ICON_NEWS, (root_x, root_y))
-    canvas.text((root_x + 40, root_y + 10), story['title'], font = FONT_22, fill = 0)
+    canvas.text((root_x + 40, root_y + 10), 'foobar', font = FONT_22, fill = 0)
 
     root_y += gap_y
 
