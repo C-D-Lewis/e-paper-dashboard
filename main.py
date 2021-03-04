@@ -308,20 +308,27 @@ def draw():
   epd.display(epd.getbuffer(image))
   time.sleep(2)
 
+# Update all data sources
+def update_data_sources():
+  update_weather_data()
+  update_rail_data()
+  update_crypto_data()
+  update_news_data()
+
 # Update all the things
 def update():
   now = datetime.now()
   if now.minute % UPDATE_INTERVAL_M == 0:  
-    update_weather_data()
-    update_rail_data()
-    update_crypto_data()
-    update_news_data()
+    update_data_sources()
 
 # The main function
 def main():
   load_config()
   epd.init()
   print('Ready')
+
+  # Initial data download
+  update_data_sources()
 
   # Update once a minute
   while True:
