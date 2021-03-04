@@ -285,6 +285,7 @@ def draw_crypto_values(canvas, image):
   change_str = f"{arrow} £{abs(crypto_data['ETH']['change'])}"
   canvas.text((95, 429), f"{value_str} ({change_str})", font = FONT_28, fill = 0)
 
+# Draw the news stories
 def draw_news_stories(canvas, image):
   root_x = 375
   root_y = 180
