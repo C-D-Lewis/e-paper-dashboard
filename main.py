@@ -8,6 +8,7 @@ CONFIG_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.
 
 # Fonts
 FONTS_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'fonts')
+FONT_22 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 22)
 FONT_28 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 28)
 FONT_48 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 48)
 FONT_80 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 80)
@@ -268,12 +269,13 @@ def draw_crypto_values(canvas, image):
 
 def draw_news_stories(canvas, image):
   root_x = 380
-  root_y = 190
-  gap_y = 50
+  root_y = 180
+  gap_y = 64
 
   stories = news_data['stories']
   for story in stories:
     image.paste(ICON_NEWS, (root_x, root_y))
+    canvas.text((root_x + 40, root_y + 10), story['title'], font = FONT_22, fill = 0)
 
     root_y += gap_y
 
