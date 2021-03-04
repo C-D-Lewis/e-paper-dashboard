@@ -8,18 +8,20 @@ CONFIG_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.
 
 # Fonts
 FONTS_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'fonts')
-FONT_20 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 20)
-FONT_28 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 28)
-FONT_48 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 48)
-FONT_80 = ImageFont.truetype(os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf'), 80)
+FONT_PATH = os.path.join(FONTS_DIR, 'KeepCalm-Medium.ttf')
+FONT_20 = ImageFont.truetype(FONT_PATH, 20)
+FONT_28 = ImageFont.truetype(FONT_PATH, 28)
+FONT_48 = ImageFont.truetype(FONT_PATH, 48)
+FONT_80 = ImageFont.truetype(FONT_PATH, 80)
 
 # Images
 IMAGES_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'images')
-ICON_CLOUD = Image.open(os.path.join(IMAGES_DIR, 'cloud.bmp'))
+ICON_CLOUD_DAY = Image.open(os.path.join(IMAGES_DIR, 'cloud.bmp'))
+ICON_CLOUD_NIGHT = Image.open(os.path.join(IMAGES_DIR, 'cloud-night.bmp'))
 ICON_WIND = Image.open(os.path.join(IMAGES_DIR, 'wind.bmp'))
 ICON_RAIN = Image.open(os.path.join(IMAGES_DIR, 'rain.bmp'))
-ICON_SUN = Image.open(os.path.join(IMAGES_DIR, 'sun.bmp'))
-ICON_MOON = Image.open(os.path.join(IMAGES_DIR, 'moon.bmp'))
+ICON_CLEAR_DAY = Image.open(os.path.join(IMAGES_DIR, 'sun.bmp'))
+ICON_CLEAR_NIGHT = Image.open(os.path.join(IMAGES_DIR, 'moon.bmp'))
 ICON_STORM = Image.open(os.path.join(IMAGES_DIR, 'storm.bmp'))
 ICON_SNOW = Image.open(os.path.join(IMAGES_DIR, 'snow.bmp'))
 ICON_FROST = Image.open(os.path.join(IMAGES_DIR, 'frost.bmp'))
@@ -34,7 +36,6 @@ ICON_QUESTION_MARK = Image.open(os.path.join(IMAGES_DIR, 'question.bmp'))
 
 # Constants
 UPDATE_INTERVAL_M = 15
-RAIL_URL = 'http://www.nationalrail.co.uk/service_disruptions/indicator.aspx'
 DAY_START_HOUR = 6
 DAY_END_HOUR = 18
 NEWS_MAX_STORIES = 5
@@ -85,18 +86,16 @@ def get_weather_icon():
   current_icon = weather_data['current_icon'].lower()
   now = datetime.now()
   hours = now.hour
+  is_daytime = hours > DAY_START_HOUR and hours < DAY_END_HOUR
 
   if 'cloud' in current_icon or 'overcast' in current_icon:
-    return ICON_CLOUD
+    return ICON_CLOUD_DAY if is_daytime else ICON_CLOUD_NIGHT
   if 'wind' in current_icon:
     return ICON_WIND
   if 'rain' in current_icon:
     return ICON_RAIN
   if 'clear' in current_icon or 'sun' in current_icon:
-    if hours > DAY_START_HOUR and hours < DAY_END_HOUR:
-      return ICON_SUN
-    else:
-      return ICON_MOON
+    return ICON_CLEAR_DAY if is_daytime else ICON_CLEAR_NIGHT
   if 'thunder' in current_icon or 'storm' in current_icon or 'lighting' in current_icon:
     return ICON_STORM
   if 'snow' in current_icon:
@@ -162,7 +161,8 @@ def update_weather_data():
 
 # Fetch rail operator status
 def fetch_operator_status(operator_name):
-  body = fetch_text(RAIL_URL)
+  url = 'http://www.nationalrail.co.uk/service_disruptions/indicator.aspx'
+  body = fetch_text(url)
   start = body.index(f"{operator_name}</td>")
   temp = body[start:]
   start = temp.index('<td>') + 4
