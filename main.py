@@ -2,6 +2,7 @@ import platform, sys, os, time
 import urllib.request, json
 from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime
+from xml.dom import minidom
 
 CONFIG_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.json')
 
@@ -26,6 +27,7 @@ ICON_TFL = Image.open(os.path.join(IMAGES_DIR, 'tfl.bmp'))
 ICON_GA = Image.open(os.path.join(IMAGES_DIR, 'ga.bmp'))
 ICON_BTC = Image.open(os.path.join(IMAGES_DIR, 'btc.bmp'))
 ICON_ETH = Image.open(os.path.join(IMAGES_DIR, 'eth.bmp'))
+ICON_NEWS = Image.open(os.path.join(IMAGES_DIR, 'news.bmp'))
 ICON_ERROR = Image.open(os.path.join(IMAGES_DIR, 'error.bmp'))
 ICON_QUESTION_MARK = Image.open(os.path.join(IMAGES_DIR, 'question.bmp'))
 
@@ -36,6 +38,7 @@ RAIL_UPDATE_S = 60 * 10
 DAY_START_HOUR = 6
 DAY_END_HOUR = 18
 CRYPTO_UPDATE_S = 60 * 10
+NEWS_UPDATE_S = 60 * 10
 
 config = {}
 
@@ -62,6 +65,11 @@ crypto_data = {
     'value': 0,
     'change': 0
   }
+}
+
+news_data = {
+  'last_update': 0,
+  'stories': []
 }
 
 # Only runs on Pi
@@ -175,9 +183,9 @@ def update_crypto_data():
     res = fetch_json(url)
     
     crypto_data['BTC']['value'] = round(config['BTC_AMOUNT'] * float(res[0]['price']), 2)
-    crypto_data['BTC']['change'] = round(float(res[0]['1d']['price_change']), 2)
+    crypto_data['BTC']['change'] = round(config['BTC_AMOUNT'] * float(res[0]['1d']['price_change']), 2)
     crypto_data['ETH']['value'] = round(config['ETH_AMOUNT'] * float(res[1]['price']), 2)
-    crypto_data['ETH']['change'] = round(float(res[1]['1d']['price_change']), 2)
+    crypto_data['ETH']['change'] = round(config['ETH_AMOUNT'] * float(res[1]['1d']['price_change']), 2)
     print(crypto_data)
   except Exception as err:
     print("update_crypto_data error: {0}".format(err))
@@ -185,6 +193,30 @@ def update_crypto_data():
     crypto_data['BTC']['change'] = 0
     crypto_data['ETH']['value'] = 0
     crypto_data['ETH']['change'] = 0
+
+# Update news stories
+def update_news_data():
+  try:
+    url = f"http://feeds.bbci.co.uk/news/{config['NEWS_CATEGORY']}/rss.xml"
+    res = fetch_text(url)
+    
+    news_data['stories'] = []
+    xml = minidom.parseString(res)
+    items = xml.getElementsByTagName('item')
+    for item in items:
+      news_data['stories'].append({
+        'title': item.getElementsByTagName('title')[0].firstChild.data,
+        'description': item.getElementsByTagName('description')[0].firstChild.data,
+        'pubdate': item.getElementsByTagName('pubDate')[0].firstChild.data
+      })
+    print(f"Fetched {len(news_data['stories'])} stories")
+  except Exception as err:
+    print("update_news_data error: {0}".format(err))
+    news_data['stories'] = [{
+      'title': 'error',
+      'description': 'error',
+      'pubdate': 'error'
+    }]
 
 ################################# Draw modules #################################
 
@@ -223,16 +255,22 @@ def draw_crypto_values(canvas, image):
   image.paste(ICON_BTC, (15, 335))
   arrow = '+' if crypto_data['BTC']['change'] > 0 else '-'
   value_str = f"£{crypto_data['BTC']['value']}"
-  change_str = f"{arrow} £{crypto_data['BTC']['change']}"
-  canvas.text((95, 335), value_str, font = FONT_28, fill = 0)
-  canvas.text((95, 371), change_str, font = FONT_28, fill = 0)
+  change_str = f"{arrow} £{abs(crypto_data['BTC']['change'])}"
+  canvas.text((95, 355), f"{value_str} ( {change_str})", font = FONT_28, fill = 0)
 
   image.paste(ICON_ETH, (15, 409))
   arrow = '+' if crypto_data['ETH']['change'] > 0 else '-'
   value_str = f"£{crypto_data['ETH']['value']}"
-  change_str = f"{arrow} £{crypto_data['ETH']['change']}"
-  canvas.text((95, 409), value_str, font = FONT_28, fill = 0)
-  canvas.text((95, 445), change_str, font = FONT_28, fill = 0)
+  change_str = f"{arrow} £{abs(crypto_data['ETH']['change'])}"
+  canvas.text((95, 429), f"{value_str} ({change_str})", font = FONT_28, fill = 0)
+
+def draw_news_stories(canvas, image):
+  root_x = 380
+  root_y = 190
+
+  stories = news_data['stories']
+  for story in stories:
+    image.paste(ICON_NEWS, (root_x, root_y))
 
 ################################## Main loop ###################################
 
@@ -251,6 +289,7 @@ def draw():
   draw_divider(canvas, 14, 310, 310, 5)
   draw_crypto_values(canvas, image)
   draw_divider(canvas, 350, 185, 5, 280)
+  draw_news_stories(canvas, image)
   
   # Update display
   epd.display(epd.getbuffer(image))
@@ -271,6 +310,10 @@ def update():
   if now - crypto_data['last_update'] > CRYPTO_UPDATE_S:
     update_crypto_data()
     crypto_data['last_update'] = now
+
+  if now - news_data['last_update'] > NEWS_UPDATE_S:
+    update_news_data()
+    news_data['last_update'] = now
 
 # The main function
 def main():
