@@ -289,7 +289,7 @@ def draw_crypto_values(canvas, image):
 # Draw the news stories
 def draw_news_stories(canvas, image):
   root_x = 375
-  root_y = 180
+  root_y = 175
   gap_y = 60
 
   stories = news_data['stories']
