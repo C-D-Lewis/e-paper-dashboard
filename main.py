@@ -296,7 +296,7 @@ def draw_news_stories(canvas, image):
     image.paste(ICON_NEWS, (root_x, root_y))
     lines = get_wrapped_lines(story['title'], FONT_22, 400)[:2]
     for index, line in enumerate(lines):
-      canvas.text((root_x + 50, root_y - 10 + (index * 20)), line, font = FONT_22, fill = 0)
+      canvas.text((root_x + 50, root_y - 10 + (index * 25)), line, font = FONT_22, fill = 0)
 
     root_y += gap_y
 
