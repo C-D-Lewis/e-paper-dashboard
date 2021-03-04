@@ -39,6 +39,7 @@ DAY_START_HOUR = 6
 DAY_END_HOUR = 18
 CRYPTO_UPDATE_S = 60 * 10
 NEWS_UPDATE_S = 60 * 10
+NEWS_MAX_STORIES = 5
 
 config = {}
 
@@ -202,7 +203,8 @@ def update_news_data():
     
     news_data['stories'] = []
     xml = minidom.parseString(res)
-    items = xml.getElementsByTagName('item')
+    items = xml.getElementsByTagName('item')[:NEWS_MAX_STORIES]
+
     for item in items:
       news_data['stories'].append({
         'title': item.getElementsByTagName('title')[0].firstChild.data,
@@ -267,7 +269,7 @@ def draw_crypto_values(canvas, image):
 def draw_news_stories(canvas, image):
   root_x = 380
   root_y = 190
-  gap_y = 40
+  gap_y = 50
 
   stories = news_data['stories']
   for story in stories:
