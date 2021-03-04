@@ -33,20 +33,16 @@ ICON_ERROR = Image.open(os.path.join(IMAGES_DIR, 'error.bmp'))
 ICON_QUESTION_MARK = Image.open(os.path.join(IMAGES_DIR, 'question.bmp'))
 
 # Constants
-WEATHER_UPDATE_S = 60 * 15
+UPDATE_INTERVAL_M = 15
 RAIL_URL = 'http://www.nationalrail.co.uk/service_disruptions/indicator.aspx'
-RAIL_UPDATE_S = 60 * 10
 DAY_START_HOUR = 6
 DAY_END_HOUR = 18
-CRYPTO_UPDATE_S = 60 * 10
-NEWS_UPDATE_S = 60 * 10
 NEWS_MAX_STORIES = 5
 NEWS_MAX_WIDTH = 360
 
 config = {}
 
 weather_data = {
-  'last_update': 0,
   'current_temp': 0,
   'current_summary': 'unknown',
   'current_icon': 'unknown',
@@ -54,26 +50,14 @@ weather_data = {
   'temp_low': 0
 }
 
-rail_data = {
-  'last_update': 0
-}
+rail_data = {}
 
 crypto_data = {
-  'last_update': 0,
-  'BTC': {
-    'value': 0,
-    'change': 0,
-  },
-  'ETH': {
-    'value': 0,
-    'change': 0
-  }
+  'BTC': { 'value': 0, 'change': 0 },
+  'ETH': { 'value': 0, 'change': 0 }
 }
 
-news_data = {
-  'last_update': 0,
-  'stories': []
-}
+news_data = { 'stories': [] }
 
 # Only runs on Pi
 if 'arm' not in platform.machine():
@@ -326,23 +310,12 @@ def draw():
 
 # Update all the things
 def update():
-  now = time.time()
-
-  if now - weather_data['last_update'] > WEATHER_UPDATE_S:
+  now = datetime.now()
+  if now.minute % UPDATE_INTERVAL_M == 0:  
     update_weather_data()
-    weather_data['last_update'] = now
-
-  if now - rail_data['last_update'] > RAIL_UPDATE_S:
     update_rail_data()
-    rail_data['last_update'] = now
-
-  if now - crypto_data['last_update'] > CRYPTO_UPDATE_S:
     update_crypto_data()
-    crypto_data['last_update'] = now
-
-  if now - news_data['last_update'] > NEWS_UPDATE_S:
     update_news_data()
-    news_data['last_update'] = now
 
 # The main function
 def main():
