@@ -3,6 +3,8 @@
 E-paper photo frame Python for Waveshare 7.5in V2 e-paper display with
 information widgets.
 
+![](photo.jpg)
+
 
 ## Setup
 
