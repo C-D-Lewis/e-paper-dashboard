@@ -267,10 +267,13 @@ def draw_crypto_values(canvas, image):
 def draw_news_stories(canvas, image):
   root_x = 380
   root_y = 190
+  gap_y = 40
 
   stories = news_data['stories']
   for story in stories:
     image.paste(ICON_NEWS, (root_x, root_y))
+
+    root_y += gap_y
 
 ################################## Main loop ###################################
 
