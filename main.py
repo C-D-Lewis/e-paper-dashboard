@@ -41,6 +41,7 @@ DAY_END_HOUR = 18
 CRYPTO_UPDATE_S = 60 * 10
 NEWS_UPDATE_S = 60 * 10
 NEWS_MAX_STORIES = 5
+NEWS_MAX_WIDTH = 380
 
 config = {}
 
@@ -294,7 +295,7 @@ def draw_news_stories(canvas, image):
   stories = news_data['stories']
   for story in stories:
     image.paste(ICON_NEWS, (root_x, root_y))
-    lines = get_wrapped_lines(story['title'], FONT_20, 400)[:2]
+    lines = get_wrapped_lines(story['title'], FONT_20, NEWS_MAX_WIDTH)[:2]
     for index, line in enumerate(lines):
       canvas.text((root_x + 55, root_y + 5 + (index * 25)), line, font = FONT_20, fill = 0)
 
