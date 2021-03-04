@@ -275,7 +275,7 @@ def draw_news_stories(canvas, image):
   stories = news_data['stories']
   for story in stories:
     image.paste(ICON_NEWS, (root_x, root_y))
-    canvas.text((root_x + 40, root_y + 10), 'foobar', font = FONT_22, fill = 0)
+    canvas.text((root_x + 40, root_y + 10), story['title'], font = FONT_22, fill = 0)
 
     root_y += gap_y
 
