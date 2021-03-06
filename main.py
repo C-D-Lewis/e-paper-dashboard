@@ -77,7 +77,7 @@ def draw():
 
   # Draw content
   draw_date_and_time(canvas)
-  draw_divider(canvas, 14, 155, width - 28, 5)
+  draw_divider(canvas, 14, 160, width - 28, 5)
   weather.draw(canvas, image)
   rail.draw(canvas, image)
   draw_divider(canvas, 14, 310, 310, 5)
