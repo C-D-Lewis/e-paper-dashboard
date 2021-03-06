@@ -71,8 +71,8 @@ def update_data():
 
 # Draw the weather icon, temperature, and conditions
 def draw(canvas, image):
-  image.paste(get_icon(), (520, 10))
+  image.paste(get_icon(), (510, 10))
   temp_str = f"{data['current_temp']}°C"
-  canvas.text((660, 30), temp_str, font = fonts.KEEP_CALM_48, fill = 0)
+  canvas.text((650, 30), temp_str, font = fonts.KEEP_CALM_48, fill = 0)
   temp_high_low_str = f"{data['temp_high']} | {data['temp_low']}"
-  canvas.text((660, 85), temp_high_low_str, font = fonts.KEEP_CALM_28, fill = 0)
+  canvas.text((650, 85), temp_high_low_str, font = fonts.KEEP_CALM_28, fill = 0)
