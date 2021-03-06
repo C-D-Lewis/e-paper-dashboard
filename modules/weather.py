@@ -79,7 +79,10 @@ def draw(canvas, image):
 
   # Smaller details
   image.paste(images.ICON_RAIN_32, (650, 115))
-  rain_chance_str = f"{round(data['current_precip_prob'] * 100)}%"
-  canvas.text((680, 120), "100%", font = fonts.KEEP_CALM_20, fill = 0)
+  rain_chance_str = f"{round(data['current_precip_prob'] * 100)}"
+  canvas.text((685, 123), rain_chance_str, font = fonts.KEEP_CALM_20, fill = 0)
 
   image.paste(images.ICON_WINDSOCK, (720, 115))
+  wind_speed_str = f"{round(data['current_wind_speed'], 1)}"
+  canvas.text((735, 123), wind_speed_str, font = fonts.KEEP_CALM_20, fill = 0)
+
