@@ -14,16 +14,13 @@ UPDATE_INTERVAL_M = 15
 # Only runs on Pi
 if RUNNING_ON_PI:
   from lib.waveshare_epd import epd7in5_V2
-
   epd = epd7in5_V2.EPD()
   width = epd.width
   height = epd.height
 else:
   print('[TEST] EPD import')
-
   width = 800
   height = 480
-
 
 ################################## Testability #################################
 
@@ -55,7 +52,7 @@ def deinit_display():
   else:
     print('SKipping module_exit()')
 
-################################# Draw modules #################################
+################################### Drawing ####################################
 
 # Draw time module
 def draw_date_and_time(canvas):
