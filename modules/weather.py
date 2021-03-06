@@ -143,8 +143,8 @@ def draw_forecast(canvas, image):
   forecast = data['forecast']
   for day in forecast:
     image.paste(get_small_icon(day['icon']), (root_x, root_y))
-    canvas.text((root_x + 55, root_y + 5), day['summary'], font = fonts.KEEP_CALM_20, fill = 0)
+    canvas.text((root_x + 55, root_y), day['summary'], font = fonts.KEEP_CALM_20, fill = 0)
     details_str = f"{day['temp_high']} | {day['temp_low']}    {day['precip_prob']}%    {day['wind_speed']}mph"
-    canvas.text((root_x + 55, root_y + 5 + 25), details_str, font = fonts.KEEP_CALM_20, fill = 0)
+    canvas.text((root_x + 55, root_y + 25), details_str, font = fonts.KEEP_CALM_20, fill = 0)
       
     root_y += gap_y

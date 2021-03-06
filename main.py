@@ -70,7 +70,7 @@ def draw_divider(canvas, x, y, w, h):
 
 # Draw cycling page indicators
 def draw_page_indicators(canvas, page_index):
-  root_x = 360
+  root_x = 365
   root_y = 300
   gap_y = 25
   size = 8
