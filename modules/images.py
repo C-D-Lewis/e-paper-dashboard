@@ -14,6 +14,7 @@ ICON_STORM = Image.open(os.path.join(IMAGES_DIR, 'storm.bmp'))
 ICON_SNOW = Image.open(os.path.join(IMAGES_DIR, 'snow.bmp'))
 ICON_FROST = Image.open(os.path.join(IMAGES_DIR, 'frost.bmp'))
 ICON_FOG = Image.open(os.path.join(IMAGES_DIR, 'fog.bmp'))
+ICON_WINDSOCK = Image.open(os.path.join(IMAGES_DIR, 'windsock.bmp'))
 
 ICON_TFL = Image.open(os.path.join(IMAGES_DIR, 'tfl.bmp'))
 ICON_GA = Image.open(os.path.join(IMAGES_DIR, 'ga.bmp'))

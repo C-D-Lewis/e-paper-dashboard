@@ -78,4 +78,6 @@ def draw(canvas, image):
   canvas.text((650, 75), temp_high_low_str, font = fonts.KEEP_CALM_28, fill = 0)
 
   # Smaller details
-  image.paste(images.ICON_RAIN_32, (650, 120))
+  image.paste(images.ICON_RAIN_32, (650, 115))
+
+  image.paste(images.ICON_WINDSOCK, (700, 115))
