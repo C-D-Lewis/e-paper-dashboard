@@ -87,8 +87,8 @@ def update_data():
     data['current']['temp'] = round(res['currently']['apparentTemperature'])
     data['current']['summary'] = res['currently']['summary']
     data['current']['icon'] = res['currently']['icon']
-    data['current']['wind_speed'] = res['currently']['windSpeed']
-    data['current']['precip_prob'] = res['currently']['precipProbability']
+    data['current']['wind_speed'] = round(res['currently']['windSpeed'])
+    data['current']['precip_prob'] = round(res['currently']['precipProbability'] * 100)
     data['temp_high'] = round(res['daily']['data'][0]['apparentTemperatureHigh'])
     data['temp_low'] = round(res['daily']['data'][0]['apparentTemperatureLow'])
 
@@ -98,9 +98,10 @@ def update_data():
       day = {
         'summary': source['summary'],
         'icon': source['icon'],
-        'temp_high': source['apparentTemperatureHigh'],
-        'temp_low': source['apparentTemperatureLow'],
-        'precip_prob': source['precipProbability']
+        'temp_high': round(source['apparentTemperatureHigh']),
+        'temp_low': round(source['apparentTemperatureLow']),
+        'precip_prob': round(source['precipProbability'] * 100),
+        'wind_speed': round(source['windSpeed'])
       }
       data['forecast'].append(day)
 
@@ -126,11 +127,11 @@ def draw(canvas, image):
 
   # Smaller details
   image.paste(images.ICON_RAIN_32, (650, 115))
-  rain_chance_str = f"{round(data['current']['precip_prob'] * 100)}"
+  rain_chance_str = f"{data['current']['precip_prob']}"
   canvas.text((685, 123), rain_chance_str, font = fonts.KEEP_CALM_20, fill = 0)
 
   image.paste(images.ICON_WINDSOCK, (720, 115))
-  wind_speed_str = f"{round(data['current']['wind_speed'])}"
+  wind_speed_str = f"{data['current']['wind_speed']}"
   canvas.text((755, 123), wind_speed_str, font = fonts.KEEP_CALM_20, fill = 0)
 
 # Draw 5 day forecast in the right hand section
@@ -142,8 +143,8 @@ def draw_forecast(canvas, image):
   forecast = data['forecast']
   for day in forecast:
     image.paste(get_small_icon(day['icon']), (root_x, root_y))
-    lines = helpers.get_wrapped_lines(day['summary'], fonts.KEEP_CALM_20, news.MAX_WIDTH)[:2]
-    for index, line in enumerate(lines):
-      canvas.text((root_x + 55, root_y + 5 + (index * 25)), line, font = fonts.KEEP_CALM_20, fill = 0)
-
+    canvas.text((root_x + 55, root_y + 5), day['summary'], font = fonts.KEEP_CALM_20, fill = 0)
+    details_str = f"{day['temp_high']} | {day['temp_low']}    {day['precip_prob']}%    {day['wind_speed']}mph"
+    canvas.text((root_x + 55, root_y + 5 + 25), details_str, font = fonts.KEEP_CALM_20, fill = 0)
+      
     root_y += gap_y
