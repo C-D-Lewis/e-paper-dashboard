@@ -37,6 +37,7 @@ def update_display(image):
     epd.display(epd.getbuffer(image))
   else:
     print('[TEST] epd.display()')
+    image.save('render.png')
 
 # Handle sleeping the display
 def sleep_display():

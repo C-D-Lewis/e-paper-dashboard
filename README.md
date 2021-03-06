@@ -1,15 +1,25 @@
 # e-paper-frame
 
-E-paper photo frame Python for Waveshare 7.5in V2 e-paper display with
+E-paper photo frame Python app for Waveshare 7.5in V2 e-paper display with
 information widgets.
 
 ![](photo.jpg)
 
+Included widgets:
+
+* Time and data
+* Current weather - type, temperature, day high/low, chance precipitation, and
+  wind speed using the [Darksky API](https://darksky.net/dev).
+* Status of two railway operators from National Rail.
+* Owned amount and daily change of two cryptocurrencies (Bitcoin and Ethereum).
+* 5 news headlines from BBC News in a chosen category.
+
 
 ## Setup
 
-Follow the steps in the Waveshare wiki to install the Python libraries for the
-7.5 inch V2 e-paper display.
+Follow the steps in the
+[Waveshare wiki](www.waveshare.com/wiki/7.5inch_e-Paper_HAT) to install the
+Python libraries for the 7.5 inch V2 e-paper display.
 
 
 ## Configuration
@@ -39,10 +49,14 @@ Available BBC News categories:
 * `entertainment_and_arts`
 
 
-## Run on startup
+## Run
+
+Run with Python 3.x. `crontab` can be used to run on boot.
 
 ```shell
 python3 main.py
 ```
 
-`crontab` could be used to run on boot.
+When run on a platform other than Raspberry Pi (i.e: not ARM) the display image
+is written to `./render.png` instead, which is useful for quickly testing
+changes.
