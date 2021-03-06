@@ -85,4 +85,4 @@ def draw(canvas, image):
 
   image.paste(images.ICON_WINDSOCK, (720, 115))
   wind_speed_str = f"{round(data['current_wind_speed'])}"
-  canvas.text((750, 123), wind_speed_str, font = fonts.KEEP_CALM_20, fill = 0)
+  canvas.text((755, 123), wind_speed_str, font = fonts.KEEP_CALM_20, fill = 0)
