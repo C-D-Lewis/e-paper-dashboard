@@ -7,9 +7,9 @@ information widgets.
 
 Included widgets:
 
-* Time and data
-* Current weather - type, temperature, day high/low, chance precipitation, and
-  wind speed using the [Darksky API](https://darksky.net/dev).
+* Time and date
+* Current weather - type, temperature, day high/low, chance of precipitation,
+  and wind speed using the [Darksky API](https://darksky.net/dev).
 * Status of two railway operators from National Rail.
 * Owned amount and daily change of two cryptocurrencies (Bitcoin and Ethereum).
 * 5 news headlines from BBC News in a chosen category.
