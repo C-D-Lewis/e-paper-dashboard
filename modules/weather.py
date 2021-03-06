@@ -73,9 +73,9 @@ def update_data():
 def draw(canvas, image):
   image.paste(get_icon(), (510, 10))
   temp_str = f"{data['current_temp']}°C"
-  canvas.text((650, 30), temp_str, font = fonts.KEEP_CALM_48, fill = 0)
+  canvas.text((650, 20), temp_str, font = fonts.KEEP_CALM_48, fill = 0)
   temp_high_low_str = f"{data['temp_high']} | {data['temp_low']}"
-  canvas.text((650, 85), temp_high_low_str, font = fonts.KEEP_CALM_28, fill = 0)
+  canvas.text((650, 75), temp_high_low_str, font = fonts.KEEP_CALM_28, fill = 0)
 
   # Smaller details
   image.paste(images.ICON_RAIN_32, (650, 120))
