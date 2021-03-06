@@ -23,9 +23,9 @@ def update_data():
         'description': item.getElementsByTagName('description')[0].firstChild.data,
         'pubdate': item.getElementsByTagName('pubDate')[0].firstChild.data
       })
-    print(f"Fetched {len(data['stories'])} stories")
+    print(f"news: {len(data['stories'])} stories")
   except Exception as err:
-    print("update_news_data error: {0}".format(err))
+    print('update_news_data error: {0}'.format(err))
     data['stories'] = [{
       'title': 'error',
       'description': 'error',

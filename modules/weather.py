@@ -10,6 +10,8 @@ data = {
   'current_temp': 0,
   'current_summary': 'unknown',
   'current_icon': 'unknown',
+  'current_wind_speed': 0,
+  'current_humidity': 0,
   'temp_high': 0,
   'temp_low': 0
 }
@@ -46,20 +48,26 @@ def get_icon():
 def update_data():
   try:
     url = f"https://api.darksky.net/forecast/{config.get('DARKSKY_KEY')}/{config.get('LATITUDE')},{config.get('LONGITUDE')}?units=auto&exclude=hourly,minutely"
-    new_data = fetch.fetch_json(url)
-    data['current_temp'] = round(new_data['currently']['apparentTemperature'])
-    data['current_summary'] = new_data['currently']['summary']
-    data['current_icon'] = new_data['currently']['icon']
-    data['temp_high'] = round(new_data['daily']['data'][0]['apparentTemperatureHigh'])
-    data['temp_low'] = round(new_data['daily']['data'][0]['apparentTemperatureLow'])
-    print(data)
+    res = fetch.fetch_json(url)
+    # print(res)
+
+    data['current_temp'] = round(res['currently']['apparentTemperature'])
+    data['current_summary'] = res['currently']['summary']
+    data['current_icon'] = res['currently']['icon']
+    data['current_wind_speed'] = res['currently']['windSpeed']
+    data['current_humidity'] = res['currently']['humidity']
+    data['temp_high'] = round(res['daily']['data'][0]['apparentTemperatureHigh'])
+    data['temp_low'] = round(res['daily']['data'][0]['apparentTemperatureLow'])
+    print(f"weather: {data}")
   except Exception as err:
-    print("weather.update_data error: {0}".format(err))
+    print('weather.update_data error: {0}'.format(err))
     data['current_temp'] = '!'
     data['current_summary'] = 'error'
     data['current_icon'] = 'error'
     data['temp_high'] = '!'
     data['temp_low'] = '!'
+    data['current_wind_speed'] = '!'
+    data['current_humidity'] = '!'
 
 # Draw the weather icon, temperature, and conditions
 def draw(canvas, image):

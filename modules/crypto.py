@@ -18,9 +18,9 @@ def update_data():
     data['BTC']['change'] = round(btc_amount * float(res[0]['1d']['price_change']), 2)
     data['ETH']['value'] = round(eth_amount * float(res[1]['price']), 2)
     data['ETH']['change'] = round(eth_amount * float(res[1]['1d']['price_change']), 2)
-    print(data)
+    print(f"crypto: {data}")
   except Exception as err:
-    print("crypto.update_data error: {0}".format(err))
+    print('crypto.update_data error: {0}'.format(err))
     data['BTC']['value'] = 0
     data['BTC']['change'] = 0
     data['ETH']['value'] = 0

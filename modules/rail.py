@@ -20,9 +20,9 @@ def update_data():
   try:
     rail_data['TfL Rail'] = fetch_operator_status('TfL Rail')
     rail_data['Greater Anglia'] = fetch_operator_status('Greater Anglia')
-    print(rail_data)
+    print(f"rail: {rail_data}")
   except Exception as err:
-    print("rail.update_data error: {0}".format(err))
+    print('rail.update_data error: {0}'.format(err))
     rail_data['TfL Rail'] = 'error'
     rail_data['Greater Anglia'] = 'error'
 
