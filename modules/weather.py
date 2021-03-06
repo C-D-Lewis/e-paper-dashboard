@@ -49,20 +49,17 @@ def get_icon(input):
   return images.ICON_QUESTION_MARK
 
 # Get an appropriate weather icon for the forecast list
-def get_small_icon(input):
+def get_forecast_icon(input):
   current_icon = input.lower()
-  now = datetime.now()
-  hours = now.hour
-  is_daytime = hours > DAY_START_HOUR and hours < DAY_END_HOUR
 
   if 'cloud' in current_icon or 'overcast' in current_icon:
-    return images.ICON_CLOUD_DAY_48 if is_daytime else images.ICON_CLOUD_NIGHT_48
+    return images.ICON_CLOUD_DAY_48
   if 'wind' in current_icon:
     return images.ICON_WIND
   if 'rain' in current_icon:
     return images.ICON_RAIN_48
   if 'clear' in current_icon or 'sun' in current_icon:
-    return images.ICON_CLEAR_DAY_48 if is_daytime else images.ICON_CLEAR_NIGHT_48
+    return images.ICON_CLEAR_DAY_48
   if 'thunder' in current_icon or 'storm' in current_icon or 'lighting' in current_icon:
     return images.ICON_STORM
   if 'snow' in current_icon:
@@ -142,7 +139,7 @@ def draw_forecast(canvas, image):
 
   forecast = data['forecast']
   for day in forecast:
-    image.paste(get_small_icon(day['icon']), (root_x, root_y))
+    image.paste(get_forecast_icon(day['icon']), (root_x, root_y))
     canvas.text((root_x + 55, root_y), day['summary'], font = fonts.KEEP_CALM_20, fill = 0)
     details_str = f"{day['temp_high']} | {day['temp_low']}    {day['precip_prob']}%    {day['wind_speed']}mph"
     canvas.text((root_x + 55, root_y + 25), details_str, font = fonts.KEEP_CALM_20, fill = 0)
