@@ -6,7 +6,6 @@ from modules import fetch, helpers, fonts, images, config
 # Constants
 DAY_START_HOUR = 6
 DAY_END_HOUR = 18
-KMH_TO_MPH = 2.23694
 
 data = {
   'current_temp': 0,
@@ -56,7 +55,7 @@ def update_data():
     data['current_temp'] = round(res['currently']['apparentTemperature'])
     data['current_summary'] = res['currently']['summary']
     data['current_icon'] = res['currently']['icon']
-    data['current_wind_speed'] = res['currently']['windSpeed'] * KMH_TO_MPH
+    data['current_wind_speed'] = res['currently']['windSpeed']
     data['current_precip_prob'] = res['currently']['precipProbability']
     data['temp_high'] = round(res['daily']['data'][0]['apparentTemperatureHigh'])
     data['temp_low'] = round(res['daily']['data'][0]['apparentTemperatureLow'])
@@ -86,5 +85,4 @@ def draw(canvas, image):
 
   image.paste(images.ICON_WINDSOCK, (720, 115))
   wind_speed_str = f"{round(data['current_wind_speed'], 1)}"
-  canvas.text((745, 123), wind_speed_str, font = fonts.KEEP_CALM_20, fill = 0)
-
+  canvas.text((750, 123), wind_speed_str, font = fonts.KEEP_CALM_20, fill = 0)
