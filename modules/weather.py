@@ -55,7 +55,7 @@ def update_data():
     data['current_summary'] = res['currently']['summary']
     data['current_icon'] = res['currently']['icon']
     data['current_wind_speed'] = res['currently']['windSpeed']
-    data['current_humidity'] = res['currently']['humidity']
+    data['current_precip_prob'] = res['currently']['precipProbability']
     data['temp_high'] = round(res['daily']['data'][0]['apparentTemperatureHigh'])
     data['temp_low'] = round(res['daily']['data'][0]['apparentTemperatureLow'])
     print(f"weather: {data}")
@@ -67,7 +67,7 @@ def update_data():
     data['temp_high'] = '!'
     data['temp_low'] = '!'
     data['current_wind_speed'] = '!'
-    data['current_humidity'] = '!'
+    data['current_precip_prob'] = '!'
 
 # Draw the weather icon, temperature, and conditions
 def draw(canvas, image):
@@ -79,5 +79,7 @@ def draw(canvas, image):
 
   # Smaller details
   image.paste(images.ICON_RAIN_32, (650, 115))
+  rain_chance_str = f"{round(data['current_precip_prob'] * 100)}%"
+  canvas.text((675, 115), rain_chance_str, font = fonts.KEEP_CALM_20, fill = 0)
 
-  image.paste(images.ICON_WINDSOCK, (700, 115))
+  image.paste(images.ICON_WINDSOCK, (720, 115))
