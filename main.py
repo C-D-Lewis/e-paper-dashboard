@@ -3,7 +3,7 @@ import json
 from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime
 
-from modules import fetch, helpers, fonts, weather, images, rail, news, crypto
+from modules import fetch, fonts, weather, images, rail, news, crypto, config
 
 RUNNING_ON_PI = 'arm' in platform.machine()
 print({ 'RUNNING_ON_PI': RUNNING_ON_PI })
@@ -104,7 +104,7 @@ def update():
 
 # The main function
 def main():
-  helpers.load_config()
+  config.load()
   init_display()
 
   # Initial data download

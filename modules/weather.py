@@ -1,7 +1,7 @@
 import images
 from datetime import datetime
 
-from modules import fetch, helpers, fonts, images
+from modules import fetch, helpers, fonts, images, config
 
 DAY_START_HOUR = 6
 DAY_END_HOUR = 18
@@ -45,7 +45,7 @@ def get_icon():
 # Update weather data
 def update_data():
   try:
-    url = f"https://api.darksky.net/forecast/{helpers.config['DARKSKY_KEY']}/{helpers.config['LATITUDE']},{helpers.config['LONGITUDE']}?units=auto&exclude=hourly,minutely"
+    url = f"https://api.darksky.net/forecast/{config.get('DARKSKY_KEY')}/{config.get('LATITUDE')},{config.get('LONGITUDE')}?units=auto&exclude=hourly,minutely"
     new_data = fetch.fetch_json(url)
     data['current_temp'] = round(new_data['currently']['apparentTemperature'])
     data['current_summary'] = new_data['currently']['summary']

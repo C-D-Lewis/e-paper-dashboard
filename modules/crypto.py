@@ -1,4 +1,4 @@
-from modules import fetch, helpers, fonts, images
+from modules import fetch, config, fonts, images
 
 data = {
   'BTC': { 'value': 0, 'change': 0 },
@@ -8,11 +8,11 @@ data = {
 # Update crypto portfolio
 def update_data():
   try:
-    url = f"https://api.nomics.com/v1/currencies/ticker?key={helpers.config['NOMICS_KEY']}&ids=BTC,ETH&interval=1d,30d&convert=GBP"
+    url = f"https://api.nomics.com/v1/currencies/ticker?key={config.get('NOMICS_KEY')}&ids=BTC,ETH&interval=1d,30d&convert=GBP"
     res = fetch.fetch_json(url)
 
-    btc_amount = helpers.config['BTC_AMOUNT']
-    eth_amount = helpers.config['ETH_AMOUNT']
+    btc_amount = config.get('BTC_AMOUNT')
+    eth_amount = config.get('ETH_AMOUNT')
 
     data['BTC']['value'] = round(btc_amount * float(res[0]['price']), 2)
     data['BTC']['change'] = round(btc_amount * float(res[0]['1d']['price_change']), 2)

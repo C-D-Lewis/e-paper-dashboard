@@ -1,6 +1,6 @@
 from xml.dom import minidom
 
-from modules import fetch, helpers, images, fonts
+from modules import fetch, helpers, images, fonts, config
 
 NEWS_MAX_STORIES = 5
 NEWS_MAX_WIDTH = 360
@@ -10,7 +10,7 @@ data = { 'stories': [] }
 # Update news stories
 def update_data():
   try:
-    url = f"http://feeds.bbci.co.uk/news/{helpers.config['NEWS_CATEGORY']}/rss.xml"
+    url = f"http://feeds.bbci.co.uk/news/{config.get('NEWS_CATEGORY')}/rss.xml"
     res = fetch.fetch_text(url)
 
     data['stories'] = []
