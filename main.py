@@ -68,6 +68,21 @@ def draw_date_and_time(canvas):
 def draw_divider(canvas, x, y, w, h):
   canvas.rectangle([x, y, x + w, y + h], fill = 0)
 
+# Draw cycling page indicators
+def draw_page_indicators(canvas, page_index):
+  root_x = 360
+  root_y = 300
+  gap_y = 25
+  size = 8
+
+  for index in range(0, NUM_PAGES):
+    selected = page_index == index
+    fill = 0 if selected else 1
+    canvas.ellipse((root_x - 2, root_y - 2, root_x + size + 2, root_y + size + 2), fill = 0)
+    canvas.ellipse((root_x, root_y, root_x + size, root_y + size), fill = fill)
+    
+    root_y += gap_y
+
 ################################## Main loop ###################################
 
 # Draw things
@@ -88,13 +103,14 @@ def draw():
 
   # Cycling pages
   now = datetime.now()
-  page = now.minute % NUM_PAGES
-  if page == 0:
+  page_index = now.minute % NUM_PAGES
+  if page_index == 0:
     news.draw(canvas, image)
-  elif page == 1:
+  elif page_index == 1:
     weather.draw_forecast(canvas, image)
   else:
-    print(f"Unused page {page}")
+    print(f"Unused page_index {page_index}")
+  draw_page_indicators(canvas, page_index)
 
   # Update display
   update_display(image)
