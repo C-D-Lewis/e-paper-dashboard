@@ -10,6 +10,7 @@ print({ 'RUNNING_ON_PI': RUNNING_ON_PI })
 
 # Constants
 UPDATE_INTERVAL_M = 15
+NUM_PAGES = 2
 
 # Only runs on Pi
 if RUNNING_ON_PI:
@@ -84,7 +85,16 @@ def draw():
   draw_divider(canvas, 14, 310, 310, 5)
   crypto.draw(canvas, image)
   draw_divider(canvas, 350, 185, 5, 280)
-  news.draw(canvas, image)
+
+  # Cycling pages
+  now = datetime.now()
+  page = now.minute % NUM_PAGES
+  if page == 0:
+    news.draw(canvas, image)
+  elif page == 1:
+    weather.draw_forecast(canvas, image)
+  else:
+    print(f"Unused page {page}")
 
   # Update display
   update_display(image)
