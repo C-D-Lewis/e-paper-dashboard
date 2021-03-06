@@ -80,6 +80,6 @@ def draw(canvas, image):
   # Smaller details
   image.paste(images.ICON_RAIN_32, (650, 115))
   rain_chance_str = f"{round(data['current_precip_prob'] * 100)}%"
-  canvas.text((675, 115), rain_chance_str, font = fonts.KEEP_CALM_20, fill = 0)
+  canvas.text((680, 120), "100%", font = fonts.KEEP_CALM_20, fill = 0)
 
   image.paste(images.ICON_WINDSOCK, (720, 115))
