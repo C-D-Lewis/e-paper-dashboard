@@ -104,7 +104,6 @@ def draw():
   # Cycling pages
   now = datetime.now()
   page_index = now.minute % NUM_PAGES
-  page_index = 1
   if page_index == 0:
     news.draw(canvas, image)
   elif page_index == 1:
