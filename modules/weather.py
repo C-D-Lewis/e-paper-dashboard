@@ -1,5 +1,5 @@
 import images
-from datetime import datetime
+import datetime
 
 from modules import fetch, helpers, fonts, images, config, news
 
@@ -23,7 +23,7 @@ data = {
 # Get an appropriate weather icon
 def get_icon(input):
   current_icon = input.lower()
-  now = datetime.now()
+  now = datetime.datetime.now()
   hours = now.hour
   is_daytime = hours > DAY_START_HOUR and hours < DAY_END_HOUR
 
@@ -138,10 +138,18 @@ def draw_forecast(canvas, image):
   gap_y = 60
 
   forecast = data['forecast']
-  for day in forecast:
+  for index, day in enumerate(forecast):
     image.paste(get_forecast_icon(day['icon']), (root_x, root_y))
-    canvas.text((root_x + 55, root_y), day['summary'], font = fonts.KEEP_CALM_20, fill = 0)
-    details_str = f"{day['temp_high']} | {day['temp_low']}    {day['precip_prob']}%    {day['wind_speed']}mph"
-    canvas.text((root_x + 55, root_y + 25), details_str, font = fonts.KEEP_CALM_20, fill = 0)
+
+    canvas.text((root_x + 55, root_y + 25), day['summary'], font = fonts.KEEP_CALM_20, fill = 0)
+
+    future_day = datetime.date.today() + datetime.timedelta(days = index + 1)
+    future_dotw = helpers.get_weekday_name(future_day.weekday())
+    day_temps_str = f"{future_dotw}: {day['temp_high']} | {day['temp_low']}"
+    canvas.text((root_x + 55, root_y), day_temps_str, font = fonts.KEEP_CALM_20, fill = 0)
+    precip_str = f"{day['precip_prob']}%"
+    canvas.text((root_x + 270, root_y), precip_str, font = fonts.KEEP_CALM_20, fill = 0)
+    speed_str = f"{day['wind_speed']}mph"
+    canvas.text((root_x + 340, root_y), speed_str, font = fonts.KEEP_CALM_20, fill = 0)
       
     root_y += gap_y
