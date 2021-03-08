@@ -1,9 +1,10 @@
 import platform, sys, os, time
 import json
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 from datetime import datetime
 
-from modules import fetch, fonts, weather, images, rail, news, crypto, config
+from modules import fetch, fonts, images, config
+from widgets import weather, rail, news, crypto
 
 RUNNING_ON_PI = 'arm' in platform.machine()
 print({ 'RUNNING_ON_PI': RUNNING_ON_PI })
@@ -52,7 +53,7 @@ def deinit_display():
   if RUNNING_ON_PI:
     epd7in5_V2.epdconfig.module_exit()
   else:
-    print('SKipping module_exit()')
+    print('[TEST] module_exit()')
 
 ################################### Drawing ####################################
 
@@ -109,7 +110,7 @@ def draw():
   elif page_index == 1:
     weather.draw_forecast(canvas, image)
   else:
-    print(f"Unused page_index {page_index}")
+    print(f"! Unused page_index {page_index}")
   draw_page_indicators(canvas, page_index)
 
   # Update display
@@ -129,21 +130,25 @@ def update():
   if now.minute % UPDATE_INTERVAL_M == 0:
     update_data_sources()
 
+# Wait for the next minute
+def wait_for_next_minute():
+  now = datetime.now()
+  while now.second != 0:
+    now = datetime.now()
+    time.sleep(1)
+
 # The main function
 def main():
   config.load()
-  init_display()
-
-  # Initial data download
   update_data_sources()
 
   # Update once a minute
   while True:
     update()
+    init_display()
     draw()
     sleep_display()
-    time.sleep(53)
-    init_display()
+    wait_for_next_minute()
 
 if __name__ in '__main__':
   try:

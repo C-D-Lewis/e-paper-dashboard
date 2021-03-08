@@ -1,7 +1,8 @@
 import images
 import datetime
 
-from modules import fetch, helpers, fonts, images, config, news
+from modules import fetch, helpers, fonts, images, config
+from widgets import news
 
 # Constants
 DAY_START_HOUR = 6
@@ -116,7 +117,7 @@ def update_data():
 
 # Draw the weather icon, temperature, and conditions
 def draw(canvas, image):
-  image.paste(get_icon(data['current']['icon']), (510, 10))
+  image.paste(get_icon(data['current']['icon']), (510, 20))
   temp_str = f"{data['current']['temp']}°C"
   canvas.text((650, 20), temp_str, font = fonts.KEEP_CALM_48, fill = 0)
   temp_high_low_str = f"{data['temp_high']} | {data['temp_low']}"
