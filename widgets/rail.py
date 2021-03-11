@@ -1,6 +1,6 @@
 from modules import fetch, images, helpers, fonts
 
-RAIL_MAX_WIDTH = 320
+RAIL_MAX_WIDTH = 300
 
 rail_data = {}
 
