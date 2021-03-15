@@ -133,9 +133,9 @@ def update():
 # Wait for the next minute
 def wait_for_next_minute():
   now = datetime.now()
-  while now.second != 0:
+  while now.second != 1:
     now = datetime.now()
-    time.sleep(1)
+    time.sleep(0.4)
 
 # The main function
 def main():

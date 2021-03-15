@@ -128,9 +128,9 @@ def draw(canvas, image):
   rain_chance_str = f"{data['current']['precip_prob']}"
   canvas.text((685, 123), rain_chance_str, font = fonts.KEEP_CALM_20, fill = 0)
 
-  image.paste(images.ICON_WINDSOCK, (720, 115))
+  image.paste(images.ICON_WINDSOCK, (730, 115))
   wind_speed_str = f"{data['current']['wind_speed']}"
-  canvas.text((755, 123), wind_speed_str, font = fonts.KEEP_CALM_20, fill = 0)
+  canvas.text((765, 123), wind_speed_str, font = fonts.KEEP_CALM_20, fill = 0)
 
 # Draw 5 day forecast in the right hand section
 def draw_forecast(canvas, image):
@@ -151,6 +151,6 @@ def draw_forecast(canvas, image):
     precip_str = f"{day['precip_prob']}%"
     canvas.text((root_x + 270, root_y), precip_str, font = fonts.KEEP_CALM_20, fill = 0)
     speed_str = f"{day['wind_speed']}mph"
-    canvas.text((root_x + 340, root_y), speed_str, font = fonts.KEEP_CALM_20, fill = 0)
+    canvas.text((root_x + 350, root_y), speed_str, font = fonts.KEEP_CALM_20, fill = 0)
       
     root_y += gap_y
