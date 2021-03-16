@@ -1,10 +1,13 @@
-import urllib.request, json
+from urllib.request import Request, urlopen
+import json
 
 # Get a page body
-def fetch_text(url):
-  with urllib.request.urlopen(url) as req:
-    return req.read().decode()
+def fetch_text(url, headers = {}):
+  req = Request(url)
+  for key, value in headers.items():
+    req.add_header(key, value)
+  return urlopen(req).read().decode()
 
 # Get some JSON
-def fetch_json(url):
-  return json.loads(fetch_text(url))
+def fetch_json(url, headers = {}):
+  return json.loads(fetch_text(url, headers))

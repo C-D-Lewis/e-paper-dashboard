@@ -4,14 +4,14 @@ from PIL import Image, ImageDraw
 from datetime import datetime
 
 from modules import fetch, fonts, images, config
-from widgets import weather, rail, news, crypto
+from widgets import weather, rail, news, crypto, twitter
 
 RUNNING_ON_PI = 'arm' in platform.machine()
 print({ 'RUNNING_ON_PI': RUNNING_ON_PI })
 
 # Constants
 UPDATE_INTERVAL_M = 15
-NUM_PAGES = 2
+NUM_PAGES = 3
 
 # Only runs on Pi
 if RUNNING_ON_PI:
@@ -72,7 +72,7 @@ def draw_divider(canvas, x, y, w, h):
 # Draw cycling page indicators
 def draw_page_indicators(canvas, page_index):
   root_x = 365
-  root_y = 300
+  root_y = 290
   gap_y = 25
   size = 8
 
@@ -105,10 +105,13 @@ def draw():
   # Cycling pages
   now = datetime.now()
   page_index = now.minute % NUM_PAGES
+  page_index = 2
   if page_index == 0:
     news.draw(canvas, image)
   elif page_index == 1:
     weather.draw_forecast(canvas, image)
+  elif page_index == 2:
+    twitter.draw(canvas, image)
   else:
     print(f"! Unused page_index {page_index}")
   draw_page_indicators(canvas, page_index)
@@ -123,6 +126,7 @@ def update_data_sources():
   rail.update_data()
   crypto.update_data()
   news.update_data()
+  twitter.update_data()
 
 # Update all the things
 def update():
@@ -140,6 +144,9 @@ def wait_for_next_minute():
 # The main function
 def main():
   config.load()
+  twitter.resolve_user_name()
+
+  # Initial update
   update_data_sources()
 
   # Update once a minute

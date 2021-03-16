@@ -25,7 +25,7 @@ def update_data():
       })
     print(f"news: {len(data['stories'])} stories")
   except Exception as err:
-    print('update_news_data error: {0}'.format(err))
+    print('news.update_data error: {0}'.format(err))
     data['stories'] = [{
       'title': 'error',
       'description': 'error',

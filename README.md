@@ -35,6 +35,8 @@ Copy `config.json.example` and add values appropriate to you:
 | `BTC_AMOUNT` | Float | Amount of Bitcoin owned |
 | `ETH_AMOUNT` | Float | Amoutn of Ethereum owned |
 | `NEWS_CATEGORY` | String | BBC News category identifier, see below |
+| `TWITTER_SCREEN_NAME` | String | Twitter name of an account to show latest tweet. |
+| `TWITTER_BEARER_TOKEN` | String | Twitter API Bearer token. |
 
 Available BBC News categories:
 
