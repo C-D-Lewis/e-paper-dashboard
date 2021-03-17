@@ -3,7 +3,7 @@ import json
 from PIL import Image, ImageDraw
 from datetime import datetime
 
-from modules import fetch, fonts, images, config
+from modules import fetch, fonts, images, config, helpers
 from widgets import weather, rail, news, crypto, twitter
 
 RUNNING_ON_PI = 'arm' in platform.machine()
@@ -65,10 +65,6 @@ def draw_date_and_time(canvas):
   date_str = now.strftime("%B %d, %Y")
   canvas.text((10, 95), date_str, font = fonts.KEEP_CALM_48, fill = 0)
 
-# Draw a divider
-def draw_divider(canvas, x, y, w, h):
-  canvas.rectangle([x, y, x + w, y + h], fill = 0)
-
 # Draw cycling page indicators
 def draw_page_indicators(canvas, page_index):
   root_x = 365
@@ -95,17 +91,16 @@ def draw():
 
   # Draw content
   draw_date_and_time(canvas)
-  draw_divider(canvas, 14, 160, width - 28, 5)
+  helpers.draw_divider(canvas, 14, 160, width - 28, 5)
   weather.draw(canvas, image)
   rail.draw(canvas, image)
-  draw_divider(canvas, 14, 310, 310, 5)
+  helpers.draw_divider(canvas, 14, 310, 310, 5)
   crypto.draw(canvas, image)
-  draw_divider(canvas, 350, 185, 5, 280)
+  helpers.draw_divider(canvas, 350, 185, 5, 280)
 
   # Cycling pages
   now = datetime.now()
   page_index = now.minute % NUM_PAGES
-  page_index = 2
   if page_index == 0:
     news.draw(canvas, image)
   elif page_index == 1:

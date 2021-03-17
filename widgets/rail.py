@@ -4,10 +4,8 @@ RAIL_MAX_WIDTH = 300
 
 rail_data = {}
 
-# Fetch rail operator status
-def fetch_operator_status(operator_name):
-  url = 'http://www.nationalrail.co.uk/service_disruptions/indicator.aspx'
-  body = fetch.fetch_text(url)
+# Get operator status from the page body fetched
+def get_operator_status(body, operator_name):
   start = body.index(f"{operator_name}</td>")
   temp = body[start:]
   start = temp.index('<td>') + 4
@@ -15,11 +13,17 @@ def fetch_operator_status(operator_name):
   end = temp.index('</td>')
   return temp[:end]
 
+# Fetch rail operator status
+def fetch_status_page():
+  url = 'http://www.nationalrail.co.uk/service_disruptions/indicator.aspx'
+  return fetch.fetch_text(url)
+
 # Fetch rail network delays status
 def update_data():
   try:
-    rail_data['TfL Rail'] = fetch_operator_status('TfL Rail')
-    rail_data['Greater Anglia'] = fetch_operator_status('Greater Anglia')
+    body = fetch_status_page()
+    rail_data['TfL Rail'] = get_operator_status(body, 'TfL Rail')
+    rail_data['Greater Anglia'] = get_operator_status(body, 'Greater Anglia')
     print(f"rail: {rail_data}")
   except Exception as err:
     print('rail.update_data error: {0}'.format(err))

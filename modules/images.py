@@ -35,3 +35,6 @@ ICON_NEWS = Image.open(os.path.join(IMAGES_DIR, 'news.bmp'))
 
 ICON_ERROR = Image.open(os.path.join(IMAGES_DIR, 'error.bmp'))
 ICON_QUESTION_MARK = Image.open(os.path.join(IMAGES_DIR, 'question.bmp'))
+
+ICON_HEART = Image.open(os.path.join(IMAGES_DIR, 'heart.bmp'))
+ICON_SPEECH = Image.open(os.path.join(IMAGES_DIR, 'speech.bmp'))
