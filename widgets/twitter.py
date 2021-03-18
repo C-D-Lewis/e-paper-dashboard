@@ -108,6 +108,7 @@ def update_data():
 def draw(canvas, image):
   root_x = 390
   root_y = 185
+  line_gap_y = 23
 
   # Image
   # border = 2
@@ -125,14 +126,13 @@ def draw(canvas, image):
   content = data['tweet']['text']
   content_x = root_x
   paragraph_y = root_y + 75
-  gap_y = 20
   lines = helpers.get_wrapped_lines(content, fonts.KEEP_CALM_20, MAX_WIDTH)
   font = fonts.KEEP_CALM_18 if len(lines) > MAX_LINES else fonts.KEEP_CALM_20
   for index, line in enumerate(lines):
-    canvas.text((content_x, paragraph_y + (index * gap_y)), line, font = font, fill = 0)
+    canvas.text((content_x, paragraph_y + (index * line_gap_y)), line, font = font, fill = 0)
 
   # Footer, after text
-  paragraph_height = helpers.get_paragraph_height(content, font, MAX_WIDTH, gap_y)
+  paragraph_height = helpers.get_paragraph_height(content, font, MAX_WIDTH, line_gap_y)
   line_y = paragraph_y + paragraph_height + 5
   helpers.draw_divider(canvas, root_x, line_y, 380, 1)
 
