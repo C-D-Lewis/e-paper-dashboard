@@ -6,7 +6,7 @@ import urllib
 
 from modules import fetch, fonts, config, helpers, images
 
-MAX_WIDTH = 360
+MAX_WIDTH = 390
 MAX_LINES = 7
 IMAGE_SIZE = 64
 
@@ -106,7 +106,7 @@ def update_data():
 
 # Draw the news stories
 def draw(canvas, image):
-  root_x = 385
+  root_x = 390
   root_y = 185
 
   # Image
@@ -118,12 +118,13 @@ def draw(canvas, image):
 
   # Screen name, name and date
   content_x = root_x + IMAGE_SIZE + 10
-  canvas.text((content_x, root_y + 3), data['name'], font = fonts.KEEP_CALM_24, fill = 0)
-  canvas.text((content_x, root_y + 33), f"@{data['screen_name']}", font = fonts.KEEP_CALM_18, fill = 0)
+  canvas.text((content_x, root_y + 10), data['name'], font = fonts.KEEP_CALM_24, fill = 0)
+  canvas.text((content_x, root_y + 40), f"@{data['screen_name']}", font = fonts.KEEP_CALM_20, fill = 0)
 
   # Tweet content, wrapped
   content = data['tweet']['text']
-  paragraph_y = root_y + 65
+  content_x = root_x
+  paragraph_y = root_y + 75
   gap_y = 20
   lines = helpers.get_wrapped_lines(content, fonts.KEEP_CALM_20, MAX_WIDTH)
   font = fonts.KEEP_CALM_18 if len(lines) > MAX_LINES else fonts.KEEP_CALM_20
@@ -133,16 +134,17 @@ def draw(canvas, image):
   # Footer, after text
   paragraph_height = helpers.get_paragraph_height(content, font, MAX_WIDTH, gap_y)
   line_y = paragraph_y + paragraph_height + 5
-  helpers.draw_divider(canvas, root_x, line_y, 400, 1)
+  helpers.draw_divider(canvas, root_x, line_y, 380, 1)
 
   # Tweet stats
   stats_y = line_y + 10
-  image.paste(images.ICON_HEART, (root_x + 10, stats_y - 5))
+  image.paste(images.ICON_HEART, (root_x + 10, stats_y - 3))
   likes_str = helpers.format_number(data['tweet']['public_metrics']['like_count'])
   canvas.text((root_x + 40, stats_y), likes_str, font = fonts.KEEP_CALM_18, fill = 0)
-  image.paste(images.ICON_SPEECH, (root_x + 95, stats_y - 3))
+  image.paste(images.ICON_SPEECH, (root_x + 95, stats_y - 1))
   reply_str = helpers.format_number(data['tweet']['public_metrics']['reply_count'])
-  canvas.text((root_x + 125, stats_y), reply_str, font = fonts.KEEP_CALM_18, fill = 0)
+  canvas.text((root_x + 127, stats_y), reply_str, font = fonts.KEEP_CALM_18, fill = 0)
 
   # Tweet date
-  canvas.text((content_x + 110, stats_y), f"{data['tweet']['display_date']}", font = fonts.KEEP_CALM_18, fill = 0)
+  date_x = content_x + IMAGE_SIZE + 120
+  canvas.text((date_x, stats_y), f"{data['tweet']['display_date']}", font = fonts.KEEP_CALM_18, fill = 0)
