@@ -1,7 +1,7 @@
 from urllib.request import Request, urlopen
 import json
 
-# Get a page body
+# Get a page body text
 def fetch_text(url, headers = {}):
   req = Request(url)
   for key, value in headers.items():

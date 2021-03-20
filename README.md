@@ -5,14 +5,21 @@ information widgets.
 
 ![](photo.jpg)
 
-Included widgets:
+Included static widgets:
 
 * Time and date
 * Current weather - type, temperature, day high/low, chance of precipitation,
   and wind speed using the [Darksky API](https://darksky.net/dev).
-* Status of two railway operators from National Rail.
-* Owned amount and daily change of two cryptocurrencies (Bitcoin and Ethereum).
+* Status of two railway operators from
+  [National Rail](http://www.nationalrail.co.uk/service_disruptions/indicator.aspx).
+* Owned amount and daily change of two cryptocurrencies (Bitcoin and Ethereum)
+  from [nomics.com](https://nomics.com).
+
+Pages of widgets that rotate once a minute:
+
 * 5 news headlines from BBC News in a chosen category.
+* Next 5 days weather forecast.
+* Latest tweet from a chosen account.
 
 
 ## Setup

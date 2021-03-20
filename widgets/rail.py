@@ -1,14 +1,17 @@
 from modules import fetch, images, helpers, fonts
 
-RAIL_MAX_WIDTH = 300
+MAX_WIDTH = 300
 
-rail_data = {}
+data = {
+  'TfL Rail': 'Unknown',
+  'Greater Anglia': 'Unknown'
+}
 
 # Get operator status from the page body fetched
-def get_operator_status(body, operator_name):
-  start = body.index(f"{operator_name}</td>")
+def parse_operator_status(body, name):
+  start = body.index(f"{name}</td>")
   temp = body[start:]
-  start = temp.index('<td>') + 4
+  start = temp.index('<td>') + len('<td>')
   temp = temp[start:]
   end = temp.index('</td>')
   return temp[:end]
@@ -22,28 +25,33 @@ def fetch_status_page():
 def update_data():
   try:
     body = fetch_status_page()
-    rail_data['TfL Rail'] = get_operator_status(body, 'TfL Rail')
-    rail_data['Greater Anglia'] = get_operator_status(body, 'Greater Anglia')
-    print(f"rail: {rail_data}")
+    data['TfL Rail'] = parse_operator_status(body, 'TfL Rail')
+    data['Greater Anglia'] = parse_operator_status(body, 'Greater Anglia')
+    print(f"rail: {data}")
   except Exception as err:
     print('rail.update_data error: {0}'.format(err))
-    rail_data['TfL Rail'] = 'error'
-    rail_data['Greater Anglia'] = 'error'
+    data['TfL Rail'] = 'error'
+    data['Greater Anglia'] = 'error'
 
 # Draw rail statuses
 def draw(canvas, image):
-  image.paste(images.ICON_TFL, (15, 175))
-  lines = helpers.get_wrapped_lines(rail_data['TfL Rail'], fonts.KEEP_CALM_28, RAIL_MAX_WIDTH)[:2]
-  if len(lines) > 1:
-    for index, line in enumerate(lines):
-      canvas.text((95, 180 + (index * 25)), line, font = fonts.KEEP_CALM_28, fill = 0)
-  else:
-    canvas.text((95, 191), rail_data['TfL Rail'], font = fonts.KEEP_CALM_28, fill = 0)
+  root_x = 15
+  text_x = 95
+  text_gap = 25
+  font = fonts.KEEP_CALM_28
 
-  image.paste(images.ICON_GA, (15, 239))
-  lines = helpers.get_wrapped_lines(rail_data['Greater Anglia'], fonts.KEEP_CALM_28, RAIL_MAX_WIDTH)[:2]
+  image.paste(images.ICON_TFL, (root_x, 175))
+  lines = helpers.get_wrapped_lines(data['TfL Rail'], font, MAX_WIDTH)[:2]
   if len(lines) > 1:
     for index, line in enumerate(lines):
-      canvas.text((95, 240 + (index * 25)), line, font = fonts.KEEP_CALM_28, fill = 0)
+      canvas.text((text_x, 180 + (index * text_gap)), line, font = font, fill = 0)
   else:
-    canvas.text((95, 255), rail_data['Greater Anglia'], font = fonts.KEEP_CALM_28, fill = 0)
+    canvas.text((text_x, 194), data['TfL Rail'], font = font, fill = 0)
+
+  image.paste(images.ICON_GA, (root_x, 239))
+  lines = helpers.get_wrapped_lines(data['Greater Anglia'], font, MAX_WIDTH)[:2]
+  if len(lines) > 1:
+    for index, line in enumerate(lines):
+      canvas.text((text_x, 240 + (index * text_gap)), line, font = font, fill = 0)
+  else:
+    canvas.text((text_x, 258), data['Greater Anglia'], font = font, fill = 0)

@@ -27,7 +27,7 @@ data = {
 }
 
 # Format the user's image to a circle
-def format_image():
+def convert_image():
   # Create alpha mask for circular crop
   size = (IMAGE_SIZE, IMAGE_SIZE)
   mask = Image.new('L', size, 0)
@@ -38,6 +38,7 @@ def format_image():
   output = ImageOps.fit(data['image'], mask.size, centering=(0.5, 0.5))
   output.putalpha(mask)
 
+  # Flatten alpha to remove outer pixels
   background = Image.new('RGBA', size, (255,255,255))
   alpha_composite = Image.alpha_composite(background, output)
   data['image'] = alpha_composite
@@ -98,7 +99,7 @@ def update_data():
     # Fetch image (it could change)
     img_data = urllib.request.urlopen(data['image_url']).read()
     data['image'] = Image.open(BytesIO(img_data)).resize((IMAGE_SIZE, IMAGE_SIZE)).convert('RGBA')
-    format_image()
+    convert_image()
 
     print(f"twitter: {data}")
   except Exception as err:
@@ -111,9 +112,6 @@ def draw(canvas, image):
   line_gap_y = 23
 
   # Image
-  # border = 2
-  # canvas.ellipse((root_x - border, root_y - border, root_x + IMAGE_SIZE, root_y + IMAGE_SIZE), fill = 0)
-  # canvas.ellipse((root_x, root_y, root_x + IMAGE_SIZE, root_y + IMAGE_SIZE), fill = 1)
   if data['image'] != None:
     image.paste(data['image'], (root_x, root_y))
 
@@ -138,13 +136,14 @@ def draw(canvas, image):
 
   # Tweet stats
   stats_y = line_y + 10
+  font = fonts.KEEP_CALM_18
   image.paste(images.ICON_HEART, (root_x + 10, stats_y - 3))
   likes_str = helpers.format_number(data['tweet']['public_metrics']['like_count'])
-  canvas.text((root_x + 40, stats_y), likes_str, font = fonts.KEEP_CALM_18, fill = 0)
+  canvas.text((root_x + 40, stats_y), likes_str, font = font, fill = 0)
   image.paste(images.ICON_SPEECH, (root_x + 95, stats_y - 1))
   reply_str = helpers.format_number(data['tweet']['public_metrics']['reply_count'])
-  canvas.text((root_x + 127, stats_y), reply_str, font = fonts.KEEP_CALM_18, fill = 0)
+  canvas.text((root_x + 127, stats_y), reply_str, font = font, fill = 0)
 
   # Tweet date
   date_x = content_x + IMAGE_SIZE + 120
-  canvas.text((date_x, stats_y), f"{data['tweet']['display_date']}", font = fonts.KEEP_CALM_18, fill = 0)
+  canvas.text((date_x, stats_y), f"{data['tweet']['display_date']}", font = font, fill = 0)

@@ -11,10 +11,10 @@ data = { 'stories': [] }
 def update_data():
   try:
     url = f"http://feeds.bbci.co.uk/news/{config.get('NEWS_CATEGORY')}/rss.xml"
-    res = fetch.fetch_text(url)
+    text = fetch.fetch_text(url)
 
     data['stories'] = []
-    xml = minidom.parseString(res)
+    xml = minidom.parseString(text)
     items = xml.getElementsByTagName('item')[:MAX_STORIES]
 
     for item in items:
@@ -36,13 +36,16 @@ def update_data():
 def draw(canvas, image):
   root_x = 380
   root_y = 180
-  gap_y = 60
+  story_gap = 60
+  text_gap = 25
+  font = fonts.KEEP_CALM_20
 
   stories = data['stories']
-  for story in stories:
-    image.paste(images.ICON_NEWS, (root_x, root_y))
-    lines = helpers.get_wrapped_lines(story['title'], fonts.KEEP_CALM_20, MAX_WIDTH)[:2]
-    for index, line in enumerate(lines):
-      canvas.text((root_x + 55, root_y + 5 + (index * 25)), line, font = fonts.KEEP_CALM_20, fill = 0)
+  for story_index, story in enumerate(stories):
+    story_y = root_y + (story_index * story_gap)
 
-    root_y += gap_y
+    image.paste(images.ICON_NEWS, (root_x, story_y))
+
+    lines = helpers.get_wrapped_lines(story['title'], font, MAX_WIDTH)[:2]
+    for line_index, line in enumerate(lines):
+      canvas.text((root_x + 55, story_y + 5 + (line_index * text_gap)), line, font = font, fill = 0)
