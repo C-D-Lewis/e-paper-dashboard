@@ -38,8 +38,8 @@ def update_display(image):
   if RUNNING_ON_PI:
     epd.display(epd.getbuffer(image))
   else:
-    print('[TEST] epd.display()')
     image.save('render.png')
+    print('[TEST] epd.display()')
 
 # Handle sleeping the display
 def sleep_display():
@@ -59,11 +59,14 @@ def deinit_display():
 
 # Draw time module
 def draw_date_and_time(canvas):
+  root_x = 10
+  root_y = 10
+
   now = datetime.now()
   time_str = now.strftime("%H:%M")
-  canvas.text((10, 10), time_str, font = fonts.KEEP_CALM_80, fill = 0)
+  canvas.text((root_x, root_y), time_str, font = fonts.KEEP_CALM_80, fill = 0)
   date_str = now.strftime("%B %d, %Y")
-  canvas.text((10, 95), date_str, font = fonts.KEEP_CALM_48, fill = 0)
+  canvas.text((root_x, root_y + 85), date_str, font = fonts.KEEP_CALM_48, fill = 0)
 
 # Draw cycling page indicators
 def draw_page_indicators(canvas, page_index):
@@ -71,14 +74,17 @@ def draw_page_indicators(canvas, page_index):
   root_y = 290
   gap_y = 25
   size = 8
+  border = 2
 
   for index in range(0, NUM_PAGES):
+    shape_y = root_y + (index * gap_y)
+
+    outer_shape = (root_x - border, shape_y - border, root_x + size + border, shape_y + size + border)
+    canvas.ellipse(outer_shape, fill = 0)
+
     selected = page_index == index
     fill = 0 if selected else 1
-    canvas.ellipse((root_x - 2, root_y - 2, root_x + size + 2, root_y + size + 2), fill = 0)
-    canvas.ellipse((root_x, root_y, root_x + size, root_y + size), fill = fill)
-    
-    root_y += gap_y
+    canvas.ellipse((root_x, shape_y, root_x + size, shape_y + size), fill = fill)
 
 ################################## Main loop ###################################
 
@@ -91,25 +97,25 @@ def draw():
 
   # Draw content
   draw_date_and_time(canvas)
-  helpers.draw_divider(canvas, 14, 160, width - 28, 5)
   weather.draw(canvas, image)
   rail.draw(canvas, image)
-  helpers.draw_divider(canvas, 14, 310, 310, 5)
   crypto.draw(canvas, image)
+  helpers.draw_divider(canvas, 14, 160, width - 28, 5)
+  helpers.draw_divider(canvas, 14, 310, 310, 5)
   helpers.draw_divider(canvas, 350, 185, 5, 280)
 
   # Cycling pages
   now = datetime.now()
-  page_index = now.minute % NUM_PAGES
-  if page_index == 0:
+  index = now.minute % NUM_PAGES
+  if index == 0:
     news.draw(canvas, image)
-  elif page_index == 1:
+  elif index == 1:
     weather.draw_forecast(canvas, image)
-  elif page_index == 2:
+  elif index == 2:
     twitter.draw(canvas, image)
   else:
-    print(f"! Unused page_index {page_index}")
-  draw_page_indicators(canvas, page_index)
+    print(f"! Unused page index {index}")
+  draw_page_indicators(canvas, index)
 
   # Update display
   update_display(image)
@@ -125,8 +131,7 @@ def update_data_sources():
 
 # Update all the things
 def update():
-  now = datetime.now()
-  if now.minute % UPDATE_INTERVAL_M == 0:
+  if datetime.now().minute % UPDATE_INTERVAL_M == 0:
     update_data_sources()
 
 # Wait for the next minute
