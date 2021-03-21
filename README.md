@@ -1,4 +1,4 @@
-# e-paper-frame
+# e-paper-dashboard
 
 E-paper photo frame Python app for Waveshare 7.5in V2 e-paper display with
 information widgets.
