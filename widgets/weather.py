@@ -147,7 +147,7 @@ def draw(canvas, image):
 # Draw 5 day forecast in the right hand section
 def draw_forecast(canvas, image):
   root_x = 390
-  root_y = 180
+  root_y = 185
   gap_y = 60
   font = fonts.KEEP_CALM_20
 
