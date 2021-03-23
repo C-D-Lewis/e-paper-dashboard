@@ -1,75 +1,28 @@
-import platform, sys, os, time
-import json
-from PIL import Image, ImageDraw
+import time
 from datetime import datetime
 
-from modules import fetch, fonts, images, config, helpers
+from modules import fonts, config, helpers, epaper
 from widgets import weather, rail, news, crypto, twitter
-
-RUNNING_ON_PI = 'arm' in platform.machine()
-print({ 'RUNNING_ON_PI': RUNNING_ON_PI })
 
 # Constants
 UPDATE_INTERVAL_M = 15
 NUM_PAGES = 3
 
-# Only runs on Pi
-if RUNNING_ON_PI:
-  from lib.waveshare_epd import epd7in5_V2
-  epd = epd7in5_V2.EPD()
-  width = epd.width
-  height = epd.height
-else:
-  print('[TEST] EPD import')
-  width = 800
-  height = 480
-
-################################## Testability #################################
-
-# Initialise the display
-def init_display():
-  if RUNNING_ON_PI:
-    epd.init()
-  else:
-    print('[TEST] epd.init()')
-
-# Handle updating the display
-def update_display(image):
-  if RUNNING_ON_PI:
-    epd.display(epd.getbuffer(image))
-  else:
-    image.save('render.png')
-    print('[TEST] epd.display()')
-
-# Handle sleeping the display
-def sleep_display():
-  if RUNNING_ON_PI:
-    epd.sleep()
-  else:
-    print('[TEST] epd.sleep()')
-
-# Handle deinitialising the display
-def deinit_display():
-  if RUNNING_ON_PI:
-    epd7in5_V2.epdconfig.module_exit()
-  else:
-    print('[TEST] module_exit()')
-
 ################################### Drawing ####################################
 
 # Draw time module
-def draw_date_and_time(canvas):
+def draw_date_and_time(image_draw):
   root_x = 10
   root_y = 10
 
   now = datetime.now()
   time_str = now.strftime("%H:%M")
-  canvas.text((root_x, root_y), time_str, font = fonts.KEEP_CALM_80, fill = 0)
+  image_draw.text((root_x, root_y), time_str, font = fonts.KEEP_CALM_80, fill = 0)
   date_str = now.strftime("%B %d, %Y")
-  canvas.text((root_x, root_y + 85), date_str, font = fonts.KEEP_CALM_48, fill = 0)
+  image_draw.text((root_x, root_y + 85), date_str, font = fonts.KEEP_CALM_48, fill = 0)
 
 # Draw cycling page indicators
-def draw_page_indicators(canvas, page_index):
+def draw_page_indicators(image_draw, page_index):
   root_x = 365
   root_y = 290
   gap_y = 25
@@ -80,45 +33,43 @@ def draw_page_indicators(canvas, page_index):
     shape_y = root_y + (index * gap_y)
 
     outer_shape = (root_x - border, shape_y - border, root_x + size + border, shape_y + size + border)
-    canvas.ellipse(outer_shape, fill = 0)
+    image_draw.ellipse(outer_shape, fill = 0)
 
     selected = page_index == index
     fill = 0 if selected else 1
-    canvas.ellipse((root_x, shape_y, root_x + size, shape_y + size), fill = fill)
+    image_draw.ellipse((root_x, shape_y, root_x + size, shape_y + size), fill = fill)
 
 ################################## Main loop ###################################
 
 # Draw things
 def draw():
   # Prepare
-  image = Image.new('1', (width, height), 255)  # Mode = 1bit
-  canvas = ImageDraw.Draw(image)
-  canvas.rectangle((0, 0, width, height), fill = 255)
+  image, image_draw = epaper.prepare()
 
   # Draw content
-  draw_date_and_time(canvas)
-  weather.draw(canvas, image)
-  rail.draw(canvas, image)
-  crypto.draw(canvas, image)
-  helpers.draw_divider(canvas, 14, 160, width - 28, 5)
-  helpers.draw_divider(canvas, 14, 310, 310, 5)
-  helpers.draw_divider(canvas, 350, 185, 5, 280)
+  draw_date_and_time(image_draw)
+  weather.draw(image_draw, image)
+  rail.draw(image_draw, image)
+  crypto.draw(image_draw, image)
+  helpers.draw_divider(image_draw, 14, 160, image.width - 28, 5)
+  helpers.draw_divider(image_draw, 14, 310, 310, 5)
+  helpers.draw_divider(image_draw, 350, 185, 5, 280)
 
   # Cycling pages
   now = datetime.now()
   index = now.minute % NUM_PAGES
   if index == 0:
-    news.draw(canvas, image)
+    news.draw(image_draw, image)
   elif index == 1:
-    weather.draw_forecast(canvas, image)
+    weather.draw_forecast(image_draw, image)
   elif index == 2:
-    twitter.draw(canvas, image)
+    twitter.draw(image_draw, image)
   else:
     print(f"! Unused page index {index}")
-  draw_page_indicators(canvas, index)
+  draw_page_indicators(image_draw, index)
 
   # Update display
-  update_display(image)
+  epaper.show(image)
   time.sleep(2)
 
 # Update all data sources
@@ -152,9 +103,9 @@ def main():
   # Update once a minute
   while True:
     update()
-    init_display()
+    epaper.init()
     draw()
-    sleep_display()
+    epaper.sleep()
     wait_for_next_minute()
 
 if __name__ in '__main__':
@@ -162,5 +113,5 @@ if __name__ in '__main__':
     main()
   except KeyboardInterrupt:
     print('Exiting')
-    deinit_display()
+    epaper.deinit()
     exit()
