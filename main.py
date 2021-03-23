@@ -23,7 +23,7 @@ def draw_date_and_time(image_draw):
 
 # Draw cycling page indicators
 def draw_page_indicators(image_draw, page_index):
-  root_x = 365
+  root_x = 370
   root_y = 290
   gap_y = 25
   size = 8

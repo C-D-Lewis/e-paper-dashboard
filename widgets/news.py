@@ -34,7 +34,7 @@ def update_data():
 
 # Draw the news stories
 def draw(canvas, image):
-  root_x = 380
+  root_x = 390
   root_y = 180
   story_gap = 60
   text_gap = 25

@@ -107,7 +107,7 @@ def update_data():
 
 # Draw the news stories
 def draw(canvas, image):
-  root_x = 390
+  root_x = 395
   root_y = 185
   line_gap_y = 23
 
@@ -132,7 +132,7 @@ def draw(canvas, image):
   # Footer, after text
   paragraph_height = helpers.get_paragraph_height(content, font, MAX_WIDTH, line_gap_y)
   line_y = paragraph_y + paragraph_height + 5
-  helpers.draw_divider(canvas, root_x, line_y, 380, 1)
+  helpers.draw_divider(canvas, root_x, line_y, 390, 1)
 
   # Tweet stats
   stats_y = line_y + 10

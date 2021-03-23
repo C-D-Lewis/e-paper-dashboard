@@ -146,7 +146,7 @@ def draw(canvas, image):
 
 # Draw 5 day forecast in the right hand section
 def draw_forecast(canvas, image):
-  root_x = 380
+  root_x = 390
   root_y = 180
   gap_y = 60
   font = fonts.KEEP_CALM_20
@@ -164,8 +164,8 @@ def draw_forecast(canvas, image):
     future_dotw = helpers.get_weekday_name(future_day.weekday())
 
     day_temps_str = f"{future_dotw}: {day['temp_high']} | {day['temp_low']}"
-    canvas.text((root_x + 55, day_y), day_temps_str, font = font, fill = 0)
+    canvas.text((root_x + 45, day_y), day_temps_str, font = font, fill = 0)
     precip_str = f"{day['precip_prob']}%"
-    canvas.text((root_x + 270, day_y), precip_str, font = font, fill = 0)
+    canvas.text((root_x + 260, day_y), precip_str, font = font, fill = 0)
     speed_str = f"{day['wind_speed']}mph"
-    canvas.text((root_x + 350, day_y), speed_str, font = font, fill = 0)
+    canvas.text((root_x + 340, day_y), speed_str, font = font, fill = 0)
