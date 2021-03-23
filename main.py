@@ -51,9 +51,9 @@ def draw():
   weather.draw(image_draw, image)
   rail.draw(image_draw, image)
   crypto.draw(image_draw, image)
-  helpers.draw_divider(image_draw, 14, 160, image.width - 28, 5)
-  helpers.draw_divider(image_draw, 14, 310, 310, 5)
-  helpers.draw_divider(image_draw, 350, 185, 5, 280)
+  helpers.draw_divider(image_draw, 0, 160, image.width, 5)
+  helpers.draw_divider(image_draw, 0, 310, 350, 5)
+  helpers.draw_divider(image_draw, 350, 165, 5, 320)
 
   # Cycling pages
   now = datetime.now()
