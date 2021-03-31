@@ -19,7 +19,9 @@ def parse_operator_status(body, name):
 # Fetch rail operator status
 def fetch_status_page():
   url = 'http://www.nationalrail.co.uk/service_disruptions/indicator.aspx'
-  return fetch.fetch_text(url)
+  return fetch.fetch_text(url, {
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:88.0) Gecko/20100101 Firefox/88.0'
+  })
 
 # Fetch rail network delays status
 def update_data():
