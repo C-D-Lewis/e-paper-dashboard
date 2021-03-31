@@ -20,6 +20,7 @@ ICON_WINDSOCK_32 = Image.open(os.path.join(IMAGES_DIR, 'windsock.bmp'))
 # Weather forecast
 ICON_CLOUD_DAY_48 = Image.open(os.path.join(IMAGES_DIR, 'cloud_48.bmp'))
 ICON_CLOUD_NIGHT_48 = Image.open(os.path.join(IMAGES_DIR, 'cloud-night_48.bmp'))
+ICON_WIND_48 = Image.open(os.path.join(IMAGES_DIR, 'wind_48.bmp'))
 ICON_RAIN_48 = Image.open(os.path.join(IMAGES_DIR, 'rain_48.bmp'))
 ICON_CLEAR_DAY_48 = Image.open(os.path.join(IMAGES_DIR, 'sun_48.bmp'))
 ICON_CLEAR_NIGHT_48 = Image.open(os.path.join(IMAGES_DIR, 'moon_48.bmp'))

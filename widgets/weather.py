@@ -55,19 +55,19 @@ def get_forecast_icon(input):
   if 'cloud' in input_lower or 'overcast' in input_lower:
     return images.ICON_CLOUD_DAY_48
   if 'wind' in input_lower:
-    return images.ICON_WIND
+    return images.ICON_WIND_48
   if 'rain' in input_lower:
     return images.ICON_RAIN_48
   if 'clear' in input_lower or 'sun' in input_lower:
     return images.ICON_CLEAR_DAY_48
   if 'thunder' in input_lower or 'storm' in input_lower or 'lighting' in input_lower:
-    return images.ICON_STORM
+    return images.ICON_STORM_48
   if 'snow' in input_lower:
-    return images.ICON_SNOW
+    return images.ICON_SNOW_48
   if 'ice' in input_lower or 'frost' in input_lower:
-    return images.ICON_FROST
+    return images.ICON_FROST_48
   if 'mist' in input_lower or 'fog' in input_lower or 'haz' in input_lower:
-    return images.ICON_FOG
+    return images.ICON_FOG_48
 
   if 'error' in input_lower:
     return images.ICON_ERROR
@@ -164,7 +164,7 @@ def draw_forecast(canvas, image):
     future_dotw = helpers.get_weekday_name(future_day.weekday())
 
     day_temps_str = f"{future_dotw}: {day['temp_high']} | {day['temp_low']}"
-    canvas.text((root_x + 45, day_y), day_temps_str, font = font, fill = 0)
+    canvas.text((root_x + 55, day_y), day_temps_str, font = font, fill = 0)
     precip_str = f"{day['precip_prob']}%"
     canvas.text((root_x + 260, day_y), precip_str, font = font, fill = 0)
     speed_str = f"{day['wind_speed']}mph"
