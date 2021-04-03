@@ -1,6 +1,6 @@
 from modules import fetch, images, helpers, fonts
 
-MAX_WIDTH = 300
+MAX_WIDTH = 290
 
 data = {
   'TfL Rail': 'Unknown',
@@ -40,20 +40,21 @@ def draw(canvas, image):
   root_x = 15
   text_x = 95
   text_gap = 25
-  font = fonts.KEEP_CALM_28
 
   image.paste(images.ICON_TFL, (root_x, 175))
-  lines = helpers.get_wrapped_lines(data['TfL Rail'], font, MAX_WIDTH)[:2]
+  lines = helpers.get_wrapped_lines(data['TfL Rail'], fonts.KEEP_CALM_28, MAX_WIDTH)[:2]
+  font = fonts.KEEP_CALM_24 if len(lines) > 1 else fonts.KEEP_CALM_28
   if len(lines) > 1:
     for index, line in enumerate(lines):
-      canvas.text((text_x, 180 + (index * text_gap)), line, font = font, fill = 0)
+      canvas.text((text_x, 185 + (index * text_gap)), line, font = font, fill = 0)
   else:
     canvas.text((text_x, 194), data['TfL Rail'], font = font, fill = 0)
 
   image.paste(images.ICON_GA, (root_x, 239))
-  lines = helpers.get_wrapped_lines(data['Greater Anglia'], font, MAX_WIDTH)[:2]
+  lines = helpers.get_wrapped_lines(data['Greater Anglia'], fonts.KEEP_CALM_28, MAX_WIDTH)[:2]
+  font = fonts.KEEP_CALM_24 if len(lines) > 1 else fonts.KEEP_CALM_28
   if len(lines) > 1:
     for index, line in enumerate(lines):
-      canvas.text((text_x, 240 + (index * text_gap)), line, font = font, fill = 0)
+      canvas.text((text_x, 245 + (index * text_gap)), line, font = font, fill = 0)
   else:
     canvas.text((text_x, 258), data['Greater Anglia'], font = font, fill = 0)
