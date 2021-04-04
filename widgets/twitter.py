@@ -112,8 +112,11 @@ def draw(canvas, image):
   line_gap_y = 23
 
   # Image
-  if data['image'] != None:
-    image.paste(data['image'], (root_x, root_y))
+  try:
+    if data['image'] != None:
+      image.paste(data['image'], (root_x, root_y))
+  except Exception as err:
+    print(f"twitter draw error: {err}")
 
   # Screen name, name and date
   content_x = root_x + IMAGE_SIZE + 10
