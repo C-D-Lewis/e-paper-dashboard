@@ -2,11 +2,23 @@ import time
 from datetime import datetime
 
 from modules import fonts, config, helpers, epaper
-from widgets import weather, rail, news, crypto, twitter
+from widgets.weather import WeatherWidget
+from widgets.crypto import CryptoWidget
+from widgets.news import NewsWidget
+from widgets.rail import RailWidget
+from widgets.twitter import TwitterWidget
+from widgets.forecast import ForecastWidget
 
 # Constants
 UPDATE_INTERVAL_M = 15
 NUM_PAGES = 3
+
+weather_widget = WeatherWidget()
+crypto_widget = CryptoWidget()
+rail_widget = RailWidget()
+news_widget = NewsWidget()
+forecast_widget = ForecastWidget()
+twitter_widget = TwitterWidget()
 
 ################################### Drawing ####################################
 
@@ -48,9 +60,9 @@ def draw():
 
   # Draw content
   draw_date_and_time(image_draw)
-  weather.draw(image_draw, image)
-  rail.draw(image_draw, image)
-  crypto.draw(image_draw, image)
+  weather_widget.draw(image_draw, image)
+  rail_widget.draw(image_draw, image)
+  crypto_widget.draw(image_draw, image)
   helpers.draw_divider(image_draw, 0, 160, image.width, 5)
   helpers.draw_divider(image_draw, 0, 310, 350, 5)
   helpers.draw_divider(image_draw, 350, 165, 5, 320)
@@ -59,11 +71,11 @@ def draw():
   now = datetime.now()
   index = now.minute % NUM_PAGES
   if index == 0:
-    news.draw(image_draw, image)
+    news_widget.draw(image_draw, image)
   elif index == 1:
-    weather.draw_forecast(image_draw, image)
+    forecast_widget.draw(image_draw, image)
   elif index == 2:
-    twitter.draw(image_draw, image)
+    twitter_widget.draw(image_draw, image)
   else:
     print(f"! Unused page index {index}")
   draw_page_indicators(image_draw, index)
@@ -74,11 +86,12 @@ def draw():
 
 # Update all data sources
 def update_data_sources():
-  weather.update_data()
-  rail.update_data()
-  crypto.update_data()
-  news.update_data()
-  twitter.update_data()
+  weather_widget.update_data()
+  rail_widget.update_data()
+  crypto_widget.update_data()
+  news_widget.update_data()
+  forecast_widget.update_data()
+  twitter_widget.update_data()
 
 # Update all the things
 def update():
@@ -95,7 +108,7 @@ def wait_for_next_minute():
 # The main function
 def main():
   config.load()
-  twitter.resolve_user_name()
+  twitter_widget.resolve_user_name()
 
   # Initial update
   update_data_sources()
