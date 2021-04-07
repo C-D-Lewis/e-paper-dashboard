@@ -3,13 +3,9 @@ import datetime
 
 from modules import fetch, helpers, fonts, images, config
 from widgets.Widget import Widget
-from modules.constants import WIDGET_BOUNDS
+from modules.constants import WIDGET_BOUNDS, DAY_START_HOUR, DAY_END_HOUR
 
-WEATHER_BOUNDS = () # TODO
-
-# Constants
-DAY_START_HOUR = 6
-DAY_END_HOUR = 18
+WEATHER_BOUNDS = (510, 20, 0, 0)
 
 # Get an appropriate weather icon
 def get_icon(input):
@@ -86,19 +82,17 @@ class WeatherWidget(Widget):
       return
 
     try:
-      root_x = 510
-      root_y = 20
       text_x = 650
 
-      image.paste(get_icon(self.current['icon']), (root_x, root_y))
+      image.paste(get_icon(self.current['icon']), (self.bounds[0], self.bounds[1]))
       temp_str = f"{self.current['temp']}°C"
-      image_draw.text((text_x, root_y), temp_str, font = fonts.KEEP_CALM_48, fill = 0)
+      image_draw.text((text_x, self.bounds[1]), temp_str, font = fonts.KEEP_CALM_48, fill = 0)
       temp_high_low_str = f"{self.temp_high} | {self.temp_low}"
-      image_draw.text((text_x, root_y + 55), temp_high_low_str, font = fonts.KEEP_CALM_28, fill = 0)
+      image_draw.text((text_x, self.bounds[1] + 55), temp_high_low_str, font = fonts.KEEP_CALM_28, fill = 0)
 
       # Smaller details
       font = fonts.KEEP_CALM_20
-      detail_y = 115
+      detail_y = self.bounds[1] + 95
       icon_y = detail_y + 8
       image.paste(images.ICON_RAIN_32, (text_x, detail_y))
       rain_chance_str = f"{self.current['precip_prob']}"
