@@ -112,14 +112,22 @@ def main():
 
   # Initial update
   update_data_sources()
+  epaper.init()
+  draw()
+  epaper.sleep()
 
   # Update once a minute
   while True:
-    update()
-    epaper.init()
-    draw()
-    epaper.sleep()
-    wait_for_next_minute()
+    try:
+      wait_for_next_minute()
+
+      update()
+      epaper.init()
+      draw()
+      epaper.sleep()
+    except Exception as err:
+      print(err)
+      time.sleep(5)
 
 if __name__ in '__main__':
   try:
