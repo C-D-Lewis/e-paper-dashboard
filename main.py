@@ -93,17 +93,12 @@ def update_data_sources():
   forecast_widget.update_data()
   twitter_widget.update_data()
 
-# Update all the things
-def update():
-  if datetime.now().minute % UPDATE_INTERVAL_M == 0:
-    update_data_sources()
-
 # Wait for the next minute
 def wait_for_next_minute():
   now = datetime.now()
   while now.second != 1:
     now = datetime.now()
-    time.sleep(0.4)
+    time.sleep(0.1)
 
 # The main function
 def main():
@@ -121,7 +116,8 @@ def main():
     try:
       wait_for_next_minute()
 
-      update()
+      if datetime.now().minute % UPDATE_INTERVAL_M == 0:
+        update_data_sources()
       epaper.init()
       draw()
       epaper.sleep()
