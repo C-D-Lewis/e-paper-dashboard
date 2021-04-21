@@ -18,11 +18,9 @@ class QuotesWidget(Widget):
   def __init__(self):
     super().__init__(QUOTES_BOUNDS)
 
-    self.text = ''
-    self.author = ''
+    self.quote = {}
 
-    script_dir = os.path.dirname(__file__)
-    file_path = os.path.join(script_dir, '../data/quotes.json')
+    file_path = os.path.join(os.path.dirname(__file__), '../data/quotes.json')
     with open(file_path) as json_file:
       self.quotes = json.load(json_file)
 
@@ -31,11 +29,9 @@ class QuotesWidget(Widget):
     try:
       # Choose a quote
       index = random.randint(0, len(self.quotes))
-      chosen = self.quotes[index]
-      self.text = chosen['text']
-      self.author = chosen['author']
+      self.quote = self.quotes[index]
 
-      print(f"quotes: {self.text}")
+      print(f"quotes: {self.quote}")
       self.unset_error()
     except Exception as err:
       self.set_error(err)
@@ -51,11 +47,11 @@ class QuotesWidget(Widget):
       line_gap_y = 23
 
       # Quote content, wrapped
-      content = self.text
+      content = self.quote['text']
       content_x = self.bounds[0]
       paragraph_y = root_y + 5
-      lines = helpers.get_wrapped_lines(content, fonts.KEEP_CALM_20, self.bounds[2])
-      font = fonts.KEEP_CALM_18 if len(lines) > MAX_LINES else fonts.KEEP_CALM_20
+      lines = helpers.get_wrapped_lines(content, fonts.KEEP_CALM_24, self.bounds[2])
+      font = fonts.KEEP_CALM_20 if len(lines) > MAX_LINES else fonts.KEEP_CALM_24
       lines = helpers.get_wrapped_lines(content, font, self.bounds[2])
       for index, line in enumerate(lines):
         image_draw.text((content_x, paragraph_y + (index * line_gap_y)), line, font = font, fill = 0)
@@ -64,8 +60,8 @@ class QuotesWidget(Widget):
       paragraph_height = helpers.get_paragraph_height(content, font, self.bounds[2], line_gap_y)
       line_y = paragraph_y + paragraph_height + 5
 
-      author_str = f"    -- {self.author}"
-      image_draw.text((content_x, line_y), author_str, font = fonts.KEEP_CALM_18, fill = 0)
+      author_str = f"                             -- {self.quote['author']}"
+      image_draw.text((content_x, line_y), author_str, font = fonts.KEEP_CALM_20, fill = 0)
     except Exception as err:
       self.set_error(err)
       self.draw_error(image_draw)
