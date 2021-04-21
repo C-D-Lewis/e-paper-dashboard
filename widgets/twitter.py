@@ -122,6 +122,7 @@ class TwitterWidget(Widget):
       paragraph_y = root_y + 75
       lines = helpers.get_wrapped_lines(content, fonts.KEEP_CALM_20, self.bounds[2])
       font = fonts.KEEP_CALM_18 if len(lines) > MAX_LINES else fonts.KEEP_CALM_20
+      lines = helpers.get_wrapped_lines(content, font, self.bounds[2])
       for index, line in enumerate(lines):
         image_draw.text((content_x, paragraph_y + (index * line_gap_y)), line, font = font, fill = 0)
 

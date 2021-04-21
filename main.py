@@ -8,10 +8,11 @@ from widgets.news import NewsWidget
 from widgets.rail import RailWidget
 from widgets.twitter import TwitterWidget
 from widgets.forecast import ForecastWidget
+from widgets.quotes import QuotesWidget
 
 # Constants
 UPDATE_INTERVAL_M = 15
-NUM_PAGES = 3
+NUM_PAGES = 4
 
 weather_widget = WeatherWidget()
 crypto_widget = CryptoWidget()
@@ -19,6 +20,7 @@ rail_widget = RailWidget()
 news_widget = NewsWidget()
 forecast_widget = ForecastWidget()
 twitter_widget = TwitterWidget()
+quotes_widget = QuotesWidget()
 
 ################################### Drawing ####################################
 
@@ -36,7 +38,7 @@ def draw_date_and_time(image_draw):
 # Draw cycling page indicators
 def draw_page_indicators(image_draw, page_index):
   root_x = 370
-  root_y = 290
+  root_y = 275
   gap_y = 25
   size = 8
   border = 2
@@ -76,6 +78,8 @@ def draw():
     forecast_widget.draw(image_draw, image)
   elif index == 2:
     twitter_widget.draw(image_draw, image)
+  elif index == 3:
+    quotes_widget.draw(image_draw)
   else:
     print(f"! Unused page index {index}")
   draw_page_indicators(image_draw, index)
@@ -92,6 +96,7 @@ def update_data_sources():
   news_widget.update_data()
   forecast_widget.update_data()
   twitter_widget.update_data()
+  quotes_widget.update_data()
 
 # Wait for the next minute
 def wait_for_next_minute():
