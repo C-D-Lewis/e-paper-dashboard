@@ -72,7 +72,6 @@ def draw():
   # Cycling pages
   now = datetime.now()
   index = now.minute % NUM_PAGES
-  index = 3
   if index == 0:
     news_widget.draw(image_draw, image)
   elif index == 1:

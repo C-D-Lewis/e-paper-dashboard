@@ -47,7 +47,7 @@ class QuotesWidget(Widget):
       line_gap_y = 23
 
       # Quote content, wrapped
-      content = self.quote['text']
+      content = f"\"{self.quote['text']}\""
       content_x = self.bounds[0]
       paragraph_y = root_y + 5
       lines = helpers.get_wrapped_lines(content, fonts.KEEP_CALM_24, self.bounds[2])
@@ -60,7 +60,7 @@ class QuotesWidget(Widget):
       paragraph_height = helpers.get_paragraph_height(content, font, self.bounds[2], line_gap_y)
       line_y = paragraph_y + paragraph_height + 5
 
-      author_str = f"                             -- {self.quote['author']}"
+      author_str = f"                       -- {self.quote['author']}"
       image_draw.text((content_x, line_y), author_str, font = fonts.KEEP_CALM_20, fill = 0)
     except Exception as err:
       self.set_error(err)
