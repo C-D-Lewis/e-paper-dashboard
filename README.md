@@ -20,6 +20,8 @@ Pages of widgets that rotate once a minute:
 * 5 news headlines from BBC News in a chosen category.
 * Next 5 days weather forecast.
 * Latest tweet from a chosen account.
+* One of a number of quotes obtained from
+  [https://type.fit/api/quotes](https://type.fit/api/quotes).
 
 
 ## Setup
