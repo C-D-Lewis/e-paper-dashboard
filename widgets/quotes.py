@@ -44,7 +44,7 @@ class QuotesWidget(Widget):
 
     try:
       root_y = self.bounds[1] + 5
-      line_gap_y = 23
+      line_gap_y = 25
 
       # Quote content, wrapped
       content = f"\"{self.quote['text']}\""

@@ -105,7 +105,7 @@ class TwitterWidget(Widget):
 
     try:
       root_y = self.bounds[1] + 5
-      line_gap_y = 23
+      line_gap_y = 25
 
       # Image
       if self.image != None:
