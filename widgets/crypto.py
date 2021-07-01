@@ -1,3 +1,5 @@
+import time
+import random
 from modules import fetch, config, fonts, images, constants
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS
@@ -14,6 +16,11 @@ class CryptoWidget(Widget):
 
   # Update crypto portfolio
   def update_data(self):
+    # Random wait to avoid 1 rps limit at the same time as another running instance
+    wait_time_s = random.randint(2, 10)
+    print(f"crypto: random wait for {wait_time_s}s")
+    time.sleep(wait_time_s)
+
     try:
       url = f"https://api.nomics.com/v1/currencies/ticker?key={config.get('NOMICS_KEY')}&ids=BTC,ETH&interval=1d,30d&convert=GBP"
       json = fetch.fetch_json(url)
