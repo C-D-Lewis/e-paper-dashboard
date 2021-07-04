@@ -1,4 +1,5 @@
 import platform
+import time
 from PIL import Image, ImageDraw
 
 RUNNING_ON_PI = 'arm' in platform.machine()
@@ -41,6 +42,7 @@ def show(image):
 # Handle sleeping the display
 def sleep():
   if RUNNING_ON_PI:
+    time.sleep(2)
     epd.sleep()
   else:
     print('[TEST] epd.sleep()')
