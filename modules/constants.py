@@ -5,7 +5,7 @@ WIDGET_BOUNDS = [
   # Bottom left slot
   (15, 335, 350, 160),
   # Right slot
-  (390, 180, 380, 315)
+  (390, 180, 370, 315)
 ]
 
 # Hour the day starts
