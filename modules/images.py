@@ -42,7 +42,7 @@ ICON_NEWS = Image.open(os.path.join(IMAGES_DIR, 'news.bmp'))
 
 # Twitter
 ICON_HEART = Image.open(os.path.join(IMAGES_DIR, 'heart.bmp'))
-ICON_SPEECH = Image.open(os.path.join(IMAGES_DIR, 'speech.bmp'))
+ICON_RETWEET = Image.open(os.path.join(IMAGES_DIR, 'retweet.bmp'))
 
 # Other
 ICON_ERROR = Image.open(os.path.join(IMAGES_DIR, 'error.bmp'))

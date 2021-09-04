@@ -78,6 +78,7 @@ class TwitterWidget(Widget):
       json = api_request(url)
 
       self.tweet = json['data'][0]
+      print(self.tweet)
 
       # Test 280 length
       # self.tweet['text'] = "This is a small change, but a big move for us. 140 was an arbitrary choice based on the 160 character SMS limit. Proud of how thoughtful the team has been in solving a real problem people have when trying to tweet. And at the same time maintaining our brevity, speed, and essence!"
@@ -134,12 +135,14 @@ class TwitterWidget(Widget):
       # Tweet stats
       stats_y = line_y + 10
       font = fonts.KEEP_CALM_18
-      image.paste(images.ICON_HEART, (self.bounds[0], stats_y - 3))
+
+      image.paste(images.ICON_HEART, (self.bounds[0] + 5, stats_y - 3))
       likes_str = helpers.format_number(self.tweet['public_metrics']['like_count'])
-      image_draw.text((self.bounds[0] + 30, stats_y), likes_str, font = font, fill = 0)
-      image.paste(images.ICON_SPEECH, (self.bounds[0] + 85, stats_y - 1))
-      reply_str = helpers.format_number(self.tweet['public_metrics']['reply_count'])
-      image_draw.text((self.bounds[0] + 117, stats_y), reply_str, font = font, fill = 0)
+      image_draw.text((self.bounds[0] + 35, stats_y), likes_str, font = font, fill = 0)
+
+      image.paste(images.ICON_RETWEET, (self.bounds[0] + 80, stats_y - 4))
+      retweet_str = helpers.format_number(self.tweet['public_metrics']['retweet_count'])
+      image_draw.text((self.bounds[0] + 107, stats_y), retweet_str, font = font, fill = 0)
 
       # Tweet date
       date_x = content_x + IMAGE_SIZE + 90
