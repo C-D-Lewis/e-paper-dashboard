@@ -84,7 +84,7 @@ class WeatherWidget(Widget):
     try:
       text_x = 650
 
-      image.paste(get_icon(self.current['icon']), (self.bounds[0], self.bounds[1]))
+      image.paste(get_icon(self.current['icon']), (self.bounds[0] + 10, self.bounds[1]))
       temp_str = f"{self.current['temp']}°C"
       image_draw.text((text_x, self.bounds[1]), temp_str, font = fonts.KEEP_CALM_48, fill = 0)
       temp_high_low_str = f"{self.temp_high} | {self.temp_low}"

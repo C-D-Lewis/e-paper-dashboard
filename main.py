@@ -61,8 +61,8 @@ def draw():
   image, image_draw = epaper.prepare()
 
   # Draw content
-  draw_date_and_time(image_draw)
   weather_widget.draw(image_draw, image)
+  draw_date_and_time(image_draw)
   rail_widget.draw(image_draw, image)
   crypto_widget.draw(image_draw, image)
   helpers.draw_divider(image_draw, 0, 160, image.width, 5)
@@ -72,6 +72,7 @@ def draw():
   # Cycling pages
   now = datetime.now()
   index = now.minute % NUM_PAGES
+  index = 2
   if index == 0:
     news_widget.draw(image_draw, image)
   elif index == 1:

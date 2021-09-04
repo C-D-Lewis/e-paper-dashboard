@@ -134,15 +134,15 @@ class TwitterWidget(Widget):
       # Tweet stats
       stats_y = line_y + 10
       font = fonts.KEEP_CALM_18
-      image.paste(images.ICON_HEART, (self.bounds[0] + 10, stats_y - 3))
+      image.paste(images.ICON_HEART, (self.bounds[0], stats_y - 3))
       likes_str = helpers.format_number(self.tweet['public_metrics']['like_count'])
-      image_draw.text((self.bounds[0] + 40, stats_y), likes_str, font = font, fill = 0)
-      image.paste(images.ICON_SPEECH, (self.bounds[0] + 95, stats_y - 1))
+      image_draw.text((self.bounds[0] + 30, stats_y), likes_str, font = font, fill = 0)
+      image.paste(images.ICON_SPEECH, (self.bounds[0] + 85, stats_y - 1))
       reply_str = helpers.format_number(self.tweet['public_metrics']['reply_count'])
-      image_draw.text((self.bounds[0] + 127, stats_y), reply_str, font = font, fill = 0)
+      image_draw.text((self.bounds[0] + 117, stats_y), reply_str, font = font, fill = 0)
 
       # Tweet date
-      date_x = content_x + IMAGE_SIZE + 120
+      date_x = content_x + IMAGE_SIZE + 90
       image_draw.text((date_x, stats_y), f"{self.tweet['display_date']}", font = font, fill = 0)
     except Exception as err:
       self.set_error(err)
