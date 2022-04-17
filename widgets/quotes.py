@@ -10,33 +10,43 @@ from modules.constants import WIDGET_BOUNDS
 
 QUOTES_BOUNDS = WIDGET_BOUNDS[2]
 
+# Max lines to a quote
 MAX_LINES = 7
 
+#
 # QuotesWidget class
+#
 class QuotesWidget(Widget):
+  #
   # Constructor
+  #
   def __init__(self):
     super().__init__(QUOTES_BOUNDS)
 
     self.quote = {}
 
+    # Load quotes file
     file_path = os.path.join(os.path.dirname(__file__), '../data/quotes.json')
     with open(file_path) as json_file:
-      self.quotes = json.load(json_file)
+      self.quote_list = json.load(json_file)
 
+  #
   # Update latest tweet
+  #
   def update_data(self):
     try:
       # Choose a quote
-      index = random.randint(0, len(self.quotes))
-      self.quote = self.quotes[index]
+      index = random.randint(0, len(self.quote_list))
+      self.quote = self.quote_list[index]
 
       print(f"quotes: {self.quote}")
       self.unset_error()
     except Exception as err:
       self.set_error(err)
 
+  #
   # Draw the news stories
+  #
   def draw(self, image_draw):
     if self.error:
       self.draw_error(image_draw)
@@ -59,7 +69,6 @@ class QuotesWidget(Widget):
       # Author, after text
       paragraph_height = helpers.get_paragraph_height(content, font, self.bounds[2], line_gap_y)
       line_y = paragraph_y + paragraph_height + 5
-
       author_str = f"                       -- {self.quote['author']}"
       image_draw.text((content_x, line_y), author_str, font = fonts.KEEP_CALM_20, fill = 0)
     except Exception as err:

@@ -7,7 +7,9 @@ from modules.constants import WIDGET_BOUNDS
 
 FORECAST_BOUNDS = WIDGET_BOUNDS[2]
 
+#
 # Get an appropriate weather icon for the forecast list
+#
 def get_forecast_icon(input):
   icon = input.lower()
 
@@ -32,22 +34,29 @@ def get_forecast_icon(input):
     return images.ICON_ERROR
   return images.ICON_QUESTION_MARK
 
+#
 # ForecastWidget class
+#
 class ForecastWidget(Widget):
+  #
   # Constructor
+  #
   def __init__(self):
     super().__init__(FORECAST_BOUNDS)
 
     self.forecast = []
 
+  #
   # Update forecast data
+  #
   def update_data(self):
     try:
+      # Fetch data
       params = 'units=auto&exclude=hourly,minutely'
       url = f"https://api.darksky.net/forecast/{config.get('DARKSKY_KEY')}/{config.get('LATITUDE')},{config.get('LONGITUDE')}?{params}"
       json = fetch.fetch_json(url)
 
-      # 5 day forecast - first item is today
+      # 5 day forecast - first item is today, so skip it
       for index in range(1, 6):
         day_data = json['daily']['data'][index]
         day = {
@@ -65,7 +74,9 @@ class ForecastWidget(Widget):
     except Exception as err:
       self.set_error(err)
 
-  # Draw 5 day forecast
+  #
+  # Draw 5 day forecast list
+  #
   def draw(self, image_draw, image):
     if self.error:
       self.draw_error(image_draw)

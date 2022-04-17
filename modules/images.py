@@ -3,7 +3,7 @@ from PIL import Image
 
 IMAGES_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../images')
 
-# Weather
+# Weather icons
 ICON_CLOUD_DAY = Image.open(os.path.join(IMAGES_DIR, 'cloud.bmp'))
 ICON_CLOUD_NIGHT = Image.open(os.path.join(IMAGES_DIR, 'cloud-night.bmp'))
 ICON_WIND = Image.open(os.path.join(IMAGES_DIR, 'wind.bmp'))
@@ -14,10 +14,12 @@ ICON_STORM = Image.open(os.path.join(IMAGES_DIR, 'storm.bmp'))
 ICON_SNOW = Image.open(os.path.join(IMAGES_DIR, 'snow.bmp'))
 ICON_FROST = Image.open(os.path.join(IMAGES_DIR, 'frost.bmp'))
 ICON_FOG = Image.open(os.path.join(IMAGES_DIR, 'fog.bmp'))
+
+# Other related weather icons
 ICON_RAIN_32 = Image.open(os.path.join(IMAGES_DIR, 'rain_32.bmp'))
 ICON_WINDSOCK_32 = Image.open(os.path.join(IMAGES_DIR, 'windsock.bmp'))
 
-# Weather forecast
+# Weather forecast (smaller icons)
 ICON_CLOUD_DAY_48 = Image.open(os.path.join(IMAGES_DIR, 'cloud_48.bmp'))
 ICON_CLOUD_NIGHT_48 = Image.open(os.path.join(IMAGES_DIR, 'cloud-night_48.bmp'))
 ICON_WIND_48 = Image.open(os.path.join(IMAGES_DIR, 'wind_48.bmp'))
@@ -29,21 +31,21 @@ ICON_SNOW_48 = Image.open(os.path.join(IMAGES_DIR, 'snow_48.bmp'))
 ICON_FROST_48 = Image.open(os.path.join(IMAGES_DIR, 'frost_48.bmp'))
 ICON_FOG_48 = Image.open(os.path.join(IMAGES_DIR, 'fog_48.bmp'))
 
-# Rail
+# Rail icons
 ICON_TFL = Image.open(os.path.join(IMAGES_DIR, 'tfl.bmp'))
 ICON_GA = Image.open(os.path.join(IMAGES_DIR, 'ga.bmp'))
 
-# Crypto
+# Crypto icons
 ICON_BTC = Image.open(os.path.join(IMAGES_DIR, 'btc.bmp'))
 ICON_ETH = Image.open(os.path.join(IMAGES_DIR, 'eth.bmp'))
 
-# News
+# News icons
 ICON_NEWS = Image.open(os.path.join(IMAGES_DIR, 'news.bmp'))
 
-# Twitter
+# Twitter icons
 ICON_HEART = Image.open(os.path.join(IMAGES_DIR, 'heart.bmp'))
 ICON_RETWEET = Image.open(os.path.join(IMAGES_DIR, 'retweet.bmp'))
 
-# Other
+# Other icons
 ICON_ERROR = Image.open(os.path.join(IMAGES_DIR, 'error.bmp'))
 ICON_QUESTION_MARK = Image.open(os.path.join(IMAGES_DIR, 'question.bmp'))

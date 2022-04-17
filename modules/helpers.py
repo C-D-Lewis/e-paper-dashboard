@@ -1,5 +1,7 @@
+#
 # Wrap text based on line length
-# Adapted from https://itnext.io/how-to-wrap-text-on-image-using-python-8f569860f89e
+#   Adapted from https://itnext.io/how-to-wrap-text-on-image-using-python-8f569860f89e
+#
 def get_wrapped_lines(text, font, max_width):
   lines = []
 
@@ -16,12 +18,16 @@ def get_wrapped_lines(text, font, max_width):
     lines.append(line)
   return lines
 
+#
 # Get the height of a paragraph of text
+#
 def get_paragraph_height(text, font, max_width, gap_y):
   lines = get_wrapped_lines(text, font, max_width)
   return (len(lines) + 1) * gap_y
 
+#
 # Get weekday name from index
+#
 def get_weekday_name(index):
   if index == 0:
     return 'Monday'
@@ -37,11 +43,15 @@ def get_weekday_name(index):
     return 'Saturday'
   return 'Sunday'
 
-# Draw a divider
-def draw_divider(canvas, x, y, w, h):
-  canvas.rectangle([x, y, x + w, y + h], fill = 0)
+#
+# Draw a divider rect
+#
+def draw_divider(image_draw, x, y, w, h):
+  image_draw.rectangle([x, y, x + w, y + h], fill = 0)
 
+#
 # Format a number e.g: 1342 to 1.3k
+#
 def format_number(val):
   if val > 1000000:
     return f"{round(val / 1000000, 1)}M"

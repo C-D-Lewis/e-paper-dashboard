@@ -5,7 +5,9 @@ CONFIG_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../conf
 
 config = {}
 
+#
 # Read local config.json file
+#
 def load():
   global config
 
@@ -13,6 +15,8 @@ def load():
     config = json.loads(file.read())
   print(f"config: {config}")
 
+#
 # Get a config value
-def get(name):
-  return config[name]
+#
+def get(key):
+  return config[key]

@@ -13,6 +13,7 @@ from widgets.quotes import QuotesWidget
 # Constants
 UPDATE_INTERVAL_M = 15
 NUM_PAGES = 4
+DEBUG_DRAW_BOUNDS = True
 
 weather_widget = WeatherWidget()
 crypto_widget = CryptoWidget()
@@ -43,15 +44,22 @@ def draw_page_indicators(image_draw, page_index):
   size = 8
   border = 2
 
+  # For each dot
   for index in range(0, NUM_PAGES):
     shape_y = root_y + (index * gap_y)
 
+    # Draw outer edge
     outer_shape = (root_x - border, shape_y - border, root_x + size + border, shape_y + size + border)
     image_draw.ellipse(outer_shape, fill = 0)
 
+    # Fill if the selected one
     selected = page_index == index
     fill = 0 if selected else 1
     image_draw.ellipse((root_x, shape_y, root_x + size, shape_y + size), fill = fill)
+
+# Draw all bounds for debugging purposes
+def draw_all_bounds():
+  print("hello")
 
 ################################## Main loop ###################################
 
@@ -63,13 +71,15 @@ def draw():
   # Draw content
   weather_widget.draw(image_draw, image)
   draw_date_and_time(image_draw)
+
+  # Always visible widgets
   rail_widget.draw(image_draw, image)
   crypto_widget.draw(image_draw, image)
   helpers.draw_divider(image_draw, 0, 160, image.width, 5)
   helpers.draw_divider(image_draw, 0, 310, 350, 5)
   helpers.draw_divider(image_draw, 350, 165, 5, 320)
 
-  # Cycling pages
+  # Cycling widgets
   now = datetime.now()
   index = now.minute % NUM_PAGES
   if index == 0:
@@ -103,30 +113,36 @@ def wait_for_next_minute():
   now = datetime.now()
   while now.second != 1:
     now = datetime.now()
-    time.sleep(0.1)
+    time.sleep(1)
 
 # The main function
 def main():
+  # Load config and prepare data once
   config.load()
   twitter_widget.resolve_user_name()
 
-  # Initial update
+  # Initial update and draw
   update_data_sources()
   epaper.init()
   draw()
   epaper.sleep()
 
-  # Update once a minute
+  # Update once a minute forever
   while True:
     try:
+      # Wait
       wait_for_next_minute()
 
+      # Update data sources
       if datetime.now().minute % UPDATE_INTERVAL_M == 0:
         update_data_sources()
+
+      # Draw all widgets
       epaper.init()
       draw()
       epaper.sleep()
     except Exception as err:
+      # Failed to work normally
       print(err)
       time.sleep(5)
 

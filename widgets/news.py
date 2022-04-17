@@ -4,27 +4,34 @@ from modules import fetch, helpers, images, fonts, config
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS
 
+NEWS_BOUNDS = WIDGET_BOUNDS[2]
+# Max number of displayed stories
 MAX_STORIES = 5
 
-NEWS_BOUNDS = WIDGET_BOUNDS[2]
-
+#
 # News widget class
+#
 class NewsWidget(Widget):
+  #
   # Constructor
+  #
   def __init__(self):
     super().__init__(NEWS_BOUNDS)
     self.stories = []
 
+  #
   # Update news stories
+  #
   def update_data(self):
     try:
+      # Fetch data
       url = f"http://feeds.bbci.co.uk/news/{config.get('NEWS_CATEGORY')}/rss.xml"
       text = fetch.fetch_text(url)
 
+      # Parse
       self.stories = []
       xml = minidom.parseString(text)
       items = xml.getElementsByTagName('item')[:MAX_STORIES]
-
       for item in items:
         self.stories.append({
           'title': item.getElementsByTagName('title')[0].firstChild.data,
@@ -37,7 +44,9 @@ class NewsWidget(Widget):
     except Exception as err:
       self.set_error(err)
 
+  #
   # Draw the news stories
+  #
   def draw(self, image_draw, image):
     if self.error:
       self.draw_error(image_draw)
@@ -48,6 +57,7 @@ class NewsWidget(Widget):
       text_gap = 25
       font = fonts.KEEP_CALM_20
 
+      # Draw a list of icon-story items
       for story_index, story in enumerate(self.stories):
         story_y = self.bounds[1] + (story_index * story_gap)
 

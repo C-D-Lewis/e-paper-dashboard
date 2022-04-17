@@ -7,7 +7,9 @@ from modules.constants import WIDGET_BOUNDS, DAY_START_HOUR, DAY_END_HOUR
 
 WEATHER_BOUNDS = (510, 20, 0, 0)
 
+#
 # Get an appropriate weather icon
+#
 def get_icon(input):
   icon = input.lower()
   hour = datetime.datetime.now().hour
@@ -34,9 +36,13 @@ def get_icon(input):
     return images.ICON_ERROR
   return images.ICON_QUESTION_MARK
 
+#
 # WeatherWidget class
+#
 class WeatherWidget(Widget):
+  #
   # Constructor
+  #
   def __init__(self):
     super().__init__(WEATHER_BOUNDS)
 
@@ -50,7 +56,9 @@ class WeatherWidget(Widget):
     self.temp_high = 0
     self.temp_low = 0
 
+  #
   # Update weather data
+  #
   def update_data(self):
     try:
       params = 'units=auto&exclude=hourly,minutely'
@@ -75,7 +83,9 @@ class WeatherWidget(Widget):
     except Exception as err:
       self.set_error(err)
 
+  #
   # Draw the weather icon, temperature, and conditions
+  #
   def draw(self, image_draw, image):
     if self.error:
       self.draw_error(image_draw)
@@ -84,20 +94,20 @@ class WeatherWidget(Widget):
     try:
       text_x = 650
 
+      # Conditions headline and icon
       image.paste(get_icon(self.current['icon']), (self.bounds[0] + 10, self.bounds[1]))
       temp_str = f"{self.current['temp']}°C"
       image_draw.text((text_x, self.bounds[1]), temp_str, font = fonts.KEEP_CALM_48, fill = 0)
       temp_high_low_str = f"{self.temp_high} | {self.temp_low}"
       image_draw.text((text_x, self.bounds[1] + 55), temp_high_low_str, font = fonts.KEEP_CALM_28, fill = 0)
 
-      # Smaller details
+      # Smaller details for rain chance and wind speed
       font = fonts.KEEP_CALM_20
       detail_y = self.bounds[1] + 95
       icon_y = detail_y + 8
       image.paste(images.ICON_RAIN_32, (text_x, detail_y))
       rain_chance_str = f"{self.current['precip_prob']}"
       image_draw.text((text_x + 35, icon_y), rain_chance_str, font = font, fill = 0)
-
       image.paste(images.ICON_WINDSOCK_32, (text_x + 80, detail_y))
       wind_speed_str = f"{self.current['wind_speed']}"
       image_draw.text((text_x + 115, icon_y), wind_speed_str, font = font, fill = 0)

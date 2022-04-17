@@ -76,9 +76,7 @@ class TwitterWidget(Widget):
     try:
       url = f"https://api.twitter.com/2/users/{self.id}/tweets?exclude=replies,retweets&tweet.fields=created_at,public_metrics"
       json = api_request(url)
-
       self.tweet = json['data'][0]
-      print(self.tweet)
 
       # Test 280 length
       # self.tweet['text'] = "This is a small change, but a big move for us. 140 was an arbitrary choice based on the 160 character SMS limit. Proud of how thoughtful the team has been in solving a real problem people have when trying to tweet. And at the same time maintaining our brevity, speed, and essence!"
