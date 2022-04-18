@@ -133,7 +133,6 @@ def periodic_data_update():
 # Minutely data source updates
 #
 def minutely_data_update():
-  print('foo')
   spotify_widget.update_data()
 
 #

@@ -63,7 +63,7 @@ class CryptoWidget(Widget):
     change_str = f"{arrow}{abs(self.btc_data['price_change_pct'])}% (24h)"
     image_draw.text((text_x, self.bounds[1] + 25), change_str, font = font, fill = 0)
 
-    image.paste(images.ICON_ETH, (self.bounds[0], self.bounds[1] + 80))
+    image.paste(images.ICON_ETH, (self.bounds[0], self.bounds[1] + 75))
     arrow = '+' if self.eth_data['price_change_pct'] > 0 else '-'
     change_str = f"{arrow}{abs(self.eth_data['price_change_pct'])}% (24h)"
     image_draw.text((text_x, self.bounds[1] + 100), change_str, font = font, fill = 0)
