@@ -1,6 +1,5 @@
 import images
 import datetime
-
 from modules import fetch, helpers, fonts, images, config
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS

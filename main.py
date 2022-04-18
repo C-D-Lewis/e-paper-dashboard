@@ -1,6 +1,5 @@
 import time
 from datetime import datetime
-
 from modules import fonts, config, helpers, epaper
 from widgets.weather import WeatherWidget
 from widgets.crypto import CryptoWidget
@@ -9,15 +8,18 @@ from widgets.rail import RailWidget
 from widgets.twitter import TwitterWidget
 from widgets.forecast import ForecastWidget
 from widgets.quotes import QuotesWidget
+from widgets.spotify import SpotifyWidget
 from modules.constants import WIDGET_BOUNDS
 
-# Constants
+# Slow data update interval
 UPDATE_INTERVAL_M = 15
+# Number of cycling widget pages
 NUM_PAGES = 4
 
 weather_widget = WeatherWidget()
 crypto_widget = CryptoWidget()
-rail_widget = RailWidget()
+# rail_widget = RailWidget()
+spotify_widget = SpotifyWidget()
 news_widget = NewsWidget()
 forecast_widget = ForecastWidget()
 twitter_widget = TwitterWidget()
@@ -25,7 +27,9 @@ quotes_widget = QuotesWidget()
 
 ################################### Drawing ####################################
 
+#
 # Draw time module
+#
 def draw_date_and_time(image_draw):
   root_x = 10
   root_y = 10
@@ -36,7 +40,9 @@ def draw_date_and_time(image_draw):
   date_str = now.strftime("%B %d, %Y")
   image_draw.text((root_x, root_y + 85), date_str, font = fonts.KEEP_CALM_48, fill = 0)
 
+#
 # Draw cycling page indicators
+#
 def draw_page_indicators(image_draw, page_index):
   root_x = 370
   root_y = 275
@@ -57,14 +63,18 @@ def draw_page_indicators(image_draw, page_index):
     fill = 0 if selected else 1
     image_draw.ellipse((root_x, shape_y, root_x + size, shape_y + size), fill = fill)
 
+#
 # Draw all bounds for debugging purposes
+#
 def draw_all_bounds(image_draw):
   for index in range(0, len(WIDGET_BOUNDS)):
     helpers.draw_divider(image_draw, *WIDGET_BOUNDS[index])
 
 ################################## Main loop ###################################
 
+#
 # Draw things
+#
 def draw():
   # Prepare
   image, image_draw = epaper.prepare()
@@ -73,14 +83,19 @@ def draw():
   weather_widget.draw(image_draw, image)
   draw_date_and_time(image_draw)
 
-  # Always visible widgets
-  rail_widget.draw(image_draw, image)
+  # Top left
+  # rail_widget.draw(image_draw, image)
+  spotify_widget.draw(image_draw, image)
+
+  # Top right
   crypto_widget.draw(image_draw, image)
+
+  # Dividers
   helpers.draw_divider(image_draw, 0, 160, image.width, 5)
-  helpers.draw_divider(image_draw, 0, 310, 350, 5)
+  helpers.draw_divider(image_draw, 0, 320, 350, 5)
   helpers.draw_divider(image_draw, 350, 165, 5, 320)
 
-  # Cycling widgets
+  # Cycling widgets on the right side
   now = datetime.now()
   index = now.minute % NUM_PAGES
   if index == 0:
@@ -102,31 +117,45 @@ def draw():
   epaper.show(image)
   time.sleep(2)
 
-# Update all data sources
-def update_data_sources():
+#
+# Update all data sources on a slow period
+#
+def periodic_data_update():
   weather_widget.update_data()
-  rail_widget.update_data()
+  # rail_widget.update_data()
   crypto_widget.update_data()
   news_widget.update_data()
   forecast_widget.update_data()
   twitter_widget.update_data()
   quotes_widget.update_data()
 
+#
+# Minutely data source updates
+#
+def minutely_data_update():
+  print('foo')
+  spotify_widget.update_data()
+
+#
 # Wait for the next minute
+#
 def wait_for_next_minute():
   now = datetime.now()
   while now.second != 1:
     now = datetime.now()
     time.sleep(1)
 
+#
 # The main function
+#
 def main():
   # Load config and prepare data once
   config.load()
   twitter_widget.resolve_user_name()
 
   # Initial update and draw
-  update_data_sources()
+  minutely_data_update()
+  periodic_data_update()
   epaper.init()
   draw()
   epaper.sleep()
@@ -138,8 +167,9 @@ def main():
       wait_for_next_minute()
 
       # Update data sources
+      minutely_data_update()
       if datetime.now().minute % UPDATE_INTERVAL_M == 0:
-        update_data_sources()
+        periodic_data_update()
 
       # Draw all widgets
       epaper.init()

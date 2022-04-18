@@ -1,9 +1,7 @@
-from xml.dom import minidom
-from PIL import Image, ImageDraw, ImageOps
-from io import BytesIO
 import datetime
 import urllib
-
+from PIL import Image, ImageDraw, ImageOps
+from io import BytesIO
 from modules import fetch, fonts, config, helpers, images
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS

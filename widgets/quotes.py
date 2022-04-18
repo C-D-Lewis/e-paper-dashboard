@@ -1,10 +1,7 @@
-from PIL import Image, ImageDraw, ImageOps
-import datetime
 import json
 import os
 import random
-
-from modules import fetch, fonts, config, helpers, images
+from modules import fonts, helpers
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS
 

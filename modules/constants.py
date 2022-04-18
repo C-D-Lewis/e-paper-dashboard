@@ -1,9 +1,9 @@
 # Bounds for the widget slots
 WIDGET_BOUNDS = [
   # Top left slot
-  (10, 175, 325, 130),
+  (10, 175, 330, 140),
   # Bottom left slot
-  (10, 325, 325, 150),
+  (10, 335, 330, 140),
   # Right slot
   (390, 175, 400, 290)
 ]

@@ -1,5 +1,5 @@
-from urllib.request import Request, urlopen
 import json
+from urllib.request import Request, urlopen
 
 #
 # Get a page body text

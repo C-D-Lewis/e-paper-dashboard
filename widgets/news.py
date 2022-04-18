@@ -1,6 +1,4 @@
-from turtle import left
 from xml.dom import minidom
-
 from modules import fetch, helpers, images, fonts, config
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS
