@@ -68,7 +68,7 @@ class ForecastWidget(Widget):
         }
         self.forecast.append(day)
 
-      print(f"forecast: {self.forecast}")
+      print(f"[forecast] {self.forecast}")
       self.unset_error()
     except Exception as err:
       self.set_error(err)

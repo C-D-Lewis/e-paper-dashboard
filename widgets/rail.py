@@ -49,7 +49,7 @@ class RailWidget(Widget):
       self.tfl_rail = parse_operator_status(body, 'TfL Rail')
       self.greater_anglia = parse_operator_status(body, 'Greater Anglia')
 
-      print(f"rail: {self.tfl_rail} {self.greater_anglia}")
+      print(f"[rail] {self.tfl_rail} {self.greater_anglia}")
       self.unset_error()
     except Exception as err:
       self.set_error(err)

@@ -38,7 +38,7 @@ class QuotesWidget(Widget):
       index = random.randint(0, len(self.quote_list))
       self.quote = self.quote_list[index]
 
-      print(f"quotes: {self.quote}")
+      print(f"[quotes] {self.quote}")
       self.unset_error()
     except Exception as err:
       self.set_error(err)

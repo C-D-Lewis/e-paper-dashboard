@@ -77,7 +77,7 @@ class WeatherWidget(Widget):
       self.temp_high = round(daily['apparentTemperatureHigh'])
       self.temp_low = round(daily['apparentTemperatureLow'])
 
-      print(f"weather: {self.current}")
+      print(f"[weather] {self.current}")
       self.unset_error()
     except Exception as err:
       self.set_error(err)

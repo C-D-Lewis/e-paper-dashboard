@@ -40,7 +40,7 @@ class SpotifyWidget(Widget):
       # Fetch now playing data
       new_data = get_now_playing()
       if not new_data:
-        print("spotify: nothing is playing")
+        print("[spotify] nothing is playing")
         raise Exception('Nothing is playing')
       self.track_data = new_data
 
@@ -48,7 +48,7 @@ class SpotifyWidget(Widget):
       img_data = urllib.request.urlopen(self.track_data['album_image']).read()
       self.album_image = Image.open(BytesIO(img_data)).resize((IMAGE_SIZE, IMAGE_SIZE)).convert('RGBA')
 
-      print(f"spotify: {self.track_data}")
+      print(f"[spotify] {self.track_data}")
       self.unset_error()
     except Exception as err:
       self.set_error(err)
@@ -73,25 +73,26 @@ class SpotifyWidget(Widget):
         image.paste(self.album_image, (root_x, root_y))
 
       # Artist name
-      image_draw.text((text_x, root_y + 5), self.track_data['artist_name'], font = fonts.KEEP_CALM_20, fill = 0)
+      artist_name_str = self.track_data['artist_name']
+      lines = helpers.get_wrapped_lines(artist_name_str, fonts.KEEP_CALM_20, max_line_width)[:2]
+      if len(lines) > 1:
+        for index, line in enumerate(lines):
+          image_draw.text((text_x, root_y + 5 + (index * text_gap)), line, font = fonts.KEEP_CALM_20, fill = 0)
+      else:
+        image_draw.text((text_x, root_y + 5), artist_name_str, font = fonts.KEEP_CALM_20, fill = 0)
 
       # Track name
       track_name_str = self.track_data['track_name']
       lines = helpers.get_wrapped_lines(track_name_str, fonts.KEEP_CALM_24, max_line_width)[:2]
       if len(lines) > 1:
         for index, line in enumerate(lines):
-          image_draw.text((text_x, 210 + (index * text_gap)), line, font = fonts.KEEP_CALM_24, fill = 0)
+          image_draw.text((text_x, root_y + 55 + (index * text_gap)), line, font = fonts.KEEP_CALM_24, fill = 0)
       else:
-        image_draw.text((text_x, 210), track_name_str, font = fonts.KEEP_CALM_24, fill = 0)
+        image_draw.text((text_x, root_y + 55), track_name_str, font = fonts.KEEP_CALM_24, fill = 0)
 
       # Album name
       album_name_str = self.track_data['album_name']
-      lines = helpers.get_wrapped_lines(album_name_str, fonts.KEEP_CALM_20, max_line_width)[:2]
-      if len(lines) > 1:
-        for index, line in enumerate(lines):
-          image_draw.text((text_x, 265 + (index * text_gap)), line, font = fonts.KEEP_CALM_20, fill = 0)
-      else:
-        image_draw.text((text_x, 265), album_name_str, font = fonts.KEEP_CALM_20, fill = 0)
+      image_draw.text((text_x, root_y + 110), album_name_str, font = fonts.KEEP_CALM_20, fill = 0)
 
 
 

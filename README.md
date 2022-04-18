@@ -12,6 +12,7 @@ Included static widgets:
   and wind speed using the [Darksky API](https://darksky.net/dev).
 * Status of two railway operators from
   [National Rail](http://www.nationalrail.co.uk/service_disruptions/indicator.aspx).
+* Now Playing track with art from Spotify API.
 * Owned amount and daily change of two cryptocurrencies (Bitcoin and Ethereum)
   from [nomics.com](https://nomics.com).
 
@@ -46,6 +47,9 @@ Copy `config.json.example` and add values appropriate to you:
 | `NEWS_CATEGORY` | String | BBC News category identifier, see below |
 | `TWITTER_SCREEN_NAME` | String | Twitter name of an account to show latest tweet. |
 | `TWITTER_BEARER_TOKEN` | String | Twitter API Bearer token. |
+| `SPOTIFY_CLIENT_ID` | `String` | Spotify OAuth flow client ID. |
+| `SPOTIFY_CLIENT_SECRET` | `String` | Spotify OAuth flow client secret. |
+| `SPOTIFY_REDIRECT_URI` | `String` | Spotify OAuth flow redirect URI. |
 
 Available BBC News categories:
 
@@ -62,10 +66,16 @@ Available BBC News categories:
 
 ## Run
 
-Run with Python 3.x. `crontab` can be used to run on boot.
+Run with Python 3.x:
 
 ```shell
 python3 main.py
+```
+
+`crontab` can be used to run on boot:
+
+```shell
+
 ```
 
 When run on a platform other than Raspberry Pi (i.e: not ARM) the display image

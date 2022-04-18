@@ -99,7 +99,7 @@ class TwitterWidget(Widget):
       self.image = Image.open(BytesIO(img_data)).resize((IMAGE_SIZE, IMAGE_SIZE)).convert('RGBA')
       self.convert_image()
 
-      print(f"twitter: {self.tweet}")
+      print(f"[twitter] {self.tweet}")
       self.unset_error()
     except Exception as err:
       self.set_error(err)

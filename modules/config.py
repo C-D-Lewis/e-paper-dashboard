@@ -13,7 +13,7 @@ def load():
 
   with open(CONFIG_PATH, 'r') as file:
     config = json.loads(file.read())
-  print(f"config: {config}")
+  print(f"[config] {config}")
 
 #
 # Get a config value

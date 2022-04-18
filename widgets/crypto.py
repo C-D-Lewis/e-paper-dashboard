@@ -25,7 +25,7 @@ class CryptoWidget(Widget):
   def update_data(self):
     # Random wait to avoid 1 rps limit at the same time as another running instance
     wait_time_s = random.randint(2, 10)
-    print(f"crypto: random wait for {wait_time_s}s")
+    print(f"[crypto] random wait for {wait_time_s}s")
     time.sleep(wait_time_s)
 
     # Fetch from Nomics API
@@ -46,7 +46,7 @@ class CryptoWidget(Widget):
       self.eth_data['change'] = round(ETH_AMOUNT * float(eth_res['1d']['price_change']), 2)
       self.eth_data['price_change_pct'] = round(float(eth_res['1d']['price_change_pct']) * 100, 1)
 
-      print(f"crypto: {self.btc_data} {self.eth_data}")
+      print(f"[crypto] {self.btc_data} {self.eth_data}")
       self.unset_error()
     except Exception as err:
       self.set_error(err)

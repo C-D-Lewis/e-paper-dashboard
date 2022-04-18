@@ -38,7 +38,7 @@ class NewsWidget(Widget):
           'pubdate': item.getElementsByTagName('pubDate')[0].firstChild.data
         })
 
-      print(f"news: {len(self.stories)} stories")
+      print(f"[news] {len(self.stories)} stories")
       self.unset_error()
     except Exception as err:
       self.set_error(err)
