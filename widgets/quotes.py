@@ -10,6 +10,8 @@ from modules.constants import WIDGET_BOUNDS
 
 QUOTES_BOUNDS = WIDGET_BOUNDS[2]
 
+# Debug quote
+DEBUG_QUOTE = "This is just an unbelieveably long and inspiring quote. Some say that even reading this quote could change the course of history, settle a territorial dispute, or right unforgivable wrongs. It's so powerful that we can only use it for testing this widget without endangering anybody. In fact nobody would even believe you could fit this into a maximum of 7 lines..."
 # Max lines to a quote
 MAX_LINES = 7
 
@@ -68,7 +70,7 @@ class QuotesWidget(Widget):
 
       # Author, after text
       paragraph_height = helpers.get_paragraph_height(content, font, self.bounds[2], line_gap_y)
-      line_y = paragraph_y + paragraph_height + 5
+      line_y = paragraph_y + paragraph_height
       author_str = f"                       -- {self.quote['author']}"
       image_draw.text((content_x, line_y), author_str, font = fonts.KEEP_CALM_20, fill = 0)
     except Exception as err:

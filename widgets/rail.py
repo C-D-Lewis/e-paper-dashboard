@@ -63,12 +63,13 @@ class RailWidget(Widget):
       return
 
     try:
-      text_x = 95
+      text_x = 90
       text_gap = 25
+      max_line_width = self.bounds[2] - text_x + 40
 
       # TfL Rail
       image.paste(images.ICON_TFL, (self.bounds[0], 175))
-      lines = helpers.get_wrapped_lines(self.tfl_rail, fonts.KEEP_CALM_28, self.bounds[2])[:2]
+      lines = helpers.get_wrapped_lines(self.tfl_rail, fonts.KEEP_CALM_28, max_line_width)[:2]
       font = fonts.KEEP_CALM_24 if len(lines) > 1 else fonts.KEEP_CALM_28
       if len(lines) > 1:
         for index, line in enumerate(lines):
@@ -78,7 +79,7 @@ class RailWidget(Widget):
 
       # GreaterAnglia
       image.paste(images.ICON_GA, (self.bounds[0], 239))
-      lines = helpers.get_wrapped_lines(self.greater_anglia, fonts.KEEP_CALM_28, self.bounds[2])[:2]
+      lines = helpers.get_wrapped_lines(self.greater_anglia, fonts.KEEP_CALM_28, max_line_width)[:2]
       font = fonts.KEEP_CALM_24 if len(lines) > 1 else fonts.KEEP_CALM_28
       if len(lines) > 1:
         for index, line in enumerate(lines):

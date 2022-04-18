@@ -9,11 +9,11 @@ from widgets.rail import RailWidget
 from widgets.twitter import TwitterWidget
 from widgets.forecast import ForecastWidget
 from widgets.quotes import QuotesWidget
+from modules.constants import WIDGET_BOUNDS
 
 # Constants
 UPDATE_INTERVAL_M = 15
 NUM_PAGES = 4
-DEBUG_DRAW_BOUNDS = True
 
 weather_widget = WeatherWidget()
 crypto_widget = CryptoWidget()
@@ -58,8 +58,9 @@ def draw_page_indicators(image_draw, page_index):
     image_draw.ellipse((root_x, shape_y, root_x + size, shape_y + size), fill = fill)
 
 # Draw all bounds for debugging purposes
-def draw_all_bounds():
-  print("hello")
+def draw_all_bounds(image_draw):
+  for index in range(0, len(WIDGET_BOUNDS)):
+    helpers.draw_divider(image_draw, *WIDGET_BOUNDS[index])
 
 ################################## Main loop ###################################
 
@@ -93,6 +94,9 @@ def draw():
   else:
     print(f"! Unused page index {index}")
   draw_page_indicators(image_draw, index)
+
+  # Help debug bounds issues
+  # draw_all_bounds(image_draw)
 
   # Update display
   epaper.show(image)

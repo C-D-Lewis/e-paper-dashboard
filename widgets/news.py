@@ -1,3 +1,4 @@
+from turtle import left
 from xml.dom import minidom
 
 from modules import fetch, helpers, images, fonts, config
@@ -56,16 +57,21 @@ class NewsWidget(Widget):
       story_gap = 60
       text_gap = 25
       font = fonts.KEEP_CALM_20
+      left_margin = 55
+      story_x = self.bounds[0] + left_margin
 
       # Draw a list of icon-story items
       for story_index, story in enumerate(self.stories):
         story_y = self.bounds[1] + (story_index * story_gap)
+        max_line_width = self.bounds[2] - left_margin
 
+        # Icon
         image.paste(images.ICON_NEWS, (self.bounds[0], story_y))
 
-        lines = helpers.get_wrapped_lines(story['title'], font, self.bounds[2])[:2]
+        # Wrapped lines
+        lines = helpers.get_wrapped_lines(story['title'], font, max_line_width)[:2]
         for line_index, line in enumerate(lines):
-          image_draw.text((self.bounds[0] + 55, story_y + 5 + (line_index * text_gap)), line, font = font, fill = 0)
+          image_draw.text((story_x, story_y + 5 + (line_index * text_gap)), line, font = font, fill = 0)
     except Exception as err:
       self.set_error(err)
       self.draw_error(image_draw)

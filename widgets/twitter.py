@@ -10,19 +10,25 @@ from modules.constants import WIDGET_BOUNDS
 
 TWITTER_BOUNDS = WIDGET_BOUNDS[2]
 
+# Max lines to display
 MAX_LINES = 7
+# Image icon size
 IMAGE_SIZE = 64
 
+#
 # Make an authenticated Twitter API request
+#
 def api_request(url):
-  headers = {
-    'Authorization': f"Bearer {config.get('TWITTER_BEARER_TOKEN')}"
-  }
+  headers = { 'Authorization': f"Bearer {config.get('TWITTER_BEARER_TOKEN')}" }
   return fetch.fetch_json(url, headers)
 
+#
 # TwitterWidget class
+#
 class TwitterWidget(Widget):
+  #
   # Constructor
+  #
   def __init__(self):
     super().__init__(TWITTER_BOUNDS)
 
@@ -40,7 +46,9 @@ class TwitterWidget(Widget):
       'display_date': ''
     }
 
+  #
   # Format the user's image to a circle
+  #
   def convert_image(self):
     # Create alpha mask for circular crop
     size = (IMAGE_SIZE, IMAGE_SIZE)
@@ -57,7 +65,9 @@ class TwitterWidget(Widget):
     alpha_composite = Image.alpha_composite(background, output)
     self.image = alpha_composite
 
+  #
   # Resolve the user ID from the screen name
+  #
   def resolve_user_name(self):
     try:
       url = f"https://api.twitter.com/1.1/users/lookup.json?screen_name={config.get('TWITTER_SCREEN_NAME')}"
@@ -133,11 +143,9 @@ class TwitterWidget(Widget):
       # Tweet stats
       stats_y = line_y + 10
       font = fonts.KEEP_CALM_18
-
       image.paste(images.ICON_HEART, (self.bounds[0] + 5, stats_y - 3))
       likes_str = helpers.format_number(self.tweet['public_metrics']['like_count'])
       image_draw.text((self.bounds[0] + 35, stats_y), likes_str, font = font, fill = 0)
-
       image.paste(images.ICON_RETWEET, (self.bounds[0] + 80, stats_y - 4))
       retweet_str = helpers.format_number(self.tweet['public_metrics']['retweet_count'])
       image_draw.text((self.bounds[0] + 107, stats_y), retweet_str, font = font, fill = 0)

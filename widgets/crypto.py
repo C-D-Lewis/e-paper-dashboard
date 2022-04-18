@@ -58,21 +58,21 @@ class CryptoWidget(Widget):
     text_x = 95
     font = fonts.KEEP_CALM_28
 
-    image.paste(images.ICON_BTC, (self.bounds[0], self.bounds[1]))
+    image.paste(images.ICON_BTC, (self.bounds[0], self.bounds[1] + 5))
     arrow = '+' if self.btc_data['price_change_pct'] > 0 else '-'
-    change_str = f"{arrow}{abs(self.btc_data['price_change_pct'])}%"
-    image_draw.text((text_x, self.bounds[1] + 20), change_str, font = font, fill = 0)
+    change_str = f"{arrow}{abs(self.btc_data['price_change_pct'])}% (24h)"
+    image_draw.text((text_x, self.bounds[1] + 25), change_str, font = font, fill = 0)
 
-    image.paste(images.ICON_ETH, (self.bounds[0], self.bounds[1] + 74))
+    image.paste(images.ICON_ETH, (self.bounds[0], self.bounds[1] + 80))
     arrow = '+' if self.eth_data['price_change_pct'] > 0 else '-'
-    change_str = f"{arrow}{abs(self.eth_data['price_change_pct'])}%"
-    image_draw.text((text_x, self.bounds[1] + 94), change_str, font = font, fill = 0)
+    change_str = f"{arrow}{abs(self.eth_data['price_change_pct'])}% (24h)"
+    image_draw.text((text_x, self.bounds[1] + 100), change_str, font = font, fill = 0)
 
   #
   # Draw earnings with configured portfolio values
   #
   def draw_earnings(self, image_draw, image):
-    text_x = 95
+    text_x = 100
     font = fonts.KEEP_CALM_28
 
     image.paste(images.ICON_BTC, (self.bounds[0], self.bounds[1]))
