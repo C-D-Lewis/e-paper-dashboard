@@ -72,11 +72,7 @@ Run with Python 3.x:
 python3 main.py
 ```
 
-`crontab` can be used to run on boot:
-
-```shell
-
-```
+`crontab` can be used to run on boot.
 
 When run on a platform other than Raspberry Pi (i.e: not ARM) the display image
 is written to `./render.png` instead, which is useful for quickly testing
