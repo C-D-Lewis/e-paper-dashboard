@@ -73,25 +73,25 @@ class SpotifyWidget(Widget):
         image.paste(self.album_image, (root_x, root_y))
 
       # Artist name
-      image_draw.text((text_x, root_y + 5), self.track_data['artist_name'], font = fonts.KEEP_CALM_19, fill = 0)
+      image_draw.text((text_x, root_y + 5), self.track_data['artist_name'], font = fonts.KEEP_CALM_20, fill = 0)
 
       # Track name
       track_name_str = self.track_data['track_name']
-      lines = helpers.get_wrapped_lines(track_name_str, fonts.KEEP_CALM_20, max_line_width)[:2]
+      lines = helpers.get_wrapped_lines(track_name_str, fonts.KEEP_CALM_24, max_line_width)[:2]
       if len(lines) > 1:
         for index, line in enumerate(lines):
-          image_draw.text((text_x, 210 + (index * text_gap)), line, font = fonts.KEEP_CALM_20, fill = 0)
+          image_draw.text((text_x, 210 + (index * text_gap)), line, font = fonts.KEEP_CALM_24, fill = 0)
       else:
-        image_draw.text((text_x, 210), track_name_str, font = fonts.KEEP_CALM_20, fill = 0)
+        image_draw.text((text_x, 210), track_name_str, font = fonts.KEEP_CALM_24, fill = 0)
 
       # Album name
       album_name_str = self.track_data['album_name']
-      lines = helpers.get_wrapped_lines(album_name_str, fonts.KEEP_CALM_19, max_line_width)[:2]
+      lines = helpers.get_wrapped_lines(album_name_str, fonts.KEEP_CALM_20, max_line_width)[:2]
       if len(lines) > 1:
         for index, line in enumerate(lines):
-          image_draw.text((text_x, 265 + (index * text_gap)), line, font = fonts.KEEP_CALM_19, fill = 0)
+          image_draw.text((text_x, 265 + (index * text_gap)), line, font = fonts.KEEP_CALM_20, fill = 0)
       else:
-        image_draw.text((text_x, 265), album_name_str, font = fonts.KEEP_CALM_19, fill = 0)
+        image_draw.text((text_x, 265), album_name_str, font = fonts.KEEP_CALM_20, fill = 0)
 
 
 
