@@ -49,6 +49,8 @@ class ForecastWidget(Widget):
   # Update forecast data
   #
   def update_data(self):
+    self.forecast = []
+
     try:
       # Fetch data
       params = 'units=auto&exclude=hourly,minutely'
@@ -86,8 +88,7 @@ class ForecastWidget(Widget):
       gap_y = 60
       font = fonts.KEEP_CALM_20
 
-      forecast = self.forecast
-      for index, day in enumerate(forecast):
+      for index, day in enumerate(self.forecast):
         day_y = root_y + (index * gap_y)
 
         # Icon
