@@ -7,13 +7,13 @@ RUNNING_ON_PI = 'arm' in platform.machine()
 print({ 'RUNNING_ON_PI': RUNNING_ON_PI })
 
 # Only runs on Pi
+print('[epaper] EPD import')
 if RUNNING_ON_PI:
   from lib.waveshare_epd import epd7in5_V2
   epd = epd7in5_V2.EPD()
   DISP_WIDTH = epd.width
   DISP_HEIGHT = epd.height
 else:
-  print('[TEST] EPD import')
   DISP_WIDTH = 800
   DISP_HEIGHT = 480
 
@@ -21,10 +21,9 @@ else:
 # Initialise the display
 #
 def init():
+  print('[epaper] epd.init()')
   if RUNNING_ON_PI:
     epd.init()
-  else:
-    print('[TEST] epd.init()')
 
 #
 # Prepare to draw
@@ -40,27 +39,27 @@ def prepare():
 # Handle updating the display
 #
 def show(image):
+  print('[epaper] epd.display()')
   if RUNNING_ON_PI:
     epd.display(epd.getbuffer(image))
   else:
     image.save('render.png')
-    print('[TEST] epd.display()')
-
+  print('[epaper] epd.display() complete')
+  
 #
 # Handle sleeping the display
 #
 def sleep():
+  print('[epaper] epd.sleep()')
   if RUNNING_ON_PI:
     time.sleep(2)
     epd.sleep()
-  else:
-    print('[TEST] epd.sleep()')
+  print('[epaper] epd.sleep() complete')
 
 #
 # Handle deinitialising the display
 #
 def deinit():
+  print('[epaper] module_exit()')
   if RUNNING_ON_PI:
     epd7in5_V2.epdconfig.module_exit()
-  else:
-    print('[TEST] module_exit()')
