@@ -108,53 +108,45 @@ class TwitterWidget(Widget):
     except Exception as err:
       self.set_error(err)
 
-  # Draw the news stories
-  def draw(self, image_draw, image):
-    if self.error:
-      self.draw_error(image_draw)
-      return
+  # Draw the tweet
+  def draw_data(self, image_draw, image):
+    root_y = self.bounds[1] + 5
+    line_gap_y = 25
 
-    try:
-      root_y = self.bounds[1] + 5
-      line_gap_y = 25
+    # Image
+    if self.image != None:
+      image.paste(self.image, (self.bounds[0], root_y))
 
-      # Image
-      if self.image != None:
-        image.paste(self.image, (self.bounds[0], root_y))
+    # Screen name, name and date
+    content_x = self.bounds[0] + IMAGE_SIZE + 10
+    image_draw.text((content_x, root_y + 10), self.name, font = fonts.KEEP_CALM_24, fill = 0)
+    image_draw.text((content_x, root_y + 40), f"@{self.screen_name}", font = fonts.KEEP_CALM_20, fill = 0)
 
-      # Screen name, name and date
-      content_x = self.bounds[0] + IMAGE_SIZE + 10
-      image_draw.text((content_x, root_y + 10), self.name, font = fonts.KEEP_CALM_24, fill = 0)
-      image_draw.text((content_x, root_y + 40), f"@{self.screen_name}", font = fonts.KEEP_CALM_20, fill = 0)
+    # Tweet content, wrapped
+    content = self.tweet['text']
+    content_x = self.bounds[0]
+    paragraph_y = root_y + 75
+    lines = helpers.get_wrapped_lines(content, fonts.KEEP_CALM_20, self.bounds[2])
+    font = fonts.KEEP_CALM_18 if len(lines) > MAX_LINES else fonts.KEEP_CALM_20
+    lines = helpers.get_wrapped_lines(content, font, self.bounds[2])
+    for index, line in enumerate(lines):
+      image_draw.text((content_x, paragraph_y + (index * line_gap_y)), line, font = font, fill = 0)
 
-      # Tweet content, wrapped
-      content = self.tweet['text']
-      content_x = self.bounds[0]
-      paragraph_y = root_y + 75
-      lines = helpers.get_wrapped_lines(content, fonts.KEEP_CALM_20, self.bounds[2])
-      font = fonts.KEEP_CALM_18 if len(lines) > MAX_LINES else fonts.KEEP_CALM_20
-      lines = helpers.get_wrapped_lines(content, font, self.bounds[2])
-      for index, line in enumerate(lines):
-        image_draw.text((content_x, paragraph_y + (index * line_gap_y)), line, font = font, fill = 0)
+    # Footer, after text
+    paragraph_height = helpers.get_paragraph_height(content, font, self.bounds[2], line_gap_y)
+    line_y = paragraph_y + paragraph_height + 5
+    helpers.draw_divider(image_draw, self.bounds[0], line_y, 390, 1)
 
-      # Footer, after text
-      paragraph_height = helpers.get_paragraph_height(content, font, self.bounds[2], line_gap_y)
-      line_y = paragraph_y + paragraph_height + 5
-      helpers.draw_divider(image_draw, self.bounds[0], line_y, 390, 1)
+    # Tweet stats
+    stats_y = line_y + 10
+    font = fonts.KEEP_CALM_18
+    image.paste(images.ICON_HEART, (self.bounds[0] + 5, stats_y - 3))
+    likes_str = helpers.format_number(self.tweet['public_metrics']['like_count'])
+    image_draw.text((self.bounds[0] + 35, stats_y), likes_str, font = font, fill = 0)
+    image.paste(images.ICON_RETWEET, (self.bounds[0] + 80, stats_y - 4))
+    retweet_str = helpers.format_number(self.tweet['public_metrics']['retweet_count'])
+    image_draw.text((self.bounds[0] + 107, stats_y), retweet_str, font = font, fill = 0)
 
-      # Tweet stats
-      stats_y = line_y + 10
-      font = fonts.KEEP_CALM_18
-      image.paste(images.ICON_HEART, (self.bounds[0] + 5, stats_y - 3))
-      likes_str = helpers.format_number(self.tweet['public_metrics']['like_count'])
-      image_draw.text((self.bounds[0] + 35, stats_y), likes_str, font = font, fill = 0)
-      image.paste(images.ICON_RETWEET, (self.bounds[0] + 80, stats_y - 4))
-      retweet_str = helpers.format_number(self.tweet['public_metrics']['retweet_count'])
-      image_draw.text((self.bounds[0] + 107, stats_y), retweet_str, font = font, fill = 0)
-
-      # Tweet date
-      date_x = content_x + IMAGE_SIZE + 90
-      image_draw.text((date_x, stats_y), f"{self.tweet['display_date']}", font = font, fill = 0)
-    except Exception as err:
-      self.set_error(err)
-      self.draw_error(image_draw)
+    # Tweet date
+    date_x = content_x + IMAGE_SIZE + 90
+    image_draw.text((date_x, stats_y), f"{self.tweet['display_date']}", font = font, fill = 0)

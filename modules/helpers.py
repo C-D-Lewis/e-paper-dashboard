@@ -1,3 +1,5 @@
+import signal
+
 #
 # Wrap text based on line length
 #   Adapted from https://itnext.io/how-to-wrap-text-on-image-using-python-8f569860f89e
@@ -58,3 +60,19 @@ def format_number(val):
   if val > 1000:
     return f"{round(val / 1000, 1)}K"
   return f"{val}"
+
+#
+# Timeout class
+#   https://stackoverflow.com/a/22348885
+#
+class timeout:
+  def __init__(self, seconds=1, error_message='Timeout'):
+    self.seconds = seconds
+    self.error_message = error_message
+  def handle_timeout(self, signum, frame):
+    raise TimeoutError(self.error_message)
+  def __enter__(self):
+    signal.signal(signal.SIGALRM, self.handle_timeout)
+    signal.alarm(self.seconds)
+  def __exit__(self, type, value, traceback):
+    signal.alarm(0)

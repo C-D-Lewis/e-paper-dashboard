@@ -1,14 +1,14 @@
+import os
 import time
 from datetime import datetime
 from modules import fonts, config, helpers, epaper
-from widgets.weather import WeatherWidget
-from widgets.crypto import CryptoWidget
-from widgets.news import NewsWidget
-from widgets.rail import RailWidget
-from widgets.twitter import TwitterWidget
-from widgets.forecast import ForecastWidget
-from widgets.quotes import QuotesWidget
-from widgets.spotify import SpotifyWidget
+from widgets.WeatherWidget import WeatherWidget
+from widgets.CryptoWidget import CryptoWidget
+from widgets.NewsWidget import NewsWidget
+from widgets.TwitterWidget import TwitterWidget
+from widgets.ForecastWidget import ForecastWidget
+from widgets.QuotesWidget import QuotesWidget
+from widgets.SpotifyWidget import SpotifyWidget
 from modules.constants import WIDGET_BOUNDS
 
 # Slow data update interval
@@ -18,7 +18,6 @@ NUM_PAGES = 4
 
 weather_widget = WeatherWidget()
 crypto_widget = CryptoWidget()
-# rail_widget = RailWidget()
 spotify_widget = SpotifyWidget()
 news_widget = NewsWidget()
 forecast_widget = ForecastWidget()
@@ -84,10 +83,9 @@ def draw():
   draw_date_and_time(image_draw)
 
   # Top left
-  # rail_widget.draw(image_draw, image)
   spotify_widget.draw(image_draw, image)
 
-  # Top right
+  # Bottom left
   crypto_widget.draw(image_draw, image)
 
   # Dividers
@@ -105,7 +103,7 @@ def draw():
   elif index == 2:
     twitter_widget.draw(image_draw, image)
   elif index == 3:
-    quotes_widget.draw(image_draw)
+    quotes_widget.draw(image_draw, image)
   else:
     print(f"! Unused page index {index}")
   draw_page_indicators(image_draw, index)
@@ -122,7 +120,6 @@ def draw():
 #
 def periodic_data_update():
   weather_widget.update_data()
-  # rail_widget.update_data()
   crypto_widget.update_data()
   news_widget.update_data()
   forecast_widget.update_data()
@@ -170,10 +167,14 @@ def main():
       if datetime.now().minute % UPDATE_INTERVAL_M == 0:
         periodic_data_update()
 
-      # Draw all widgets
-      epaper.init()
-      draw()
-      epaper.sleep()
+      with helpers.timeout(seconds=30):
+        # Draw all widgets
+        epaper.init()
+        draw()
+        epaper.sleep()
+    except TimeoutError as err:
+      # Display lock, reboot the system
+      os.system('sudo reboot')
     except Exception as err:
       # Failed to work normally
       print(err)

@@ -44,32 +44,24 @@ class QuotesWidget(Widget):
       self.set_error(err)
 
   #
-  # Draw the news stories
+  # Draw the quote
   #
-  def draw(self, image_draw):
-    if self.error:
-      self.draw_error(image_draw)
-      return
+  def draw_data(self, image_draw, image):
+    root_y = self.bounds[1] + 5
+    line_gap_y = 25
 
-    try:
-      root_y = self.bounds[1] + 5
-      line_gap_y = 25
+    # Quote content, wrapped
+    content = f"\"{self.quote['text']}\""
+    content_x = self.bounds[0]
+    paragraph_y = root_y + 5
+    lines = helpers.get_wrapped_lines(content, fonts.KEEP_CALM_24, self.bounds[2])
+    font = fonts.KEEP_CALM_20 if len(lines) > MAX_LINES else fonts.KEEP_CALM_24
+    lines = helpers.get_wrapped_lines(content, font, self.bounds[2])
+    for index, line in enumerate(lines):
+      image_draw.text((content_x, paragraph_y + (index * line_gap_y)), line, font = font, fill = 0)
 
-      # Quote content, wrapped
-      content = f"\"{self.quote['text']}\""
-      content_x = self.bounds[0]
-      paragraph_y = root_y + 5
-      lines = helpers.get_wrapped_lines(content, fonts.KEEP_CALM_24, self.bounds[2])
-      font = fonts.KEEP_CALM_20 if len(lines) > MAX_LINES else fonts.KEEP_CALM_24
-      lines = helpers.get_wrapped_lines(content, font, self.bounds[2])
-      for index, line in enumerate(lines):
-        image_draw.text((content_x, paragraph_y + (index * line_gap_y)), line, font = font, fill = 0)
-
-      # Author, after text
-      paragraph_height = helpers.get_paragraph_height(content, font, self.bounds[2], line_gap_y)
-      line_y = paragraph_y + paragraph_height
-      author_str = f"                       -- {self.quote['author']}"
-      image_draw.text((content_x, line_y), author_str, font = fonts.KEEP_CALM_20, fill = 0)
-    except Exception as err:
-      self.set_error(err)
-      self.draw_error(image_draw)
+    # Author, after text
+    paragraph_height = helpers.get_paragraph_height(content, font, self.bounds[2], line_gap_y)
+    line_y = paragraph_y + paragraph_height
+    author_str = f"                       -- {self.quote['author']}"
+    image_draw.text((content_x, line_y), author_str, font = fonts.KEEP_CALM_20, fill = 0)

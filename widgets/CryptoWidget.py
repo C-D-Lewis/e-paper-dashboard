@@ -90,19 +90,11 @@ class CryptoWidget(Widget):
   #
   # Draw crypto widget
   #
-  def draw(self, image_draw, image):
-    if self.error:
-      self.draw_error(image_draw)
-      return
-
-    try:
-      DISPLAY_MODE = config.get('CRYPTO_DISPLAY_MODE')  # 'daily_change' or 'earnings'
-      if DISPLAY_MODE == 'daily_change':
-        self.draw_daily_change(image_draw, image)
-      elif DISPLAY_MODE == 'earnings':
-        self.draw_earnings(image_draw, image)
-      else:
-        raise Exception('No crypto mode selected')
-    except Exception as err:
-      self.set_error(err)
-      self.draw_error(image_draw)
+  def draw_data(self, image_draw, image):
+    DISPLAY_MODE = config.get('CRYPTO_DISPLAY_MODE')  # 'daily_change' or 'earnings'
+    if DISPLAY_MODE == 'daily_change':
+      self.draw_daily_change(image_draw, image)
+    elif DISPLAY_MODE == 'earnings':
+      self.draw_earnings(image_draw, image)
+    else:
+      raise Exception('No crypto mode selected')

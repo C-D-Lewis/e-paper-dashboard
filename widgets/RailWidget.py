@@ -57,35 +57,27 @@ class RailWidget(Widget):
   #
   # Draw rail statuses
   #
-  def draw(self, image_draw, image):
-    if self.error:
-      self.draw_error(image_draw)
-      return
+  def draw_data(self, image_draw, image):
+    text_x = 90
+    text_gap = 25
+    max_line_width = self.bounds[2] - text_x + 40
 
-    try:
-      text_x = 90
-      text_gap = 25
-      max_line_width = self.bounds[2] - text_x + 40
+    # TfL Rail
+    image.paste(images.ICON_TFL, (self.bounds[0], 175))
+    lines = helpers.get_wrapped_lines(self.tfl_rail, fonts.KEEP_CALM_28, max_line_width)[:2]
+    font = fonts.KEEP_CALM_24 if len(lines) > 1 else fonts.KEEP_CALM_28
+    if len(lines) > 1:
+      for index, line in enumerate(lines):
+        image_draw.text((text_x, 185 + (index * text_gap)), line, font = font, fill = 0)
+    else:
+      image_draw.text((text_x, 194), self.tfl_rail, font = font, fill = 0)
 
-      # TfL Rail
-      image.paste(images.ICON_TFL, (self.bounds[0], 175))
-      lines = helpers.get_wrapped_lines(self.tfl_rail, fonts.KEEP_CALM_28, max_line_width)[:2]
-      font = fonts.KEEP_CALM_24 if len(lines) > 1 else fonts.KEEP_CALM_28
-      if len(lines) > 1:
-        for index, line in enumerate(lines):
-          image_draw.text((text_x, 185 + (index * text_gap)), line, font = font, fill = 0)
-      else:
-        image_draw.text((text_x, 194), self.tfl_rail, font = font, fill = 0)
-
-      # GreaterAnglia
-      image.paste(images.ICON_GA, (self.bounds[0], 239))
-      lines = helpers.get_wrapped_lines(self.greater_anglia, fonts.KEEP_CALM_28, max_line_width)[:2]
-      font = fonts.KEEP_CALM_24 if len(lines) > 1 else fonts.KEEP_CALM_28
-      if len(lines) > 1:
-        for index, line in enumerate(lines):
-          image_draw.text((text_x, 245 + (index * text_gap)), line, font = font, fill = 0)
-      else:
-        image_draw.text((text_x, 258), self.greater_anglia, font = font, fill = 0)
-    except Exception as err:
-      self.set_error(err)
-      self.draw_error(image_draw)
+    # GreaterAnglia
+    image.paste(images.ICON_GA, (self.bounds[0], 239))
+    lines = helpers.get_wrapped_lines(self.greater_anglia, fonts.KEEP_CALM_28, max_line_width)[:2]
+    font = fonts.KEEP_CALM_24 if len(lines) > 1 else fonts.KEEP_CALM_28
+    if len(lines) > 1:
+      for index, line in enumerate(lines):
+        image_draw.text((text_x, 245 + (index * text_gap)), line, font = font, fill = 0)
+    else:
+      image_draw.text((text_x, 258), self.greater_anglia, font = font, fill = 0)

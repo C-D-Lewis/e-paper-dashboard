@@ -49,6 +49,7 @@ class ForecastWidget(Widget):
   # Update forecast data
   #
   def update_data(self):
+    # Clear old data
     self.forecast = []
 
     try:
@@ -78,40 +79,32 @@ class ForecastWidget(Widget):
   #
   # Draw 5 day forecast list
   #
-  def draw(self, image_draw, image):
-    if self.error:
-      self.draw_error(image_draw)
-      return
+  def draw_data(self, image_draw, image):
+    root_y = self.bounds[1] + 10
+    gap_y = 60
+    font = fonts.KEEP_CALM_20
 
-    try:
-      root_y = self.bounds[1] + 10
-      gap_y = 60
-      font = fonts.KEEP_CALM_20
+    for index, day in enumerate(self.forecast):
+      day_y = root_y + (index * gap_y)
 
-      for index, day in enumerate(self.forecast):
-        day_y = root_y + (index * gap_y)
+      # Icon
+      image.paste(get_forecast_icon(day['icon']), (self.bounds[0], day_y))
 
-        # Icon
-        image.paste(get_forecast_icon(day['icon']), (self.bounds[0], day_y))
+      # Summary
+      image_draw.text((self.bounds[0] + 55, day_y + 25), day['summary'], font = font, fill = 0)
 
-        # Summary
-        image_draw.text((self.bounds[0] + 55, day_y + 25), day['summary'], font = font, fill = 0)
+      # Get day of the week for high/low
+      future_day = datetime.date.today() + datetime.timedelta(days = index + 1)
+      future_dotw = helpers.get_weekday_name(future_day.weekday())
+      day_temps_str = f"{future_dotw}"
+      image_draw.text((self.bounds[0] + 55, day_y), day_temps_str, font = font, fill = 0)
 
-        # Get day of the week for high/low
-        future_day = datetime.date.today() + datetime.timedelta(days = index + 1)
-        future_dotw = helpers.get_weekday_name(future_day.weekday())
-        day_temps_str = f"{future_dotw}"
-        image_draw.text((self.bounds[0] + 55, day_y), day_temps_str, font = font, fill = 0)
+      # High/low
+      high_low_str = f"{day['temp_high']}|{day['temp_low']}"
+      image_draw.text((self.bounds[0] + 190, day_y), high_low_str, font = font, fill = 0)
 
-        # High/low
-        high_low_str = f"{day['temp_high']}|{day['temp_low']}"
-        image_draw.text((self.bounds[0] + 190, day_y), high_low_str, font = font, fill = 0)
-
-        # Rain chance and wind speed for day
-        precip_str = f"{day['precip_prob']}%"
-        image_draw.text((self.bounds[0] + 260, day_y), precip_str, font = font, fill = 0)
-        speed_str = f"{day['wind_speed']}mph"
-        image_draw.text((self.bounds[0] + 335, day_y), speed_str, font = font, fill = 0)
-    except Exception as err:
-      self.set_error(err)
-      self.draw_error(image_draw)
+      # Rain chance and wind speed for day
+      precip_str = f"{day['precip_prob']}%"
+      image_draw.text((self.bounds[0] + 260, day_y), precip_str, font = font, fill = 0)
+      speed_str = f"{day['wind_speed']}mph"
+      image_draw.text((self.bounds[0] + 335, day_y), speed_str, font = font, fill = 0)
