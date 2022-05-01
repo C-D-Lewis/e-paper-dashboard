@@ -14,7 +14,7 @@ from modules.constants import WIDGET_BOUNDS
 # Slow data update interval
 UPDATE_INTERVAL_M = 15
 # Number of cycling widget pages
-NUM_PAGES = 4
+NUM_PAGES = 5
 
 weather_widget = WeatherWidget()
 crypto_widget = CryptoWidget()
@@ -44,7 +44,7 @@ def draw_date_and_time(image_draw):
 #
 def draw_page_indicators(image_draw, page_index):
   root_x = 370
-  root_y = 275
+  root_y = 267
   gap_y = 25
   size = 8
   border = 2
@@ -102,7 +102,7 @@ def draw():
 
   # Cycling widgets on the right side
   now = datetime.now()
-  index = now.minute % NUM_PAGES
+  index = 4 #now.minute % NUM_PAGES
   if index == 0:
     news_widget.draw(image_draw, image)
   elif index == 1:
@@ -111,6 +111,8 @@ def draw():
     twitter_widget.draw(image_draw, image)
   elif index == 3:
     quotes_widget.draw(image_draw, image)
+  elif index == 4:
+    crypto_widget.draw(image_draw, image)
   else:
     print(f"! Unused page index {index}")
   draw_page_indicators(image_draw, index)

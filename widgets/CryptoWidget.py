@@ -4,7 +4,7 @@ from modules import fetch, config, fonts, images, constants
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS
 
-CRYPTO_BOUNDS = WIDGET_BOUNDS[1]
+CRYPTO_BOUNDS = WIDGET_BOUNDS[2]
 
 #
 # CryptoWidget class
@@ -55,7 +55,7 @@ class CryptoWidget(Widget):
   # Draw the daily change
   #
   def draw_daily_change(self, image_draw, image):
-    text_x = 95
+    text_x = self.bounds[0] + 80
     font = fonts.KEEP_CALM_28
 
     image.paste(images.ICON_BTC, (self.bounds[0], self.bounds[1] + 5))
@@ -72,7 +72,7 @@ class CryptoWidget(Widget):
   # Draw earnings with configured portfolio values
   #
   def draw_earnings(self, image_draw, image):
-    text_x = 100
+    text_x = self.bounds[0] + 80
     font = fonts.KEEP_CALM_28
 
     image.paste(images.ICON_BTC, (self.bounds[0], self.bounds[1]))
