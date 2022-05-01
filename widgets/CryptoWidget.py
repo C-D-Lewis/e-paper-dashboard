@@ -24,7 +24,7 @@ class CryptoWidget(Widget):
   #
   def update_data(self):
     # Random wait to avoid 1 rps limit at the same time as another running instance
-    wait_time_s = random.randint(2, 10)
+    wait_time_s = random.randint(1, 4)
     print(f"[crypto] random wait for {wait_time_s}s")
     time.sleep(wait_time_s)
 

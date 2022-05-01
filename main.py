@@ -1,7 +1,7 @@
 import os
 import time
 from datetime import datetime
-from modules import fonts, config, helpers, epaper
+from modules import fonts, config, helpers, epaper, timer
 from widgets.WeatherWidget import WeatherWidget
 from widgets.CryptoWidget import CryptoWidget
 from widgets.NewsWidget import NewsWidget
@@ -54,7 +54,12 @@ def draw_page_indicators(image_draw, page_index):
     shape_y = root_y + (index * gap_y)
 
     # Draw outer edge
-    outer_shape = (root_x - border, shape_y - border, root_x + size + border, shape_y + size + border)
+    outer_shape = (
+      root_x - border,
+      shape_y - border,
+      root_x + size + border,
+      shape_y + size + border
+    )
     image_draw.ellipse(outer_shape, fill = 0)
 
     # Fill if the selected one
@@ -75,6 +80,8 @@ def draw_all_bounds(image_draw):
 # Draw things
 #
 def draw():
+  timer.start()
+
   # Prepare
   image, image_draw = epaper.prepare()
 
@@ -113,6 +120,8 @@ def draw():
 
   # Update display
   epaper.show(image)
+  timer.end('main draw')
+
   time.sleep(2)
 
 #
@@ -150,8 +159,10 @@ def main():
   twitter_widget.resolve_user_name()
 
   # Initial update and draw
+  timer.start()
   minutely_data_update()
   periodic_data_update()
+  timer.end('initial update')
   epaper.init()
   draw()
   epaper.sleep()
@@ -163,9 +174,11 @@ def main():
       wait_for_next_minute()
 
       # Update data sources
+      timer.start()
       minutely_data_update()
       if datetime.now().minute % UPDATE_INTERVAL_M == 0:
         periodic_data_update()
+      timer.end('main update')
 
       with helpers.timeout(seconds=30):
         # Draw all widgets
