@@ -89,6 +89,7 @@ class CryptoWidget(Widget):
 
   #
   # Draw crypto widget
+  # - Note: Uses any widget bounds
   #
   def draw_data(self, image_draw, image):
     DISPLAY_MODE = config.get('CRYPTO_DISPLAY_MODE')  # 'daily_change' or 'earnings'

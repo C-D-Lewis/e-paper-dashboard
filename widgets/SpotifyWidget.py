@@ -1,15 +1,19 @@
 import urllib
-from PIL import Image, ImageDraw, ImageOps
+from PIL import Image
 from io import BytesIO
-from modules import fetch, fonts, config, helpers, images
+from modules import fonts, helpers
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS
 from modules.spotify import authorize, get_now_playing
 
-SPOTIFY_BOUNDS = WIDGET_BOUNDS[0]
+WIDGET_BOUNDS_LEFT_TOP = WIDGET_BOUNDS[0]
+WIDGET_BOUNDS_LEFT_HALF = WIDGET_BOUNDS[3]
+SPOTIFY_BOUNDS = WIDGET_BOUNDS_LEFT_HALF
 
 # Image icon size
-IMAGE_SIZE = 128
+IMAGE_SIZE_LEFT_TOP = 128
+IMAGE_SIZE_LEFT_HALF = 200
+IMAGE_SIZE = IMAGE_SIZE_LEFT_HALF
 
 #
 # SpotifyWidget class
@@ -54,9 +58,9 @@ class SpotifyWidget(Widget):
       self.set_error(err)
 
   #
-  # Draw the now playing information
+  # Draw the now playing information in the left top slot
   #
-  def draw_data(self, image_draw, image):
+  def draw_data_left_top(self, image_draw, image):
     root_x = self.bounds[0]
     root_y = self.bounds[1] + 5
     text_x = root_x + IMAGE_SIZE + 6
@@ -68,23 +72,63 @@ class SpotifyWidget(Widget):
       image.paste(self.album_image, (root_x, root_y))
 
     # Artist name
-    artist_name_str = self.track_data['artist_name']
-    lines = helpers.get_wrapped_lines(artist_name_str, fonts.KEEP_CALM_20, max_line_width)[:2]
-    if len(lines) > 1:
-      for index, line in enumerate(lines):
-        image_draw.text((text_x, root_y + 5 + (index * text_gap)), line, font = fonts.KEEP_CALM_20, fill = 0)
-    else:
-      image_draw.text((text_x, root_y + 5), artist_name_str, font = fonts.KEEP_CALM_20, fill = 0)
+    helpers.draw_wrapped_text_lines(
+      image_draw,
+      self.track_data['artist_name'],
+      fonts.KEEP_CALM_20,
+      (text_x, root_y + 5),
+      gap=text_gap,
+      max_width=max_line_width,
+      max_lines=2
+    )
 
     # Track name
-    track_name_str = self.track_data['track_name']
-    lines = helpers.get_wrapped_lines(track_name_str, fonts.KEEP_CALM_24, max_line_width)[:2]
-    if len(lines) > 1:
-      for index, line in enumerate(lines):
-        image_draw.text((text_x, root_y + 55 + (index * text_gap)), line, font = fonts.KEEP_CALM_24, fill = 0)
-    else:
-      image_draw.text((text_x, root_y + 55), track_name_str, font = fonts.KEEP_CALM_24, fill = 0)
+    helpers.draw_wrapped_text_lines(
+      image_draw,
+      self.track_data['track_name'],
+      fonts.KEEP_CALM_24,
+      (text_x, root_y + 55),
+      gap=text_gap,
+      max_width=max_line_width,
+      max_lines=2
+    )
 
     # Album name
-    album_name_str = self.track_data['album_name']
-    image_draw.text((text_x, root_y + 110), album_name_str, font = fonts.KEEP_CALM_20, fill = 0)
+    helpers.draw_wrapped_text_lines(
+      image_draw,
+      self.track_data['album_name'],
+      fonts.KEEP_CALM_20,
+      (text_x, root_y + 110),
+      gap=text_gap,
+      max_width=max_line_width,
+      max_lines=1
+    )
+
+  #
+  # Draw the now playing information in the left half
+  #
+  def draw_data_left_half(self, image_draw, image):
+    root_x = self.bounds[0]
+    root_y = self.bounds[1] + 5
+    image_x = round((self.bounds[2] - IMAGE_SIZE) / 2)
+    text_x = root_x + IMAGE_SIZE + 6
+    max_line_width = SPOTIFY_BOUNDS[2] - text_x
+    text_gap = 25
+
+    # Album image
+    if self.album_image != None:
+      image.paste(self.album_image, (image_x, root_y))
+
+    # Artist name
+
+    # Track name
+
+    # Album name
+
+  #
+  # Draw spotify now-playing data
+  #
+  def draw_data(self, image_draw, image):
+    # One of (TODO: Add to config)
+    # self.draw_data_left_top(image_draw, image)
+    self.draw_data_left_half(image_draw, image)

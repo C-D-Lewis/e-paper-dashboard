@@ -62,6 +62,19 @@ def format_number(val):
   return f"{val}"
 
 #
+# Draw a limited number of wrapped lines of text
+#
+def draw_wrapped_text_lines(image_draw, str, font, root_xy, gap, max_width, max_lines):
+  text_x = root_xy[0]
+  text_y = root_xy[1]
+  lines = get_wrapped_lines(str, font, max_width)[:max_lines]
+  if len(lines) > 1:
+    for index, line in enumerate(lines):
+      image_draw.text((text_x, text_y + 5 + (index * gap)), line, font = font, fill = 0)
+  else:
+    image_draw.text((text_x, text_y + 5), str, font = font, fill = 0)
+
+#
 # Timeout class
 #   https://stackoverflow.com/a/22348885
 #

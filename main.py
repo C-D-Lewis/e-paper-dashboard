@@ -44,7 +44,7 @@ def draw_date_and_time(image_draw):
 #
 def draw_page_indicators(image_draw, page_index):
   root_x = 370
-  root_y = 267
+  root_y = 268
   gap_y = 25
   size = 8
   border = 2
@@ -96,13 +96,16 @@ def draw():
   crypto_widget.draw(image_draw, image)
 
   # Dividers
+  # Top from bottom
   helpers.draw_divider(image_draw, 0, 160, image.width, 5)
-  helpers.draw_divider(image_draw, 0, 320, 350, 5)
+  # Left 'half' top from bottom
+  # helpers.draw_divider(image_draw, 0, 320, 350, 5)
+  # Left 'half' from right 'half'
   helpers.draw_divider(image_draw, 350, 165, 5, 320)
 
   # Cycling widgets on the right side
   now = datetime.now()
-  index = 4 #now.minute % NUM_PAGES
+  index = now.minute % NUM_PAGES
   if index == 0:
     news_widget.draw(image_draw, image)
   elif index == 1:
