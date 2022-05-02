@@ -4,7 +4,7 @@ from modules import fetch, config, fonts, images, constants
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS
 
-CRYPTO_BOUNDS = WIDGET_BOUNDS[2]
+CRYPTO_BOUNDS = WIDGET_BOUNDS[1]
 
 #
 # CryptoWidget class

@@ -8,12 +8,12 @@ from modules.spotify import authorize, get_now_playing
 
 WIDGET_BOUNDS_LEFT_TOP = WIDGET_BOUNDS[0]
 WIDGET_BOUNDS_LEFT_HALF = WIDGET_BOUNDS[3]
-SPOTIFY_BOUNDS = WIDGET_BOUNDS_LEFT_HALF
+SPOTIFY_BOUNDS = WIDGET_BOUNDS_LEFT_TOP
 
 # Image icon size
 IMAGE_SIZE_LEFT_TOP = 128
 IMAGE_SIZE_LEFT_HALF = 200
-IMAGE_SIZE = IMAGE_SIZE_LEFT_HALF
+IMAGE_SIZE = IMAGE_SIZE_LEFT_TOP
 
 #
 # SpotifyWidget class
@@ -109,7 +109,7 @@ class SpotifyWidget(Widget):
   #
   def draw_data_left_half(self, image_draw, image):
     root_x = self.bounds[0]
-    root_y = self.bounds[1] + 5
+    root_y = self.bounds[1]
     image_x = round((self.bounds[2] - IMAGE_SIZE) / 2)
     text_x = root_x + IMAGE_SIZE + 6
     max_line_width = SPOTIFY_BOUNDS[2] - text_x
@@ -130,5 +130,5 @@ class SpotifyWidget(Widget):
   #
   def draw_data(self, image_draw, image):
     # One of (TODO: Add to config)
-    # self.draw_data_left_top(image_draw, image)
-    self.draw_data_left_half(image_draw, image)
+    self.draw_data_left_top(image_draw, image)
+    # self.draw_data_left_half(image_draw, image)
