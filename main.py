@@ -74,13 +74,12 @@ def draw_dividers(image_draw, image):
   divider_size = 5
 
   # Top from bottom
+  # TODO: use widget bounds to draw
   helpers.draw_divider(image_draw, 0, 160, image.width, divider_size)
   # Left 'half' top from bottom
   helpers.draw_divider(image_draw, 0, 320, 350, divider_size)
   # Left 'half' from right 'half'
   helpers.draw_divider(image_draw, 350, 165, divider_size, 320)
-  # Each widget page (thinner)
-  helpers.draw_divider(image_draw, 393, 165, 2, 320)
 
 #
 # Draw all bounds for debugging purposes
