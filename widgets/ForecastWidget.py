@@ -2,9 +2,9 @@ import images
 import datetime
 from modules import fetch, helpers, fonts, images, config
 from widgets.Widget import Widget
-from modules.constants import WIDGET_BOUNDS
+from modules.constants import WIDGET_BOUNDS_RIGHT
 
-FORECAST_BOUNDS = WIDGET_BOUNDS[2]
+FORECAST_BOUNDS = WIDGET_BOUNDS_RIGHT
 
 #
 # Get an appropriate weather icon for the forecast list
@@ -80,6 +80,7 @@ class ForecastWidget(Widget):
   # Draw 5 day forecast list
   #
   def draw_data(self, image_draw, image):
+    root_x = self.bounds[0] + 5
     root_y = self.bounds[1] + 10
     gap_y = 60
     font = fonts.KEEP_CALM_20
@@ -88,23 +89,23 @@ class ForecastWidget(Widget):
       day_y = root_y + (index * gap_y)
 
       # Icon
-      image.paste(get_forecast_icon(day['icon']), (self.bounds[0], day_y))
+      image.paste(get_forecast_icon(day['icon']), (root_x, day_y))
 
       # Summary
-      image_draw.text((self.bounds[0] + 55, day_y + 25), day['summary'], font = font, fill = 0)
+      image_draw.text((root_x + 55, day_y + 25), day['summary'], font = font, fill = 0)
 
       # Get day of the week for high/low
       future_day = datetime.date.today() + datetime.timedelta(days = index + 1)
       future_dotw = helpers.get_weekday_name(future_day.weekday())
       day_temps_str = f"{future_dotw}"
-      image_draw.text((self.bounds[0] + 55, day_y), day_temps_str, font = font, fill = 0)
+      image_draw.text((root_x + 55, day_y), day_temps_str, font = font, fill = 0)
 
       # High/low
       high_low_str = f"{day['temp_high']}|{day['temp_low']}"
-      image_draw.text((self.bounds[0] + 190, day_y), high_low_str, font = font, fill = 0)
+      image_draw.text((root_x + 190, day_y), high_low_str, font = font, fill = 0)
 
       # Rain chance and wind speed for day
       precip_str = f"{day['precip_prob']}%"
-      image_draw.text((self.bounds[0] + 260, day_y), precip_str, font = font, fill = 0)
+      image_draw.text((root_x + 250, day_y), precip_str, font = font, fill = 0)
       speed_str = f"{day['wind_speed']}mph"
-      image_draw.text((self.bounds[0] + 335, day_y), speed_str, font = font, fill = 0)
+      image_draw.text((root_x + 325, day_y), speed_str, font = font, fill = 0)

@@ -48,8 +48,22 @@ def get_weekday_name(index):
 #
 # Draw a divider rect
 #
-def draw_divider(image_draw, x, y, w, h):
-  image_draw.rectangle([x, y, x + w, y + h], fill = 0)
+def draw_divider(image_draw, x, y, w, h, grey = False):
+  rect_w = x + w
+  rect_h = y + h
+
+  # Black rect
+  image_draw.rectangle([x, y, rect_w, rect_h], fill = 0)
+
+  # TODO: Grey with alternating white (orientations?)
+  if grey:
+    cursor_x = x
+    cursor_y = y
+    # For each x
+    while cursor_x < cursor_x + rect_w:
+      fill = 0
+
+
 
 #
 # Format a number e.g: 1342 to 1.3k

@@ -1,14 +1,9 @@
-# Bounds for the widget slots
-WIDGET_BOUNDS = [
-  # Top left slot
-  (10, 175, 330, 140),
-  # Bottom left slot
-  (10, 335, 330, 140),
-  # Right 'half' slot
-  (390, 175, 400, 290),
-  # Left 'half' slot
-  (0, 180, 350, 280)
-]
+# Top left slot
+WIDGET_BOUNDS_TOP_LEFT = (0, 165, 350, 154)
+# Bottom left slot
+WIDGET_BOUNDS_BOTTOM_LEFT = (0, 325, 350, 154)
+# Right 'half' slot
+WIDGET_BOUNDS_RIGHT = (397, 168, 410, 315)
 
 # Hour the day starts
 DAY_START_HOUR = 6

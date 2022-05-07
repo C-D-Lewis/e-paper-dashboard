@@ -2,7 +2,7 @@ import images
 import datetime
 from modules import fetch, fonts, images, config
 from widgets.Widget import Widget
-from modules.constants import WIDGET_BOUNDS, DAY_START_HOUR, DAY_END_HOUR
+from modules.constants import DAY_START_HOUR, DAY_END_HOUR
 
 WEATHER_BOUNDS = (510, 20, 0, 0)
 

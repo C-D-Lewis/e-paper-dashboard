@@ -4,9 +4,9 @@ from PIL import Image, ImageDraw, ImageOps
 from io import BytesIO
 from modules import fetch, fonts, config, helpers, images
 from widgets.Widget import Widget
-from modules.constants import WIDGET_BOUNDS
+from modules.constants import WIDGET_BOUNDS_RIGHT
 
-TWITTER_BOUNDS = WIDGET_BOUNDS[2]
+TWITTER_BOUNDS = WIDGET_BOUNDS_RIGHT
 
 # Max lines to display
 MAX_LINES = 7
@@ -82,6 +82,11 @@ class TwitterWidget(Widget):
   # Update latest tweet
   def update_data(self):
     try:
+      # Check ID fetch didn't fail
+      if self.id == '':
+        self.resolve_user_name()
+
+      # Get user's tweets
       url = f"https://api.twitter.com/2/users/{self.id}/tweets?exclude=replies,retweets&tweet.fields=created_at,public_metrics"
       json = api_request(url)
       self.tweet = json['data'][0]
@@ -110,21 +115,22 @@ class TwitterWidget(Widget):
 
   # Draw the tweet
   def draw_data(self, image_draw, image):
-    root_y = self.bounds[1] + 5
+    root_x = self.bounds[0] + 10
+    root_y = self.bounds[1] + 10
     line_gap_y = 25
 
     # Image
     if self.image != None:
-      image.paste(self.image, (self.bounds[0], root_y))
+      image.paste(self.image, (root_x, root_y))
 
     # Screen name, name and date
-    content_x = self.bounds[0] + IMAGE_SIZE + 10
+    content_x = root_x + IMAGE_SIZE + 10
     image_draw.text((content_x, root_y + 10), self.name, font = fonts.KEEP_CALM_24, fill = 0)
     image_draw.text((content_x, root_y + 40), f"@{self.screen_name}", font = fonts.KEEP_CALM_20, fill = 0)
 
     # Tweet content, wrapped
     content = self.tweet['text']
-    content_x = self.bounds[0]
+    content_x = root_x
     paragraph_y = root_y + 75
     lines = helpers.get_wrapped_lines(content, fonts.KEEP_CALM_20, self.bounds[2])
     font = fonts.KEEP_CALM_18 if len(lines) > MAX_LINES else fonts.KEEP_CALM_20
@@ -135,17 +141,17 @@ class TwitterWidget(Widget):
     # Footer, after text
     paragraph_height = helpers.get_paragraph_height(content, font, self.bounds[2], line_gap_y)
     line_y = paragraph_y + paragraph_height + 5
-    helpers.draw_divider(image_draw, self.bounds[0], line_y, 390, 1)
+    helpers.draw_divider(image_draw, root_x, line_y, 380, 1)
 
     # Tweet stats
     stats_y = line_y + 10
     font = fonts.KEEP_CALM_18
-    image.paste(images.ICON_HEART, (self.bounds[0] + 5, stats_y - 3))
+    image.paste(images.ICON_HEART, (root_x + 5, stats_y - 3))
     likes_str = helpers.format_number(self.tweet['public_metrics']['like_count'])
-    image_draw.text((self.bounds[0] + 35, stats_y), likes_str, font = font, fill = 0)
-    image.paste(images.ICON_RETWEET, (self.bounds[0] + 80, stats_y - 4))
+    image_draw.text((root_x + 35, stats_y), likes_str, font = font, fill = 0)
+    image.paste(images.ICON_RETWEET, (root_x + 80, stats_y - 4))
     retweet_str = helpers.format_number(self.tweet['public_metrics']['retweet_count'])
-    image_draw.text((self.bounds[0] + 107, stats_y), retweet_str, font = font, fill = 0)
+    image_draw.text((root_x + 107, stats_y), retweet_str, font = font, fill = 0)
 
     # Tweet date
     date_x = content_x + IMAGE_SIZE + 90

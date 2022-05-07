@@ -9,7 +9,7 @@ from widgets.TwitterWidget import TwitterWidget
 from widgets.ForecastWidget import ForecastWidget
 from widgets.QuotesWidget import QuotesWidget
 from widgets.SpotifyWidget import SpotifyWidget
-from modules.constants import WIDGET_BOUNDS
+from modules.constants import WIDGET_BOUNDS_BOTTOM_LEFT, WIDGET_BOUNDS_RIGHT, WIDGET_BOUNDS_TOP_LEFT
 
 # Slow data update interval
 UPDATE_INTERVAL_M = 15
@@ -30,7 +30,7 @@ quotes_widget = QuotesWidget()
 # Draw time module
 #
 def draw_date_and_time(image_draw):
-  root_x = 10
+  root_x = 8
   root_y = 10
 
   now = datetime.now()
@@ -68,11 +68,27 @@ def draw_page_indicators(image_draw, page_index):
     image_draw.ellipse((root_x, shape_y, root_x + size, shape_y + size), fill = fill)
 
 #
+# Draw all dividers between widgets
+#
+def draw_dividers(image_draw, image):
+  divider_size = 5
+
+  # Top from bottom
+  helpers.draw_divider(image_draw, 0, 160, image.width, divider_size)
+  # Left 'half' top from bottom
+  helpers.draw_divider(image_draw, 0, 320, 350, divider_size)
+  # Left 'half' from right 'half'
+  helpers.draw_divider(image_draw, 350, 165, divider_size, 320)
+  # Each widget page (thinner)
+  helpers.draw_divider(image_draw, 393, 165, 2, 320)
+
+#
 # Draw all bounds for debugging purposes
 #
 def draw_all_bounds(image_draw):
-  for index in range(0, len(WIDGET_BOUNDS)):
-    helpers.draw_divider(image_draw, *WIDGET_BOUNDS[index])
+  helpers.draw_divider(image_draw, *WIDGET_BOUNDS_TOP_LEFT)
+  helpers.draw_divider(image_draw, *WIDGET_BOUNDS_BOTTOM_LEFT)
+  helpers.draw_divider(image_draw, *WIDGET_BOUNDS_RIGHT)
 
 ################################## Main loop ###################################
 
@@ -85,27 +101,20 @@ def draw():
   # Prepare
   image, image_draw = epaper.prepare()
 
-  # Draw content
+  # Top section
   weather_widget.draw(image_draw, image)
   draw_date_and_time(image_draw)
 
-  # Top left
+  # Left side
   spotify_widget.draw(image_draw, image)
-
-  # Bottom left
   crypto_widget.draw(image_draw, image)
 
   # Dividers
-  # Top from bottom
-  helpers.draw_divider(image_draw, 0, 160, image.width, 5)
-  # Left 'half' top from bottom
-  helpers.draw_divider(image_draw, 0, 320, 350, 5)
-  # Left 'half' from right 'half'
-  helpers.draw_divider(image_draw, 350, 165, 5, 320)
+  draw_dividers(image_draw, image)
 
   # Cycling widgets on the right side
   now = datetime.now()
-  index = now.minute % NUM_PAGES
+  index = 3#now.minute % NUM_PAGES
   if index == 0:
     news_widget.draw(image_draw, image)
   elif index == 1:

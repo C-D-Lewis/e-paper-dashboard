@@ -1,9 +1,10 @@
 from xml.dom import minidom
 from modules import fetch, helpers, images, fonts, config
 from widgets.Widget import Widget
-from modules.constants import WIDGET_BOUNDS
+from modules.constants import WIDGET_BOUNDS_RIGHT
 
-NEWS_BOUNDS = WIDGET_BOUNDS[2]
+NEWS_BOUNDS = WIDGET_BOUNDS_RIGHT
+
 # Max number of displayed stories
 MAX_STORIES = 5
 
@@ -51,16 +52,18 @@ class NewsWidget(Widget):
     story_gap = 60
     text_gap = 25
     font = fonts.KEEP_CALM_20
-    left_margin = 55
-    story_x = self.bounds[0] + left_margin
+    icon_w_margin = 55
+    root_x = self.bounds[0] + 10
+    root_y = self.bounds[1] + 10
+    story_x = root_x + icon_w_margin
 
     # Draw a list of icon-story items
     for story_index, story in enumerate(self.stories):
-      story_y = self.bounds[1] + (story_index * story_gap)
-      max_line_width = self.bounds[2] - left_margin
+      story_y = root_y + (story_index * story_gap)
+      max_line_width = self.bounds[2] - icon_w_margin - 20
 
       # Icon
-      image.paste(images.ICON_NEWS, (self.bounds[0], story_y))
+      image.paste(images.ICON_NEWS, (root_x, story_y))
 
       # Wrapped lines
       lines = helpers.get_wrapped_lines(story['title'], font, max_line_width)[:2]

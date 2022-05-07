@@ -1,8 +1,8 @@
 from modules import fetch, images, helpers, fonts
 from widgets.Widget import Widget
-from modules.constants import WIDGET_BOUNDS
+from modules.constants import WIDGET_BOUNDS_TOP_LEFT
 
-RAIL_BOUNDS = WIDGET_BOUNDS[0]
+RAIL_BOUNDS = WIDGET_BOUNDS_TOP_LEFT
 
 #
 # Get operator status from the page body fetched

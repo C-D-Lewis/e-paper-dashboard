@@ -2,9 +2,9 @@ import time
 import random
 from modules import fetch, config, fonts, images, constants
 from widgets.Widget import Widget
-from modules.constants import WIDGET_BOUNDS
+from modules.constants import WIDGET_BOUNDS_BOTTOM_LEFT
 
-CRYPTO_BOUNDS = WIDGET_BOUNDS[1]
+CRYPTO_BOUNDS = WIDGET_BOUNDS_BOTTOM_LEFT
 
 #
 # CryptoWidget class
@@ -55,18 +55,20 @@ class CryptoWidget(Widget):
   # Draw the daily change
   #
   def draw_daily_change(self, image_draw, image):
-    text_x = self.bounds[0] + 80
+    root_x = self.bounds[0] + 10
+    root_y = self.bounds[1] + 10
+    text_x = root_x + 80
     font = fonts.KEEP_CALM_28
 
-    image.paste(images.ICON_BTC, (self.bounds[0], self.bounds[1] + 5))
+    image.paste(images.ICON_BTC, (root_x, root_y + 5))
     arrow = '+' if self.btc_data['price_change_pct'] > 0 else '-'
     change_str = f"{arrow}{abs(self.btc_data['price_change_pct'])}% (24h)"
-    image_draw.text((text_x, self.bounds[1] + 25), change_str, font = font, fill = 0)
+    image_draw.text((text_x, root_y + 25), change_str, font = font, fill = 0)
 
-    image.paste(images.ICON_ETH, (self.bounds[0], self.bounds[1] + 75))
+    image.paste(images.ICON_ETH, (root_x, root_y + 75))
     arrow = '+' if self.eth_data['price_change_pct'] > 0 else '-'
     change_str = f"{arrow}{abs(self.eth_data['price_change_pct'])}% (24h)"
-    image_draw.text((text_x, self.bounds[1] + 100), change_str, font = font, fill = 0)
+    image_draw.text((text_x, root_y + 100), change_str, font = font, fill = 0)
 
   #
   # Draw earnings with configured portfolio values

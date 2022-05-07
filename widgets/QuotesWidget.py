@@ -3,9 +3,9 @@ import os
 import random
 from modules import fonts, helpers
 from widgets.Widget import Widget
-from modules.constants import WIDGET_BOUNDS
+from modules.constants import WIDGET_BOUNDS_RIGHT
 
-QUOTES_BOUNDS = WIDGET_BOUNDS[2]
+QUOTES_BOUNDS = WIDGET_BOUNDS_RIGHT
 
 # Debug quote
 DEBUG_QUOTE = "This is just an unbelieveably long and inspiring quote. Some say that even reading this quote could change the course of history, settle a territorial dispute, or right unforgivable wrongs. It's so powerful that we can only use it for testing this widget without endangering anybody. In fact nobody would even believe you could fit this into a maximum of 7 lines..."
@@ -47,21 +47,21 @@ class QuotesWidget(Widget):
   # Draw the quote
   #
   def draw_data(self, image_draw, image):
-    root_y = self.bounds[1] + 5
+    root_x = self.bounds[0] + 10
+    root_y = self.bounds[1] + 10
     line_gap_y = 25
 
     # Quote content, wrapped
     content = f"\"{self.quote['text']}\""
-    content_x = self.bounds[0]
     paragraph_y = root_y + 5
     lines = helpers.get_wrapped_lines(content, fonts.KEEP_CALM_24, self.bounds[2])
     font = fonts.KEEP_CALM_20 if len(lines) > MAX_LINES else fonts.KEEP_CALM_24
     lines = helpers.get_wrapped_lines(content, font, self.bounds[2])
     for index, line in enumerate(lines):
-      image_draw.text((content_x, paragraph_y + (index * line_gap_y)), line, font = font, fill = 0)
+      image_draw.text((root_x, paragraph_y + (index * line_gap_y)), line, font = font, fill = 0)
 
     # Author, after text
     paragraph_height = helpers.get_paragraph_height(content, font, self.bounds[2], line_gap_y)
     line_y = paragraph_y + paragraph_height
     author_str = f"                       -- {self.quote['author']}"
-    image_draw.text((content_x, line_y), author_str, font = fonts.KEEP_CALM_20, fill = 0)
+    image_draw.text((root_x, line_y), author_str, font = fonts.KEEP_CALM_20, fill = 0)
