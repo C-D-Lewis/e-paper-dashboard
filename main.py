@@ -9,7 +9,7 @@ from widgets.TwitterWidget import TwitterWidget
 from widgets.ForecastWidget import ForecastWidget
 from widgets.QuotesWidget import QuotesWidget
 from widgets.SpotifyWidget import SpotifyWidget
-from modules.constants import WIDGET_BOUNDS_BOTTOM_LEFT, WIDGET_BOUNDS_RIGHT, WIDGET_BOUNDS_TOP_LEFT
+from modules.constants import DIVIDER_SIZE, WIDGET_BOUNDS_BOTTOM_LEFT, WIDGET_BOUNDS_RIGHT, WIDGET_BOUNDS_TOP, WIDGET_BOUNDS_TOP_LEFT
 
 # Slow data update interval
 UPDATE_INTERVAL_M = 15
@@ -43,8 +43,8 @@ def draw_date_and_time(image_draw):
 # Draw cycling page indicators
 #
 def draw_page_indicators(image_draw, page_index):
-  root_x = 370
-  root_y = 275
+  root_x = WIDGET_BOUNDS_TOP_LEFT[2] + 20
+  root_y = 280
   gap_y = 25
   size = 8
   border = 2
@@ -70,16 +70,33 @@ def draw_page_indicators(image_draw, page_index):
 #
 # Draw all dividers between widgets
 #
-def draw_dividers(image_draw, image):
-  divider_size = 5
-
+def draw_dividers(image_draw):
   # Top from bottom
-  # TODO: use widget bounds to draw
-  helpers.draw_divider(image_draw, 0, 160, image.width, divider_size)
+  helpers.draw_divider(
+    image_draw,
+    0,
+    WIDGET_BOUNDS_TOP[3],
+    WIDGET_BOUNDS_TOP[2],
+    DIVIDER_SIZE
+  )
   # Left 'half' top from bottom
-  helpers.draw_divider(image_draw, 0, 320, 350, divider_size)
+  divider_2_y = WIDGET_BOUNDS_TOP[3] + DIVIDER_SIZE + WIDGET_BOUNDS_TOP_LEFT[3]
+  helpers.draw_divider(
+    image_draw,
+    0,
+    divider_2_y,
+    WIDGET_BOUNDS_TOP_LEFT[2],
+    DIVIDER_SIZE
+  )
   # Left 'half' from right 'half'
-  helpers.draw_divider(image_draw, 350, 165, divider_size, 320)
+  divider_3_y = WIDGET_BOUNDS_TOP[3] + DIVIDER_SIZE
+  helpers.draw_divider(
+    image_draw,
+    WIDGET_BOUNDS_TOP_LEFT[2],
+    divider_3_y,
+    DIVIDER_SIZE,
+    WIDGET_BOUNDS_RIGHT[3]
+  )
 
 #
 # Draw all bounds for debugging purposes
@@ -109,11 +126,11 @@ def draw():
   crypto_widget.draw(image_draw, image)
 
   # Dividers
-  draw_dividers(image_draw, image)
+  draw_dividers(image_draw)
 
   # Cycling widgets on the right side
   now = datetime.now()
-  index = 3#now.minute % NUM_PAGES
+  index = now.minute % NUM_PAGES
   if index == 0:
     news_widget.draw(image_draw, image)
   elif index == 1:

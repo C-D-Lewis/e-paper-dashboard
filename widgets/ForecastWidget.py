@@ -80,8 +80,8 @@ class ForecastWidget(Widget):
   # Draw 5 day forecast list
   #
   def draw_data(self, image_draw, image):
-    root_x = self.bounds[0] + 5
-    root_y = self.bounds[1] + 10
+    root_x = self.bounds[0]
+    root_y = self.bounds[1] + 15
     gap_y = 60
     font = fonts.KEEP_CALM_20
 
@@ -108,4 +108,4 @@ class ForecastWidget(Widget):
       precip_str = f"{day['precip_prob']}%"
       image_draw.text((root_x + 250, day_y), precip_str, font = font, fill = 0)
       speed_str = f"{day['wind_speed']}mph"
-      image_draw.text((root_x + 325, day_y), speed_str, font = font, fill = 0)
+      image_draw.text((root_x + 305, day_y), speed_str, font = font, fill = 0)

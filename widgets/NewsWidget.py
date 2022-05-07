@@ -49,12 +49,12 @@ class NewsWidget(Widget):
   # Draw the news stories
   #
   def draw_data(self, image_draw, image):
+    root_x = self.bounds[0]
+    root_y = self.bounds[1] + 10
     story_gap = 60
     text_gap = 25
     font = fonts.KEEP_CALM_20
     icon_w_margin = 55
-    root_x = self.bounds[0] + 10
-    root_y = self.bounds[1] + 10
     story_x = root_x + icon_w_margin
 
     # Draw a list of icon-story items

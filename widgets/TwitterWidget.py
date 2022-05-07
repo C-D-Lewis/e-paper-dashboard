@@ -115,9 +115,10 @@ class TwitterWidget(Widget):
 
   # Draw the tweet
   def draw_data(self, image_draw, image):
-    root_x = self.bounds[0] + 10
+    root_x = self.bounds[0] + 5
     root_y = self.bounds[1] + 10
     line_gap_y = 25
+    max_line_width = self.bounds[2] - 10
 
     # Image
     if self.image != None:
@@ -132,16 +133,16 @@ class TwitterWidget(Widget):
     content = self.tweet['text']
     content_x = root_x
     paragraph_y = root_y + 75
-    lines = helpers.get_wrapped_lines(content, fonts.KEEP_CALM_20, self.bounds[2])
+    lines = helpers.get_wrapped_lines(content, fonts.KEEP_CALM_20, max_line_width)
     font = fonts.KEEP_CALM_18 if len(lines) > MAX_LINES else fonts.KEEP_CALM_20
-    lines = helpers.get_wrapped_lines(content, font, self.bounds[2])
+    lines = helpers.get_wrapped_lines(content, font, max_line_width)
     for index, line in enumerate(lines):
       image_draw.text((content_x, paragraph_y + (index * line_gap_y)), line, font = font, fill = 0)
 
     # Footer, after text
-    paragraph_height = helpers.get_paragraph_height(content, font, self.bounds[2], line_gap_y)
+    paragraph_height = helpers.get_paragraph_height(content, font, max_line_width, line_gap_y)
     line_y = paragraph_y + paragraph_height + 5
-    helpers.draw_divider(image_draw, root_x, line_y, 380, 1)
+    helpers.draw_divider(image_draw, root_x, line_y, 370, 1)
 
     # Tweet stats
     stats_y = line_y + 10

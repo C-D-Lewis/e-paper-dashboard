@@ -59,7 +59,7 @@ class SpotifyWidget(Widget):
   def draw_data(self, image_draw, image):
     root_x = self.bounds[0] + 10
     root_y = self.bounds[1] + round((self.bounds[3] - IMAGE_SIZE) / 2)
-    text_x = root_x + IMAGE_SIZE + 6
+    text_x = root_x + IMAGE_SIZE + 10
     max_line_width = SPOTIFY_BOUNDS[2] - text_x
     text_gap = 25
 
@@ -97,5 +97,5 @@ class SpotifyWidget(Widget):
       (text_x, root_y + 82),
       gap=text_gap,
       max_width=max_line_width,
-      max_lines=2
+      max_lines=1
     )

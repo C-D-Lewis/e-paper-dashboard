@@ -47,21 +47,22 @@ class QuotesWidget(Widget):
   # Draw the quote
   #
   def draw_data(self, image_draw, image):
-    root_x = self.bounds[0] + 10
+    root_x = self.bounds[0] + 5
     root_y = self.bounds[1] + 10
     line_gap_y = 25
+    max_line_width = self.bounds[2] - 10
 
     # Quote content, wrapped
     content = f"\"{self.quote['text']}\""
     paragraph_y = root_y + 5
-    lines = helpers.get_wrapped_lines(content, fonts.KEEP_CALM_24, self.bounds[2])
+    lines = helpers.get_wrapped_lines(content, fonts.KEEP_CALM_24, max_line_width)
     font = fonts.KEEP_CALM_20 if len(lines) > MAX_LINES else fonts.KEEP_CALM_24
-    lines = helpers.get_wrapped_lines(content, font, self.bounds[2])
+    lines = helpers.get_wrapped_lines(content, font, max_line_width)
     for index, line in enumerate(lines):
       image_draw.text((root_x, paragraph_y + (index * line_gap_y)), line, font = font, fill = 0)
 
     # Author, after text
-    paragraph_height = helpers.get_paragraph_height(content, font, self.bounds[2], line_gap_y)
+    paragraph_height = helpers.get_paragraph_height(content, font, max_line_width, line_gap_y)
     line_y = paragraph_y + paragraph_height
-    author_str = f"                       -- {self.quote['author']}"
+    author_str = f"                   -- {self.quote['author']}"
     image_draw.text((root_x, line_y), author_str, font = fonts.KEEP_CALM_20, fill = 0)
