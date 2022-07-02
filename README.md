@@ -29,7 +29,8 @@ Pages of widgets that rotate once a minute:
 
 Follow the steps in the
 [Waveshare wiki](www.waveshare.com/wiki/7.5inch_e-Paper_HAT) to install the
-Python libraries for the 7.5 inch V2 e-paper display.
+required libraries for the 7.5 inch V2 e-paper display.
+
 
 Install additional Python dependencies:
 
@@ -77,7 +78,12 @@ Run with Python 3.x:
 python3 main.py
 ```
 
-`crontab` can be used to run on boot.
+`crontab` can be used to run on boot:
+
+```
+@reboot pip3 install spotipy
+@reboot python3 /home/pi/code/e-paper-dashboard/main.py > /home/pi/e-paper-dashboard.log 2>&1
+```
 
 When run on a platform other than Raspberry Pi (i.e: not ARM) the display image
 is written to `./render.png` instead, which is useful for quickly testing
