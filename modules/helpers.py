@@ -49,18 +49,17 @@ def get_weekday_name(index):
 # Draw a divider rect
 #
 def draw_divider(image_draw, x, y, w, h, grey = False):
-  rect_w = x + w
-  rect_h = y + h
+  rect_rhs = x + w
+  rect_bottom = y + h
 
   # Black rect
-  image_draw.rectangle([x, y, rect_w, rect_h], fill = 0)
+  image_draw.rectangle([x, y, rect_rhs, rect_bottom], fill = 0)
 
   # TODO: Grey with alternating white (orientations?)
   if grey:
     cursor_x = x
-    cursor_y = y
     # For each x
-    while cursor_x < cursor_x + rect_w:
+    while cursor_x < cursor_x + rect_rhs:
       fill = 0
 
 

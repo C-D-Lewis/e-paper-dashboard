@@ -49,6 +49,11 @@ def draw_page_indicators(image_draw, page_index):
   size = 8
   border = 2
 
+  # Prevent spill from left hand side
+  bg_x = 385
+  bg_y = 167
+  image_draw.rectangle([bg_x, bg_y, bg_x + 50, bg_y + 313], fill = 1)
+
   # For each dot
   for index in range(0, NUM_PAGES):
     shape_y = root_y + (index * gap_y)
@@ -125,12 +130,13 @@ def draw():
   spotify_widget.draw(image_draw, image)
   crypto_widget.draw(image_draw, image)
 
-  # Dividers
+  # Decorations
   draw_dividers(image_draw)
-
+  
   # Cycling widgets on the right side
   now = datetime.now()
   index = now.minute % NUM_PAGES
+  draw_page_indicators(image_draw, index)
   if index == 0:
     news_widget.draw(image_draw, image)
   elif index == 1:
@@ -141,7 +147,6 @@ def draw():
     quotes_widget.draw(image_draw, image)
   else:
     print(f"! Unused page index {index}")
-  draw_page_indicators(image_draw, index)
 
   # Help debug bounds issues
   # draw_all_bounds(image_draw)

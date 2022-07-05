@@ -59,9 +59,11 @@ def get_now_playing():
     }
 
     cache_last()
-    print("[spotify] cached")
+    print("[spotify] cache updated")
     return last_playing
   except Exception as err:
+    print(err)
+
     # Try the local cache
     try:
       load_last()
@@ -69,4 +71,5 @@ def get_now_playing():
       return last_playing
     except Exception as err2:
       print(err2)
+      print("[spotify] no cache to fall back to")
       return None
