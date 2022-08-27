@@ -81,8 +81,7 @@ python3 main.py
 `crontab` can be used to run on boot:
 
 ```
-@reboot pip3 install spotipy
-@reboot python3 /home/pi/code/e-paper-dashboard/main.py > /home/pi/e-paper-dashboard.log 2>&1
+@reboot pip3 install spotipy; python3 /home/pi/code/e-paper-dashboard/main.py > /home/pi/e-paper-dashboard.log 2>&1
 ```
 
 When run on a platform other than Raspberry Pi (i.e: not ARM) the display image

@@ -213,7 +213,7 @@ def main():
         periodic_data_update()
       timer.end('main update')
 
-      with helpers.timeout(seconds=30):
+      with helpers.timeout(seconds=45):
         # Draw all widgets
         epaper.init()
         draw()
