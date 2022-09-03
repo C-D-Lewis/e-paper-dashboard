@@ -89,11 +89,11 @@ class WeatherWidget(Widget):
     text_x = 650
 
     # Conditions headline and icon
-    image.paste(get_icon(self.current['icon']), (self.bounds[0] + 10, self.bounds[1]))
+    image.paste(get_icon(self.current['icon']), (self.bounds[0] + 8, self.bounds[1]))
     temp_str = f"{self.current['temp']}°C"
     image_draw.text((text_x, self.bounds[1]), temp_str, font = fonts.KEEP_CALM_48, fill = 0)
     temp_high_low_str = f"{self.temp_high} | {self.temp_low}"
-    image_draw.text((text_x, self.bounds[1] + 55), temp_high_low_str, font = fonts.KEEP_CALM_28, fill = 0)
+    image_draw.text((text_x, self.bounds[1] + 58), temp_high_low_str, font = fonts.KEEP_CALM_28, fill = 0)
 
     # Smaller details for rain chance and wind speed
     font = fonts.KEEP_CALM_20

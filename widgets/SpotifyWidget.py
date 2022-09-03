@@ -59,11 +59,18 @@ class SpotifyWidget(Widget):
   def draw_data(self, image_draw, image):
     root_x = self.bounds[0] + 10
     root_y = self.bounds[1] + round((self.bounds[3] - IMAGE_SIZE) / 2)
-    text_x = root_x + IMAGE_SIZE + 10
+    text_x = root_x + IMAGE_SIZE + 12
     max_line_width = SPOTIFY_BOUNDS[2] - text_x
     text_gap = 25
 
     # Album image
+    helpers.draw_divider(
+      image_draw,
+      root_x - 3,
+      root_y - 3,
+      IMAGE_SIZE + 5,
+      IMAGE_SIZE + 5
+    )
     if self.album_image != None:
       image.paste(self.album_image, (root_x, root_y))
 

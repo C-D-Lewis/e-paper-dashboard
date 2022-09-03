@@ -98,7 +98,7 @@ class TwitterWidget(Widget):
       # Format datetime
       date_str = self.tweet['created_at'].replace('Z', '')
       date_obj = datetime.datetime.fromisoformat(date_str)
-      self.tweet['display_date'] = date_obj.strftime("%H:%M %B %d, %Y")
+      self.tweet['display_date'] = date_obj.strftime("%H:%M %b %d, %Y")
       print(f"[twitter] formatted date")
 
       # Fetch image (it could change)
@@ -150,10 +150,10 @@ class TwitterWidget(Widget):
     image.paste(images.ICON_HEART, (root_x + 5, stats_y - 3))
     likes_str = helpers.format_number(self.tweet['public_metrics']['like_count'])
     image_draw.text((root_x + 35, stats_y), likes_str, font = font, fill = 0)
-    image.paste(images.ICON_RETWEET, (root_x + 80, stats_y - 4))
+    image.paste(images.ICON_RETWEET, (root_x + 90, stats_y - 4))
     retweet_str = helpers.format_number(self.tweet['public_metrics']['retweet_count'])
-    image_draw.text((root_x + 107, stats_y), retweet_str, font = font, fill = 0)
+    image_draw.text((root_x + 117, stats_y), retweet_str, font = font, fill = 0)
 
     # Tweet date
-    date_x = content_x + IMAGE_SIZE + 90
+    date_x = content_x + IMAGE_SIZE + 110
     image_draw.text((date_x, stats_y), f"{self.tweet['display_date']}", font = font, fill = 0)

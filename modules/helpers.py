@@ -56,13 +56,11 @@ def draw_divider(image_draw, x, y, w, h, grey = False):
   image_draw.rectangle([x, y, rect_rhs, rect_bottom], fill = 0)
 
   # TODO: Grey with alternating white (orientations?)
-  if grey:
-    cursor_x = x
-    # For each x
-    while cursor_x < cursor_x + rect_rhs:
-      fill = 0
-
-
+  # if grey:
+  #   cursor_x = x
+  #   # For each x
+  #   while cursor_x < cursor_x + rect_rhs:
+  #     fill = 0
 
 #
 # Format a number e.g: 1342 to 1.3k

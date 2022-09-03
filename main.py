@@ -37,7 +37,7 @@ def draw_date_and_time(image_draw):
   time_str = now.strftime("%H:%M")
   image_draw.text((root_x, root_y), time_str, font = fonts.KEEP_CALM_80, fill = 0)
   date_str = now.strftime("%B %d, %Y")
-  image_draw.text((root_x, root_y + 85), date_str, font = fonts.KEEP_CALM_48, fill = 0)
+  image_draw.text((root_x, root_y + 87), date_str, font = fonts.KEEP_CALM_46, fill = 0)
 
 #
 # Draw cycling page indicators
@@ -136,6 +136,7 @@ def draw():
   # Cycling widgets on the right side
   now = datetime.now()
   index = now.minute % NUM_PAGES
+  index = 2
   draw_page_indicators(image_draw, index)
   if index == 0:
     news_widget.draw(image_draw, image)
