@@ -50,7 +50,8 @@ def draw_page_indicators(image_draw, page_index):
   border = 2
 
   # Prevent spill from left hand side
-  bg_x = 385
+  # TODO Based on MIDWAY constant
+  bg_x = 388
   bg_y = 167
   image_draw.rectangle([bg_x, bg_y, bg_x + 50, bg_y + 313], fill = 1)
 
@@ -84,6 +85,7 @@ def draw_dividers(image_draw):
     WIDGET_BOUNDS_TOP[2],
     DIVIDER_SIZE
   )
+
   # Left 'half' top from bottom
   divider_2_y = WIDGET_BOUNDS_TOP[3] + DIVIDER_SIZE + WIDGET_BOUNDS_TOP_LEFT[3]
   helpers.draw_divider(
@@ -93,6 +95,7 @@ def draw_dividers(image_draw):
     WIDGET_BOUNDS_TOP_LEFT[2],
     DIVIDER_SIZE
   )
+
   # Left 'half' from right 'half'
   divider_3_y = WIDGET_BOUNDS_TOP[3] + DIVIDER_SIZE
   helpers.draw_divider(
@@ -136,7 +139,6 @@ def draw():
   # Cycling widgets on the right side
   now = datetime.now()
   index = now.minute % NUM_PAGES
-  index = 2
   draw_page_indicators(image_draw, index)
   if index == 0:
     news_widget.draw(image_draw, image)
