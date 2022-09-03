@@ -5,7 +5,7 @@ from modules import fonts, helpers
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS_RIGHT
 
-QUOTES_BOUNDS = WIDGET_BOUNDS_RIGHT
+BOUNDS = WIDGET_BOUNDS_RIGHT
 
 # Debug quote
 DEBUG_QUOTE = "This is just an unbelieveably long and inspiring quote. Some say that even reading this quote could change the course of history, settle a territorial dispute, or right unforgivable wrongs. It's so powerful that we can only use it for testing this widget without endangering anybody. In fact nobody would even believe you could fit this into a maximum of 7 lines..."
@@ -20,7 +20,7 @@ class QuotesWidget(Widget):
   # Constructor
   #
   def __init__(self):
-    super().__init__(QUOTES_BOUNDS)
+    super().__init__(BOUNDS)
 
     self.quote = {}
 

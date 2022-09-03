@@ -4,7 +4,7 @@ from modules import fetch, config, fonts, images, constants
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS_BOTTOM_LEFT
 
-CRYPTO_BOUNDS = WIDGET_BOUNDS_BOTTOM_LEFT
+BOUNDS = WIDGET_BOUNDS_BOTTOM_LEFT
 
 #
 # CryptoWidget class
@@ -14,7 +14,7 @@ class CryptoWidget(Widget):
   # Constructor
   #
   def __init__(self):
-    super().__init__(CRYPTO_BOUNDS)
+    super().__init__(BOUNDS)
 
     self.btc_data = { 'value': 0, 'change': 0 }
     self.eth_data = { 'value': 0, 'change': 0 }

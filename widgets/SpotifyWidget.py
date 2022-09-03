@@ -6,7 +6,7 @@ from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS_TOP_LEFT
 from modules.spotify import authorize, get_now_playing
 
-SPOTIFY_BOUNDS = WIDGET_BOUNDS_TOP_LEFT
+BOUNDS = WIDGET_BOUNDS_TOP_LEFT
 
 # Image icon size
 IMAGE_SIZE = 112
@@ -19,7 +19,7 @@ class SpotifyWidget(Widget):
   # Constructor
   #
   def __init__(self):
-    super().__init__(SPOTIFY_BOUNDS)
+    super().__init__(BOUNDS)
 
     self.track_data = {
       'track_name': '',
@@ -60,7 +60,7 @@ class SpotifyWidget(Widget):
     root_x = self.bounds[0] + 10
     root_y = self.bounds[1] + round((self.bounds[3] - IMAGE_SIZE) / 2)
     text_x = root_x + IMAGE_SIZE + 12
-    max_line_width = SPOTIFY_BOUNDS[2] - text_x
+    max_line_width = BOUNDS[2] - text_x
     text_gap = 25
 
     # Album image

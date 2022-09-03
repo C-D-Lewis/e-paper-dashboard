@@ -3,7 +3,7 @@ from modules import fetch, helpers, images, fonts, config
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS_RIGHT
 
-NEWS_BOUNDS = WIDGET_BOUNDS_RIGHT
+BOUNDS = WIDGET_BOUNDS_RIGHT
 
 # Max number of displayed stories
 MAX_STORIES = 5
@@ -16,7 +16,7 @@ class NewsWidget(Widget):
   # Constructor
   #
   def __init__(self):
-    super().__init__(NEWS_BOUNDS)
+    super().__init__(BOUNDS)
 
     self.stories = []
 

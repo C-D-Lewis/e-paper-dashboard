@@ -2,7 +2,7 @@ from modules import fetch, images, helpers, fonts
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS_TOP_LEFT
 
-RAIL_BOUNDS = WIDGET_BOUNDS_TOP_LEFT
+BOUNDS = WIDGET_BOUNDS_TOP_LEFT
 
 #
 # Get operator status from the page body fetched
@@ -33,7 +33,7 @@ class RailWidget(Widget):
   # Constructor
   #
   def __init__(self):
-    super().__init__(RAIL_BOUNDS)
+    super().__init__(BOUNDS)
 
     self.tfl_rail = 'Unknown'
     self.greater_anglia = 'Unknown'

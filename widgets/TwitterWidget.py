@@ -6,7 +6,7 @@ from modules import fetch, fonts, config, helpers, images
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS_RIGHT
 
-TWITTER_BOUNDS = WIDGET_BOUNDS_RIGHT
+BOUNDS = WIDGET_BOUNDS_RIGHT
 
 # Max lines to display
 MAX_LINES = 7
@@ -28,7 +28,7 @@ class TwitterWidget(Widget):
   # Constructor
   #
   def __init__(self):
-    super().__init__(TWITTER_BOUNDS)
+    super().__init__(BOUNDS)
 
     self.id = ''
     self.screen_name = ''

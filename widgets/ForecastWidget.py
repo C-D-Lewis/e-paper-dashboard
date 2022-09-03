@@ -4,7 +4,7 @@ from modules import fetch, helpers, fonts, images, config
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS_RIGHT
 
-FORECAST_BOUNDS = WIDGET_BOUNDS_RIGHT
+BOUNDS = WIDGET_BOUNDS_RIGHT
 
 #
 # Get an appropriate weather icon for the forecast list
@@ -41,7 +41,7 @@ class ForecastWidget(Widget):
   # Constructor
   #
   def __init__(self):
-    super().__init__(FORECAST_BOUNDS)
+    super().__init__(BOUNDS)
 
     self.forecast = []
 

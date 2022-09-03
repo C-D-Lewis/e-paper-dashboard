@@ -4,7 +4,7 @@ from modules import fetch, fonts, images, config
 from widgets.Widget import Widget
 from modules.constants import DAY_START_HOUR, DAY_END_HOUR
 
-WEATHER_BOUNDS = (510, 20, 0, 0)
+BOUNDS = (510, 20, 0, 0)
 
 #
 # Get an appropriate weather icon
@@ -43,7 +43,7 @@ class WeatherWidget(Widget):
   # Constructor
   #
   def __init__(self):
-    super().__init__(WEATHER_BOUNDS)
+    super().__init__(BOUNDS)
 
     self.current = {
       'temp': 0,
