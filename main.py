@@ -10,7 +10,7 @@ from widgets.ForecastWidget import ForecastWidget
 from widgets.QuotesWidget import QuotesWidget
 from widgets.SpotifyWidget import SpotifyWidget
 from widgets.NasaPodWidget import NasaPodWidget
-from modules.constants import DIVIDER_SIZE, WIDGET_BOUNDS_BOTTOM_LEFT, WIDGET_BOUNDS_RIGHT, WIDGET_BOUNDS_TOP, WIDGET_BOUNDS_TOP_LEFT
+from modules.constants import DIVIDER_SIZE, WIDGET_BOUNDS_BOTTOM_LEFT, WIDGET_BOUNDS_RIGHT, WIDGET_BOUNDS_TOP, WIDGET_BOUNDS_TOP_LEFT, MIDWAY
 
 # Slow data update interval
 UPDATE_INTERVAL_M = 15
@@ -45,17 +45,17 @@ def draw_date_and_time(image_draw):
 # Draw cycling page indicators
 #
 def draw_page_indicators(image_draw, page_index):
-  root_x = WIDGET_BOUNDS_TOP_LEFT[2] + 20
+  root_x = MIDWAY + 20
   root_y = 268
   gap_y = 25
   size = 8
   border = 2
 
   # Prevent spill from left hand side
-  # TODO Based on MIDWAY constant
-  bg_x = 388
+  bg_x = MIDWAY + 8
   bg_y = 167
-  image_draw.rectangle([bg_x, bg_y, bg_x + 50, bg_y + 313], fill = 1)
+  bg_width = 50
+  image_draw.rectangle([bg_x, bg_y, bg_x + bg_width, bg_y + 313], fill = 1)
 
   # For each dot
   for index in range(0, NUM_PAGES):
@@ -94,7 +94,7 @@ def draw_dividers(image_draw):
     image_draw,
     0,
     divider_2_y,
-    WIDGET_BOUNDS_TOP_LEFT[2],
+    MIDWAY,
     DIVIDER_SIZE
   )
 
@@ -102,7 +102,7 @@ def draw_dividers(image_draw):
   divider_3_y = WIDGET_BOUNDS_TOP[3] + DIVIDER_SIZE
   helpers.draw_divider(
     image_draw,
-    WIDGET_BOUNDS_TOP_LEFT[2],
+    MIDWAY,
     divider_3_y,
     DIVIDER_SIZE,
     WIDGET_BOUNDS_RIGHT[3]
