@@ -60,7 +60,7 @@ class SpotifyWidget(Widget):
     root_x = self.bounds[0] + 10
     root_y = self.bounds[1] + round((self.bounds[3] - IMAGE_SIZE) / 2)
     text_x = root_x + IMAGE_SIZE + 12
-    max_line_width = BOUNDS[2] - text_x
+    max_line_width = self.bounds[2] - text_x
     text_gap = 25
 
     # Album image
