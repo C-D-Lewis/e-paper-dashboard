@@ -70,7 +70,8 @@ class NasaPodWidget(Widget):
   # Draw the image to fit
   #
   def draw_data(self, image_draw, image):
-    root_x = self.bounds[0] + int(round((self.bounds[2] - self.image_width) / 2))
+    # Could be wider than the widget
+    root_x = max(self.bounds[0], self.bounds[0] + int(round((self.bounds[2] - self.image_width) / 2)))
     root_y = self.bounds[1] + 5
 
     # Image
