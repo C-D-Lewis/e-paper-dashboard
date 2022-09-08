@@ -38,7 +38,7 @@ def draw_date_and_time(image_draw):
   now = datetime.now()
   time_str = now.strftime("%H:%M")
   image_draw.text((root_x, root_y), time_str, font = fonts.KEEP_CALM_80, fill = 0)
-  date_str = now.strftime("%B %d, %Y")
+  date_str = now.strftime("%a %-d %b %Y")
   image_draw.text((root_x, root_y + 87), date_str, font = fonts.KEEP_CALM_46, fill = 0)
 
 #
@@ -52,7 +52,7 @@ def draw_page_indicators(image_draw, page_index):
   border = 2
 
   # Prevent spill from left hand side
-  bg_x = MIDWAY + 8
+  bg_x = MIDWAY + 6
   bg_y = 167
   bg_width = 50
   image_draw.rectangle([bg_x, bg_y, bg_x + bg_width, bg_y + 313], fill = 1)

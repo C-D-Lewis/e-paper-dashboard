@@ -39,8 +39,9 @@ class NasaPodWidget(Widget):
           src = l[10:-1]
           self.img_url = f"https://apod.nasa.gov/apod/{src}"
         # <b> Sea and Sky Glows over the Oregon Coast </b> <br>
-        if '</b> <br>' in l:
-          self.description = l[4:-11]
+        # <b>North America and the Pelican</b> <br>
+        if '</b> <br>' in l and not self.description:
+          self.description = l[3:-11]
       print(f"[nasapod] {self.img_url}")
       print(f"[nasapod] {self.description}")
 
