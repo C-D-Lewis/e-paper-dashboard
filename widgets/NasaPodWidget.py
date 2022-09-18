@@ -36,12 +36,12 @@ class NasaPodWidget(Widget):
       for l in page_lines:
         # <IMG SRC="image/2209/Interval29seconds_Transit1200.jpg"
         if 'SRC' in l:
-          src = l[10:-1]
+          src = l.split('"')[1]
           self.img_url = f"https://apod.nasa.gov/apod/{src}"
         # <b> Sea and Sky Glows over the Oregon Coast </b> <br>
         # <b>North America and the Pelican</b> <br>
         if '</b> <br>' in l and not self.description:
-          self.description = l[3:-11]
+          self.description = l.split('<b>')[1].split('</b>')[0].strip()
       print(f"[nasapod] {self.img_url}")
       print(f"[nasapod] {self.description}")
 
