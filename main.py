@@ -10,6 +10,7 @@ from widgets.ForecastWidget import ForecastWidget
 from widgets.QuotesWidget import QuotesWidget
 from widgets.SpotifyWidget import SpotifyWidget
 from widgets.NasaPodWidget import NasaPodWidget
+from widgets.JingleJamWidget import JingleJamWidget
 from modules.constants import DIVIDER_SIZE, WIDGET_BOUNDS_BOTTOM_LEFT, WIDGET_BOUNDS_RIGHT, WIDGET_BOUNDS_TOP, WIDGET_BOUNDS_TOP_LEFT, MIDWAY
 
 # Slow data update interval
@@ -25,6 +26,7 @@ forecast_widget = ForecastWidget()
 twitter_widget = TwitterWidget()
 quotes_widget = QuotesWidget()
 nasa_pod_widget = NasaPodWidget()
+jingle_jam_widget = JingleJamWidget()
 
 ################################### Drawing ####################################
 
@@ -133,7 +135,8 @@ def draw():
 
   # Left side
   spotify_widget.draw(image_draw, image)
-  crypto_widget.draw(image_draw, image)
+  # crypto_widget.draw(image_draw, image) temporary for december
+  jingle_jam_widget.draw(image_draw, image)
 
   # Decorations
   draw_dividers(image_draw)
@@ -169,7 +172,8 @@ def draw():
 #
 def periodic_data_update():
   weather_widget.update_data()
-  crypto_widget.update_data()
+  # crypto_widget.update_data() temp for december
+  jingle_jam_widget.update_data()
   news_widget.update_data()
   forecast_widget.update_data()
   twitter_widget.update_data()

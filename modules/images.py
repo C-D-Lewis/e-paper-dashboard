@@ -49,3 +49,6 @@ ICON_RETWEET = Image.open(os.path.join(IMAGES_DIR, 'retweet.bmp'))
 # Other icons
 ICON_ERROR = Image.open(os.path.join(IMAGES_DIR, 'error.bmp'))
 ICON_QUESTION_MARK = Image.open(os.path.join(IMAGES_DIR, 'question.bmp'))
+
+# Other images
+JINGLE_JAM = Image.open(os.path.join(IMAGES_DIR, 'jingle_jam.bmp'))
