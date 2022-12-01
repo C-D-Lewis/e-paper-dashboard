@@ -26,9 +26,11 @@ class JingleJamWidget(Widget):
   def update_data(self):
     try:
       # Fetch latest data
-      # url = f""
-      # html = fetch.fetch_text(url)
-      new_amount = ...
+      url = 'https://dashboard.jinglejam.co.uk/api/tiltify'
+      json = fetch.fetch_json(url, {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0'
+      })
+      new_amount = round(json['total']['pounds'])
 
       # Derive application values
       self.data['amount'] = new_amount
@@ -59,5 +61,5 @@ class JingleJamWidget(Widget):
     image_draw.text((text_x, root_y + 80), f"£{self.data['amount']:,}", font = fonts.KEEP_CALM_46, fill = 0)
 
     # Amount this hour
-    this_hour = self.data['amount'] - self.data['amount_last_hour']
-    image_draw.text((text_x, root_y + 123), f"+ £{self.data['amount_last_hour']:,}", font = fonts.KEEP_CALM_24, fill = 0)
+    this_hour = round(self.data['amount'] - self.data['amount_last_hour'])
+    image_draw.text((text_x, root_y + 125), f"+ £{this_hour:,}", font = fonts.KEEP_CALM_24, fill = 0)

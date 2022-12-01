@@ -173,7 +173,6 @@ def draw():
 def periodic_data_update():
   weather_widget.update_data()
   # crypto_widget.update_data() temp for december
-  jingle_jam_widget.update_data()
   news_widget.update_data()
   forecast_widget.update_data()
   twitter_widget.update_data()
@@ -185,6 +184,7 @@ def periodic_data_update():
 #
 def minutely_data_update():
   spotify_widget.update_data()
+  jingle_jam_widget.update_data()
 
 #
 # Wait for the next minute
