@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 from modules import fetch, fonts, images
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS_BOTTOM_LEFT
@@ -21,27 +22,49 @@ class JingleJamWidget(Widget):
     }
 
   #
+  # Cache last data to disk
+  #
+  def cache_last(self):
+    with open('JingleJamWidget.json', 'w') as outfile:
+      json.dump(self.data, outfile)
+
+  #
+  # Load cached data
+  #
+  def load_last(self):
+    with open('JingleJamWidget.json') as json_file:
+      self.data = json.load(json_file)
+
+  #
   # Update Jingle Jam raised amount
   #
   def update_data(self):
     try:
-      # Fetch latest data
-      url = 'https://dashboard.jinglejam.co.uk/api/tiltify'
-      json = fetch.fetch_json(url, {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0'
-      })
-      new_amount = round(json['total']['pounds'])
+      try:
+        # Fetch latest data
+        url = 'https://dashboard.jinglejam.co.uk/api/tiltify'
+        res = fetch.fetch_json(url, {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0'
+        })
+        new_amount = round(res['total']['pounds'])
+      
+        # Derive application values
+        self.data['amount'] = new_amount
 
-      # Derive application values
-      self.data['amount'] = new_amount
+        # Since last hour
+        now = datetime.now()
+        if now.minute == 0:
+          self.data['amount_last_hour'] = new_amount
 
-      # Since last hour
-      now = datetime.now()
-      if now.minute == 0:
-        self.data['amount_last_hour'] = new_amount
+        self.cache_last()
+        print(f"[jinglejam] {self.data}")
+        self.unset_error()
+      except Exception as err:
+        print(err)
 
-      print(f"[jinglejam] {self.data}")
-      self.unset_error()
+        # Use saved data instead
+        self.load_last()
+        print("[jinglejam] loaded cache")
     except Exception as err:
       self.set_error(err)
 

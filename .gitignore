@@ -4,3 +4,4 @@ config.json
 *.png
 .cache
 last_playing.json
+JingleJamWidget.json
