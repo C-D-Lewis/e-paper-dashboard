@@ -26,7 +26,7 @@ forecast_widget = ForecastWidget()
 twitter_widget = TwitterWidget()
 quotes_widget = QuotesWidget()
 nasa_pod_widget = NasaPodWidget()
-jingle_jam_widget = JingleJamWidget()
+# jingle_jam_widget = JingleJamWidget()
 
 ################################### Drawing ####################################
 
@@ -135,8 +135,10 @@ def draw():
 
   # Left side
   spotify_widget.draw(image_draw, image)
-  # crypto_widget.draw(image_draw, image) temporary for december
-  jingle_jam_widget.draw(image_draw, image)
+
+  # Either:
+  crypto_widget.draw(image_draw, image)
+  # jingle_jam_widget.draw(image_draw, image)
 
   # Decorations
   draw_dividers(image_draw)
@@ -172,7 +174,7 @@ def draw():
 #
 def periodic_data_update():
   weather_widget.update_data()
-  # crypto_widget.update_data() temp for december
+  crypto_widget.update_data()
   news_widget.update_data()
   forecast_widget.update_data()
   twitter_widget.update_data()
@@ -184,7 +186,7 @@ def periodic_data_update():
 #
 def minutely_data_update():
   spotify_widget.update_data()
-  jingle_jam_widget.update_data()
+  # jingle_jam_widget.update_data()
 
 #
 # Wait for the next minute
