@@ -67,15 +67,15 @@ class WeatherWidget(Widget):
       # Current conditions
       currently = json['currently']
       self.current = {
-        'temp': round(currently['apparentTemperature']),
+        'temp': round(currently['temperature']),
         'summary': currently['summary'],
         'icon': currently['icon'],
         'wind_speed': round(currently['windSpeed']),
         'precip_prob': round(currently['precipProbability'] * 100)
       }
       daily = json['daily']['data'][0]
-      self.temp_high = round(daily['apparentTemperatureHigh'])
-      self.temp_low = round(daily['apparentTemperatureLow'])
+      self.temp_high = round(daily['temperatureHigh'])
+      self.temp_low = round(daily['temperatureLow'])
 
       print(f"[weather] {self.current}")
       self.unset_error()
