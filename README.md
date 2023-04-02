@@ -9,12 +9,10 @@ Included static widgets:
 
 * Time and date
 * Current weather - type, temperature, day high/low, chance of precipitation,
-  and wind speed using the [Darksky API](https://darksky.net/dev).
+  and wind speed using a weather API.
 * Status of two railway operators from
   [National Rail](http://www.nationalrail.co.uk/service_disruptions/indicator.aspx) (currently hidden).
 * Now Playing track with art from Spotify API.
-* Owned amount or daily percentage change of two cryptocurrencies (Bitcoin and Ethereum currently)
-  from [nomics.com API](https://nomics.com).
 
 Pages of widgets that rotate once a minute:
 
@@ -23,6 +21,7 @@ Pages of widgets that rotate once a minute:
 * Latest tweet from a chosen Twitter account.
 * One of a number of quotes obtained from
   [https://type.fit/api/quotes](https://type.fit/api/quotes).
+* NASA Astronomy Picture of the Day.
 
 
 ## Setup
@@ -46,7 +45,7 @@ Copy `config.json.example` and add values appropriate to you:
 |------|------|-------------|
 | `LATITUDE` | String | Local latitude |
 | `LONGITUDE` | String | Local longitude |
-| `DARKSKY_KEY` | String | Key for Darksky weather API |
+| `WEATHER_KEY` | String | Key for the weather API |
 | `NOMICS_KEY` | String | Key for Nomics crypto API |
 | `BTC_AMOUNT` | Float | Amount of Bitcoin owned |
 | `ETH_AMOUNT` | Float | Amoutn of Ethereum owned |

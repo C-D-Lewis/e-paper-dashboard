@@ -26,3 +26,6 @@ DAY_START_HOUR = 6
 
 # Hour the day ends
 DAY_END_HOUR = 18
+
+# Miles per hour per 1 kph
+MPH_PER_KPH = 0.621371

@@ -2,7 +2,7 @@ import images
 import datetime
 from modules import fetch, helpers, fonts, images, config
 from widgets.Widget import Widget
-from modules.constants import WIDGET_BOUNDS_RIGHT
+from modules.constants import WIDGET_BOUNDS_RIGHT, MPH_PER_KPH
 
 BOUNDS = WIDGET_BOUNDS_RIGHT
 
@@ -54,20 +54,19 @@ class ForecastWidget(Widget):
 
     try:
       # Fetch data
-      params = 'units=auto&exclude=hourly,minutely'
-      url = f"https://api.darksky.net/forecast/{config.get('DARKSKY_KEY')}/{config.get('LATITUDE')},{config.get('LONGITUDE')}?{params}"
+      url = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{config.get('LATITUDE')}%2C{config.get('LONGITUDE')}?unitGroup=metric&include=current%2Cdays&key={config.get('WEATHER_KEY')}&contentType=json"
       json = fetch.fetch_json(url)
 
       # 5 day forecast - first item is today, so skip it
       for index in range(1, 6):
-        day_data = json['daily']['data'][index]
+        day_data = json['days'][index]
         day = {
-          'summary': day_data['summary'],
+          'summary': day_data['description'],
           'icon': day_data['icon'],
-          'temp_high': round(day_data['apparentTemperatureHigh']),
-          'temp_low': round(day_data['apparentTemperatureLow']),
-          'precip_prob': round(day_data['precipProbability'] * 100),
-          'wind_speed': round(day_data['windSpeed'])
+          'temp_high': round(day_data['tempmax']),
+          'temp_low': round(day_data['tempmin']),
+          'precip_prob': round(day_data['precipprob'] * 100),
+          'wind_speed': round(day_data['windspeed'] * MPH_PER_KPH)
         }
         self.forecast.append(day)
 

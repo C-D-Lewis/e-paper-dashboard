@@ -10,7 +10,7 @@ from widgets.ForecastWidget import ForecastWidget
 from widgets.QuotesWidget import QuotesWidget
 from widgets.SpotifyWidget import SpotifyWidget
 from widgets.NasaPodWidget import NasaPodWidget
-from widgets.JingleJamWidget import JingleJamWidget
+# from widgets.JingleJamWidget import JingleJamWidget
 from modules.constants import DIVIDER_SIZE, WIDGET_BOUNDS_BOTTOM_LEFT, WIDGET_BOUNDS_RIGHT, WIDGET_BOUNDS_TOP, WIDGET_BOUNDS_TOP_LEFT, MIDWAY
 
 # Slow data update interval
@@ -146,6 +146,7 @@ def draw():
   # Cycling widgets on the right side
   now = datetime.now()
   index = now.minute % NUM_PAGES
+  index = 1
   draw_page_indicators(image_draw, index)
   if index == 0:
     news_widget.draw(image_draw, image)

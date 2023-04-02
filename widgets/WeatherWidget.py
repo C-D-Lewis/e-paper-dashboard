@@ -2,7 +2,7 @@ import images
 import datetime
 from modules import fetch, fonts, images, config
 from widgets.Widget import Widget
-from modules.constants import DAY_START_HOUR, DAY_END_HOUR
+from modules.constants import DAY_START_HOUR, DAY_END_HOUR, MPH_PER_KPH
 
 BOUNDS = (510, 20, 0, 0)
 
@@ -60,22 +60,24 @@ class WeatherWidget(Widget):
   #
   def update_data(self):
     try:
-      params = 'units=auto&exclude=hourly,minutely'
-      url = f"https://api.darksky.net/forecast/{config.get('DARKSKY_KEY')}/{config.get('LATITUDE')},{config.get('LONGITUDE')}?{params}"
+      url = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{config.get('LATITUDE')}%2C{config.get('LONGITUDE')}?unitGroup=metric&include=current%2Cdays&key={config.get('WEATHER_KEY')}&contentType=json"
       json = fetch.fetch_json(url)
+      # print(json)
 
       # Current conditions
-      currently = json['currently']
+      current = json['currentConditions']
       self.current = {
-        'temp': round(currently['temperature']),
-        'summary': currently['summary'],
-        'icon': currently['icon'],
-        'wind_speed': round(currently['windSpeed']),
-        'precip_prob': round(currently['precipProbability'] * 100)
+        'temp': round(current['temp']),
+        'summary': current['conditions'],
+        'icon': current['icon'],
+        'wind_speed': round(current['windspeed'] * MPH_PER_KPH),
+        'precip_prob': round(current['precipprob'] * 100)
       }
-      daily = json['daily']['data'][0]
-      self.temp_high = round(daily['temperatureHigh'])
-      self.temp_low = round(daily['temperatureLow'])
+
+      # Today
+      daily = json['days'][0]
+      self.temp_high = round(daily['tempmax'])
+      self.temp_low = round(daily['tempmin'])
 
       print(f"[weather] {self.current}")
       self.unset_error()
