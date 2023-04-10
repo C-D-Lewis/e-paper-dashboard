@@ -65,7 +65,7 @@ class ForecastWidget(Widget):
           'icon': day_data['icon'],
           'temp_high': round(day_data['tempmax']),
           'temp_low': round(day_data['tempmin']),
-          'precip_prob': round(day_data['precipprob'] * 100),
+          'precip_prob': round(day_data['precipprob']),
           'wind_speed': round(day_data['windspeed'] * MPH_PER_KPH)
         }
         self.forecast.append(day)
