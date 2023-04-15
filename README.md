@@ -46,7 +46,6 @@ Copy `config.json.example` and add values appropriate to you:
 | `LATITUDE` | String | Local latitude |
 | `LONGITUDE` | String | Local longitude |
 | `WEATHER_KEY` | String | Key for the weather API |
-| `NOMICS_KEY` | String | Key for Nomics crypto API |
 | `BTC_AMOUNT` | Float | Amount of Bitcoin owned |
 | `ETH_AMOUNT` | Float | Amoutn of Ethereum owned |
 | `NEWS_CATEGORY` | String | BBC News category identifier, from the list below |

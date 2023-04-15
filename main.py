@@ -3,14 +3,15 @@ import time
 from datetime import datetime
 from modules import fonts, config, helpers, epaper, timer
 from widgets.WeatherWidget import WeatherWidget
-from widgets.CryptoWidget import CryptoWidget
 from widgets.NewsWidget import NewsWidget
 from widgets.TwitterWidget import TwitterWidget
 from widgets.ForecastWidget import ForecastWidget
 from widgets.QuotesWidget import QuotesWidget
 from widgets.SpotifyWidget import SpotifyWidget
 from widgets.NasaPodWidget import NasaPodWidget
+# from widgets.CryptoWidget import CryptoWidget
 # from widgets.JingleJamWidget import JingleJamWidget
+from widgets.OnThisDayWidget import OnThisDayWidget
 from modules.constants import DIVIDER_SIZE, WIDGET_BOUNDS_BOTTOM_LEFT, WIDGET_BOUNDS_RIGHT, WIDGET_BOUNDS_TOP, WIDGET_BOUNDS_TOP_LEFT, MIDWAY
 
 # Slow data update interval
@@ -19,13 +20,14 @@ UPDATE_INTERVAL_M = 15
 NUM_PAGES = 5
 
 weather_widget = WeatherWidget()
-crypto_widget = CryptoWidget()
 spotify_widget = SpotifyWidget()
 news_widget = NewsWidget()
 forecast_widget = ForecastWidget()
 twitter_widget = TwitterWidget()
 quotes_widget = QuotesWidget()
 nasa_pod_widget = NasaPodWidget()
+on_this_day_widget = OnThisDayWidget()
+# crypto_widget = CryptoWidget()
 # jingle_jam_widget = JingleJamWidget()
 
 ################################### Drawing ####################################
@@ -137,8 +139,9 @@ def draw():
   spotify_widget.draw(image_draw, image)
 
   # Either:
-  crypto_widget.draw(image_draw, image)
+  # crypto_widget.draw(image_draw, image)
   # jingle_jam_widget.draw(image_draw, image)
+  on_this_day_widget.draw(image_draw, image)
 
   # Decorations
   draw_dividers(image_draw)
@@ -175,12 +178,13 @@ def draw():
 #
 def periodic_data_update():
   weather_widget.update_data()
-  crypto_widget.update_data()
   news_widget.update_data()
   forecast_widget.update_data()
   twitter_widget.update_data()
   quotes_widget.update_data()
   nasa_pod_widget.update_data()
+  on_this_day_widget.update_data()
+  # crypto_widget.update_data()
 
 #
 # Minutely data source updates
