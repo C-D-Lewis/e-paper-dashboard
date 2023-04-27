@@ -149,7 +149,6 @@ def draw():
   # Cycling widgets on the right side
   now = datetime.now()
   index = now.minute % NUM_PAGES
-  index = 1
   draw_page_indicators(image_draw, index)
   if index == 0:
     news_widget.draw(image_draw, image)
