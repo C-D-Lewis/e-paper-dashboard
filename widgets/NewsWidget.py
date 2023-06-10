@@ -8,6 +8,8 @@ BOUNDS = WIDGET_BOUNDS_RIGHT
 # Max number of displayed stories
 MAX_STORIES = 5
 
+config.require(['NEWS_CATEGORY'])
+
 #
 # News widget class
 #

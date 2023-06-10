@@ -6,6 +6,8 @@ from modules.constants import WIDGET_BOUNDS_BOTTOM_LEFT
 
 BOUNDS = WIDGET_BOUNDS_BOTTOM_LEFT
 
+config.require(['NOMICS_KEY', 'BTC_AMOUNT', 'ETH_AMOUNT', 'CRYPTO_DISPLAY_MODE'])
+
 #
 # CryptoWidget class
 #

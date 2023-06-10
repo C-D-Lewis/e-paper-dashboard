@@ -9,6 +9,8 @@ SCOPES = "user-read-private,user-read-currently-playing,user-read-playback-state
 client = None
 last_playing = {}
 
+config.require(['SPOTIFY_CLIENT_ID', 'SPOTIFY_CLIENT_SECRET', 'SPOTIFY_REDIRECT_URI'])
+
 #
 # Authorize and create client
 #

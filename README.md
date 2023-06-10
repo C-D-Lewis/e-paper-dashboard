@@ -27,9 +27,13 @@ Pages of widgets that rotate once a minute:
 ## Setup
 
 Follow the steps in the
-[Waveshare wiki](www.waveshare.com/wiki/7.5inch_e-Paper_HAT) to install the
-required libraries for the 7.5 inch V2 e-paper display.
+[Waveshare wiki](http://www.waveshare.com/wiki/7.5inch_e-Paper_HAT) to install the
+required libraries for the 7.5 inch V2 e-paper display:
 
+```shell
+sudo apt-get install python3-pip python3-pil python3-numpy
+sudo pip3 install RPi.GPIO spidev
+```
 
 Install additional Python dependencies:
 
@@ -46,14 +50,15 @@ Copy `config.json.example` and add values appropriate to you:
 | `LATITUDE` | String | Local latitude |
 | `LONGITUDE` | String | Local longitude |
 | `WEATHER_KEY` | String | Key for the weather API |
-| `BTC_AMOUNT` | Float | Amount of Bitcoin owned |
-| `ETH_AMOUNT` | Float | Amoutn of Ethereum owned |
 | `NEWS_CATEGORY` | String | BBC News category identifier, from the list below |
 | `TWITTER_SCREEN_NAME` | String | Twitter name of an account to show latest tweet |
 | `TWITTER_BEARER_TOKEN` | String | Twitter API Bearer token |
 | `SPOTIFY_CLIENT_ID` | `String` | Spotify OAuth flow client ID |
 | `SPOTIFY_CLIENT_SECRET` | `String` | Spotify OAuth flow client secret |
 | `SPOTIFY_REDIRECT_URI` | `String` | Spotify OAuth flow redirect URI |
+| `DRAW_DIVIDERS` | Boolean | Draw the dividing lines |
+
+> Some unused widgets/modules may require additional parameters.
 
 Available BBC News categories:
 

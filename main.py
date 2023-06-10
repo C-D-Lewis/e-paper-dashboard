@@ -1,7 +1,7 @@
 import os
 import time
 from datetime import datetime
-from modules import fonts, config, helpers, epaper, timer
+from modules import fonts, helpers, epaper, timer, config
 from widgets.WeatherWidget import WeatherWidget
 from widgets.NewsWidget import NewsWidget
 from widgets.TwitterWidget import TwitterWidget
@@ -9,26 +9,27 @@ from widgets.ForecastWidget import ForecastWidget
 from widgets.QuotesWidget import QuotesWidget
 from widgets.SpotifyWidget import SpotifyWidget
 from widgets.NasaPodWidget import NasaPodWidget
-# from widgets.CryptoWidget import CryptoWidget
-# from widgets.JingleJamWidget import JingleJamWidget
 from widgets.OnThisDayWidget import OnThisDayWidget
 from modules.constants import DIVIDER_SIZE, WIDGET_BOUNDS_BOTTOM_LEFT, WIDGET_BOUNDS_RIGHT, WIDGET_BOUNDS_TOP, WIDGET_BOUNDS_TOP_LEFT, MIDWAY
 
-# Slow data update interval
-UPDATE_INTERVAL_M = 15
+# Top-right widget
+TOP_RIGHT_WIDGET = WeatherWidget()
+# Right rotation widgets and update intervals
+RIGHT_WIDGETS = [
+  { 'widget': NewsWidget(),     'interval': 60 },
+  { 'widget': ForecastWidget(), 'interval': 60 },
+  { 'widget': TwitterWidget(),  'interval': 30 },
+  { 'widget': QuotesWidget(),   'interval': 15 },
+  { 'widget': NasaPodWidget(),  'interval': 60 },
+]
 # Number of cycling widget pages
-NUM_PAGES = 5
+NUM_PAGES = len(RIGHT_WIDGETS)
+# Left-top widget
+LEFT_TOP_WIDGET = SpotifyWidget()
+# Left-bottom widget
+LEFT_BOTTOM_WIDGET = OnThisDayWidget()
 
-weather_widget = WeatherWidget()
-spotify_widget = SpotifyWidget()
-news_widget = NewsWidget()
-forecast_widget = ForecastWidget()
-twitter_widget = TwitterWidget()
-quotes_widget = QuotesWidget()
-nasa_pod_widget = NasaPodWidget()
-on_this_day_widget = OnThisDayWidget()
-# crypto_widget = CryptoWidget()
-# jingle_jam_widget = JingleJamWidget()
+config.require(['DRAW_DIVIDERS'])
 
 ################################### Drawing ####################################
 
@@ -127,41 +128,23 @@ def draw_all_bounds(image_draw):
 #
 def draw():
   timer.start()
-
-  # Prepare
   image, image_draw = epaper.prepare()
 
   # Top section
-  weather_widget.draw(image_draw, image)
   draw_date_and_time(image_draw)
-
-  # Left side
-  spotify_widget.draw(image_draw, image)
-
-  # Either:
-  # crypto_widget.draw(image_draw, image)
-  # jingle_jam_widget.draw(image_draw, image)
-  on_this_day_widget.draw(image_draw, image)
+  TOP_RIGHT_WIDGET.draw(image_draw, image)
+  LEFT_TOP_WIDGET.draw(image_draw, image)
+  LEFT_BOTTOM_WIDGET.draw(image_draw, image)
 
   # Decorations
-  draw_dividers(image_draw)
+  if config.get('DRAW_DIVIDERS'):
+    draw_dividers(image_draw)
   
   # Cycling widgets on the right side
   now = datetime.now()
   index = now.minute % NUM_PAGES
   draw_page_indicators(image_draw, index)
-  if index == 0:
-    news_widget.draw(image_draw, image)
-  elif index == 1:
-    forecast_widget.draw(image_draw, image)
-  elif index == 2:
-    twitter_widget.draw(image_draw, image)
-  elif index == 3:
-    quotes_widget.draw(image_draw, image)
-  elif index == 4:
-    nasa_pod_widget.draw(image_draw, image)
-  else:
-    print(f"! Unused page index {index}")
+  RIGHT_WIDGETS[index]['widget'].draw(image_draw, image)
 
   # Help debug bounds issues
   # draw_all_bounds(image_draw)
@@ -169,28 +152,7 @@ def draw():
   # Update display
   epaper.show(image)
   timer.end('main draw')
-
   time.sleep(2)
-
-#
-# Update all data sources on a slow period
-#
-def periodic_data_update():
-  weather_widget.update_data()
-  news_widget.update_data()
-  forecast_widget.update_data()
-  twitter_widget.update_data()
-  quotes_widget.update_data()
-  nasa_pod_widget.update_data()
-  on_this_day_widget.update_data()
-  # crypto_widget.update_data()
-
-#
-# Minutely data source updates
-#
-def minutely_data_update():
-  spotify_widget.update_data()
-  # jingle_jam_widget.update_data()
 
 #
 # Wait for the next minute
@@ -205,14 +167,13 @@ def wait_for_next_minute():
 # The main function
 #
 def main():
-  # Load config and prepare data once
-  config.load()
-  twitter_widget.resolve_user_name()
-
   # Initial update and draw
   timer.start()
-  minutely_data_update()
-  periodic_data_update()
+  TOP_RIGHT_WIDGET.update_data()
+  LEFT_TOP_WIDGET.update_data()
+  LEFT_BOTTOM_WIDGET.update_data()
+  for item in RIGHT_WIDGETS:
+    item['widget'].update_data()
   timer.end('initial update')
   epaper.init()
   draw()
@@ -225,17 +186,23 @@ def main():
       wait_for_next_minute()
 
       # Update data sources
+      this_minute = datetime.now().minute
+      updated = False
       timer.start()
-      minutely_data_update()
-      if datetime.now().minute % UPDATE_INTERVAL_M == 0:
-        periodic_data_update()
+      for item in RIGHT_WIDGETS:
+        if this_minute % item['interval'] == 0:
+          updated = True
+          item['widget'].update_data()
       timer.end('main update')
 
-      with helpers.timeout(seconds=45):
-        # Draw all widgets
-        epaper.init()
-        draw()
-        epaper.sleep()
+      # Draw all widgets
+      if updated:
+        with helpers.timeout(seconds=45):
+          epaper.init()
+          draw()
+          epaper.sleep()
+      else:
+        print('No widget updated, not refreshing e-paper')
     except TimeoutError as err:
       # Display lock, reboot the system
       os.system('sudo reboot')

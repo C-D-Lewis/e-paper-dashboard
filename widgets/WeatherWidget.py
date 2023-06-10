@@ -6,6 +6,8 @@ from modules.constants import DAY_START_HOUR, DAY_END_HOUR, MPH_PER_KPH
 
 BOUNDS = (510, 20, 0, 0)
 
+config.require(['LATITUDE', 'LONGITUDE', 'WEATHER_KEY'])
+
 #
 # Get an appropriate weather icon
 #

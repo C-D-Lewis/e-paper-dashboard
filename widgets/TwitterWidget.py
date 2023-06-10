@@ -13,6 +13,8 @@ MAX_LINES = 7
 # Image icon size
 IMAGE_SIZE = 64
 
+config.require(['TWITTER_BEARER_TOKEN', 'TWITTER_SCREEN_NAME'])
+
 #
 # Make an authenticated Twitter API request
 #
@@ -43,6 +45,9 @@ class TwitterWidget(Widget):
       'quote_count': 0,
       'display_date': ''
     }
+
+    # Initial data
+    self.resolve_user_name()
 
   #
   # Format the user's image to a circle

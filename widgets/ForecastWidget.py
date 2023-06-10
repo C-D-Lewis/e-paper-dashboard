@@ -6,6 +6,8 @@ from modules.constants import WIDGET_BOUNDS_RIGHT, MPH_PER_KPH
 
 BOUNDS = WIDGET_BOUNDS_RIGHT
 
+config.require(['LONGITUDE', 'LATITUDE', 'WEATHER_KEY'])
+
 #
 # Get an appropriate weather icon for the forecast list
 #
