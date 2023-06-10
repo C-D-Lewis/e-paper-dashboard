@@ -1,10 +1,6 @@
-import os
-import time
-from datetime import datetime
-from modules import fonts, helpers, epaper, timer, config, log
+from modules import epaper, config, log
 from modes.hourly import run_hourly
 from modes.minutely import run_minutely
-from modules.constants import DIVIDER_SIZE, WIDGET_BOUNDS_LEFT_BOTTOM, WIDGET_BOUNDS_RIGHT, WIDGET_BOUNDS_TOP, WIDGET_BOUNDS_LEFT_TOP, MIDWAY
 
 config.require(['MODE'])
 

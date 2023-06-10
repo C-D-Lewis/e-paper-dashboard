@@ -1,9 +1,6 @@
 from xml.dom import minidom
 from modules import fetch, helpers, images, fonts, config, log
 from widgets.Widget import Widget
-from modules.constants import WIDGET_BOUNDS_RIGHT
-
-BOUNDS = WIDGET_BOUNDS_RIGHT
 
 # Max number of displayed stories
 MAX_STORIES = 5
@@ -17,8 +14,8 @@ class NewsWidget(Widget):
   #
   # Constructor
   #
-  def __init__(self):
-    super().__init__(BOUNDS)
+  def __init__(self, bounds):
+    super().__init__(bounds)
 
     self.stories = []
 

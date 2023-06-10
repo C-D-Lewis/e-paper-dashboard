@@ -14,15 +14,15 @@ from widgets.OnThisDayWidget import OnThisDayWidget
 from modules.constants import DIVIDER_SIZE, WIDGET_BOUNDS_LEFT_BOTTOM, WIDGET_BOUNDS_RIGHT, WIDGET_BOUNDS_TOP, WIDGET_BOUNDS_LEFT_TOP, MIDWAY
 
 TOP_WIDGET = { 'widget': DateTimeWidget('minutely'), 'interval': 1 }
-# Top-right widget (TODO: Pass bounds to constructor?)
+# Top-right widget (TODO: Pass bounds to all constructors)
 TOP_RIGHT_WIDGET = { 'widget': WeatherWidget(), 'interval': 15 }
 # Right rotation widgets and update intervals
 RIGHT_WIDGETS = [
-  { 'widget': NewsWidget(),     'interval': 60 },
-  { 'widget': ForecastWidget(), 'interval': 60 },
-  { 'widget': TwitterWidget(),  'interval': 30 },
-  { 'widget': QuotesWidget(),   'interval': 15 },
-  { 'widget': NasaPodWidget(),  'interval': 60 },
+  { 'widget': NewsWidget(WIDGET_BOUNDS_RIGHT),     'interval': 60 },
+  { 'widget': ForecastWidget(WIDGET_BOUNDS_RIGHT), 'interval': 60 },
+  { 'widget': TwitterWidget(),                     'interval': 30 },
+  { 'widget': QuotesWidget(),                      'interval': 15 },
+  { 'widget': NasaPodWidget(),                     'interval': 60 },
 ]
 # Left-top widget
 LEFT_TOP_WIDGET = { 'widget': SpotifyWidget(), 'interval': 1 }

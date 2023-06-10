@@ -2,9 +2,7 @@ import images
 import datetime
 from modules import fetch, helpers, fonts, images, config, log
 from widgets.Widget import Widget
-from modules.constants import WIDGET_BOUNDS_RIGHT, MPH_PER_KPH
-
-BOUNDS = WIDGET_BOUNDS_RIGHT
+from modules.constants import MPH_PER_KPH
 
 config.require(['LONGITUDE', 'LATITUDE', 'WEATHER_KEY'])
 
@@ -42,8 +40,8 @@ class ForecastWidget(Widget):
   #
   # Constructor
   #
-  def __init__(self):
-    super().__init__(BOUNDS)
+  def __init__(self, bounds):
+    super().__init__(bounds)
 
     self.forecast = []
 
