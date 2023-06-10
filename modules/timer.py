@@ -22,4 +22,4 @@ def start():
 # End the timer
 #
 def end(label):
-  log.info('timer', f"'{label}' took {current_milli_time() - start_time}ms")
+  log.debug('timer', f"'{label}' took {current_milli_time() - start_time}ms")

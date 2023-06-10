@@ -61,7 +61,7 @@ def get_now_playing():
     }
 
     cache_last()
-    log.info('spotify', "cache updated")
+    log.debug('spotify', "cache updated")
     return last_playing
   except Exception as err:
     log.error('spotify', err)

@@ -6,12 +6,12 @@ from modules import log
 # Get a page body text
 #
 def fetch_text(url, headers = {}):
-  log.info('fetch', url)
+  log.debug('fetch', url)
   req = Request(url)
   for key, value in headers.items():
     req.add_header(key, value)
   res = urlopen(req).read()
-  log.info('fetch', "response")
+  log.debug('fetch', "response")
   return res.decode()
 
 #

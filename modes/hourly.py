@@ -7,15 +7,30 @@ from widgets.WeatherWidget import WeatherWidget
 from widgets.NewsWidget import NewsWidget
 from widgets.ForecastWidget import ForecastWidget
 from modules.constants import WIDGET_BOUNDS_LEFT, WIDGET_BOUNDS_RIGHT
+from copy import deepcopy
+
+# Adjustments can be made here
+NEWS_BOUNDS = (
+  WIDGET_BOUNDS_LEFT[0],
+  WIDGET_BOUNDS_LEFT[1] - 15,
+  WIDGET_BOUNDS_LEFT[2] + 15,
+  WIDGET_BOUNDS_LEFT[3]
+)
+FORECAST_BOUNDS = (
+  WIDGET_BOUNDS_RIGHT[0],
+  WIDGET_BOUNDS_RIGHT[1] - 15,
+  WIDGET_BOUNDS_RIGHT[2],
+  WIDGET_BOUNDS_RIGHT[3]
+)
 
 # Top 'left' widget
 TOP_LEFT_WIDGET = DateTimeWidget('hourly')
 # Top right widget
 TOP_RIGHT_WIDGET = WeatherWidget()
 # Left widget
-LEFT_WIDGET = NewsWidget(WIDGET_BOUNDS_LEFT)
+LEFT_WIDGET = NewsWidget(NEWS_BOUNDS)
 # Right widget
-RIGHT_WIDGET = ForecastWidget(WIDGET_BOUNDS_RIGHT)
+RIGHT_WIDGET = ForecastWidget(FORECAST_BOUNDS)
 
 ################################## Main loop ###################################
 

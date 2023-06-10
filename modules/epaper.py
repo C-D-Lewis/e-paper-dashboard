@@ -8,7 +8,7 @@ RUNNING_ON_PI = 'arm' in platform.machine()
 log.info('epaper', { RUNNING_ON_PI })
 
 # Only runs on Pi
-log.info('epaper', 'EPD import')
+log.debug('epaper', 'EPD import')
 if RUNNING_ON_PI:
   from lib.waveshare_epd import epd7in5_V2
   epd = epd7in5_V2.EPD()
@@ -22,7 +22,7 @@ else:
 # Initialise the display
 #
 def init():
-  log.info('epaper', 'epd.init()')
+  log.debug('epaper', 'epd.init()')
   if RUNNING_ON_PI:
     epd.init()
 
@@ -40,27 +40,27 @@ def prepare():
 # Handle updating the display
 #
 def show(image):
-  log.info('epaper', 'epd.display()')
+  log.debug('epaper', 'epd.display()')
   if RUNNING_ON_PI:
     epd.display(epd.getbuffer(image))
   else:
     image.save('render.png')
-  log.info('epaper', 'epd.display() complete')
+  log.debug('epaper', 'epd.display() complete')
   
 #
 # Handle sleeping the display
 #
 def sleep():
-  log.info('epaper', 'epd.sleep()')
+  log.debug('epaper', 'epd.sleep()')
   if RUNNING_ON_PI:
     time.sleep(2)
     epd.sleep()
-  log.info('epaper', 'epd.sleep() complete')
+  log.debug('epaper', 'epd.sleep() complete')
 
 #
 # Handle deinitialising the display
 #
 def deinit():
-  log.info('epaper', 'module_exit()')
+  log.debug('epaper', 'module_exit()')
   if RUNNING_ON_PI:
     epd7in5_V2.epdconfig.module_exit()

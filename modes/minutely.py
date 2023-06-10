@@ -201,7 +201,7 @@ def run_minutely():
           draw()
           epaper.sleep()
       else:
-        log.info('main', 'No widget updated, not refreshing e-paper')
+        log.debug('main', 'No widget updated, not refreshing e-paper')
     except TimeoutError as err:
       # Display lock, reboot the system
       os.system('sudo reboot')

@@ -14,7 +14,7 @@ def load():
   with open(CONFIG_PATH, 'r') as file:
     config = json.loads(file.read())
 
-  log.info('config', config)
+  log.debug('config', config)
 
 load()
 

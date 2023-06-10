@@ -43,7 +43,7 @@ class NasaPodWidget(Widget):
         if '</b> <br>' in l and not self.description:
           self.description = l.split('<b>')[1].split('</b>')[0].strip()
       log.info('nasapod', self.img_url)
-      log.info('nasapod', self.description)
+      log.debug('nasapod', self.description)
 
       # Page format changed?
       if not self.img_url:
@@ -58,10 +58,10 @@ class NasaPodWidget(Widget):
       width, height = img.size
       ratio = width / height
       final_width = int(round(max_height * ratio, 0))
-      log.info('nasapod', f"resize {width}x{height} -> {final_width}x{max_height} r: {ratio}")
+      log.debug('nasapod', f"resize {width}x{height} -> {final_width}x{max_height} r: {ratio}")
       self.image = img.resize((final_width, max_height)).convert('RGBA')
       self.image_width = final_width
-      log.info('nasapod', "Got image")
+      log.debug('nasapod', "Got image")
 
       self.unset_error()
     except Exception as err:

@@ -64,7 +64,7 @@ class WeatherWidget(Widget):
     try:
       url = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{config.get('LATITUDE')}%2C{config.get('LONGITUDE')}?unitGroup=metric&include=current%2Cdays&key={config.get('WEATHER_KEY')}&contentType=json"
       json = fetch.fetch_json(url)
-      # log.info('weather', json)
+      # log.debug('weather', json)
 
       # Current conditions
       current = json['currentConditions']
