@@ -15,9 +15,10 @@ class DateTimeWidget(Widget):
   #
   # Constructor
   #
-  def __init__(self):
+  def __init__(self, mode):
     super().__init__(BOUNDS)
 
+    self.mode = mode
     self.time_str = ''
     self.time_str = ''
 
@@ -29,6 +30,9 @@ class DateTimeWidget(Widget):
       now = datetime.now()
       self.time_str = now.strftime("%H:%M")
       self.date_str = now.strftime("%a %-d %b %Y")
+
+      self.weekday_str = now.strftime('%A,')
+      self.long_date_str = now.strftime("%-dth of %B %Y")
 
       log.info('datetime', f"{self.time_str} {self.date_str}")
       self.unset_error()
@@ -42,5 +46,9 @@ class DateTimeWidget(Widget):
     root_x = 8
     root_y = 10
 
-    image_draw.text((root_x, root_y), self.time_str, font = fonts.KEEP_CALM_80, fill = 0)
-    image_draw.text((root_x, root_y + 87), self.date_str, font = fonts.KEEP_CALM_46, fill = 0)
+    if self.mode == 'minutely':
+      image_draw.text((root_x, root_y), self.time_str, font = fonts.KEEP_CALM_80, fill = 0)
+      image_draw.text((root_x, root_y + 87), self.date_str, font = fonts.KEEP_CALM_46, fill = 0)
+    elif self.mode == 'hourly':
+      image_draw.text((root_x, root_y), self.weekday_str, font = fonts.KEEP_CALM_80, fill = 0)
+      image_draw.text((root_x, root_y + 87), self.long_date_str, font = fonts.KEEP_CALM_46, fill = 0)
