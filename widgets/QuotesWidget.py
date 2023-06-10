@@ -1,7 +1,7 @@
 import json
 import os
 import random
-from modules import fonts, helpers
+from modules import fonts, helpers, log
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS_RIGHT
 
@@ -38,7 +38,7 @@ class QuotesWidget(Widget):
       index = random.randint(0, len(self.quote_list))
       self.quote = self.quote_list[index]
 
-      print(f"[quotes] {self.quote}")
+      log.info('quotes', self.quote)
       self.unset_error()
     except Exception as err:
       self.set_error(err)

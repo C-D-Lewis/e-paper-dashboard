@@ -1,5 +1,7 @@
 # e-paper-dashboard
 
+> Requires Python >= 3.7
+
 E-paper photo frame Python app for Waveshare 7.5in V2 e-paper display with
 information widgets.
 
@@ -37,6 +39,7 @@ sudo pip3 install RPi.GPIO spidev
 
 Install additional Python dependencies:
 
+* `termcolor`
 * `spotipy`
 * `PIL`
 

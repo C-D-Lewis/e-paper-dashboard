@@ -1,8 +1,8 @@
-from modules import fetch, images, helpers, fonts
+from modules import fetch, images, helpers, fonts, log
 from widgets.Widget import Widget
-from modules.constants import WIDGET_BOUNDS_TOP_LEFT
+from modules.constants import WIDGET_BOUNDS_LEFT_TOP
 
-BOUNDS = WIDGET_BOUNDS_TOP_LEFT
+BOUNDS = WIDGET_BOUNDS_LEFT_TOP
 
 #
 # Get operator status from the page body fetched
@@ -49,7 +49,7 @@ class RailWidget(Widget):
       self.tfl_rail = parse_operator_status(body, 'TfL Rail')
       self.greater_anglia = parse_operator_status(body, 'Greater Anglia')
 
-      print(f"[rail] {self.tfl_rail} {self.greater_anglia}")
+      log.info('rail', f"{self.tfl_rail} {self.greater_anglia}")
       self.unset_error()
     except Exception as err:
       self.set_error(err)

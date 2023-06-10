@@ -1,4 +1,5 @@
 import time
+from modules import log
 
 start_time = 0
 
@@ -21,4 +22,4 @@ def start():
 # End the timer
 #
 def end(label):
-  print(f"[timer] '{label}' took {current_milli_time() - start_time}ms")
+  log.info('timer', f"'{label}' took {current_milli_time() - start_time}ms")

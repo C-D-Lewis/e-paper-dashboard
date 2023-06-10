@@ -2,7 +2,7 @@ import datetime
 import urllib
 from PIL import Image, ImageDraw, ImageOps
 from io import BytesIO
-from modules import fetch, fonts, config, helpers, images
+from modules import fetch, fonts, config, helpers, images, log
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS_RIGHT
 
@@ -95,7 +95,7 @@ class TwitterWidget(Widget):
       url = f"https://api.twitter.com/2/users/{self.id}/tweets?exclude=replies,retweets&tweet.fields=created_at,public_metrics"
       json = api_request(url)
       self.tweet = json['data'][0]
-      print(f"[twitter] Got data")
+      log.info('twitter', "Got data")
 
       # Test 280 length
       # self.tweet['text'] = "This is a small change, but a big move for us. 140 was an arbitrary choice based on the 160 character SMS limit. Proud of how thoughtful the team has been in solving a real problem people have when trying to tweet. And at the same time maintaining our brevity, speed, and essence!"
@@ -104,16 +104,16 @@ class TwitterWidget(Widget):
       date_str = self.tweet['created_at'].replace('Z', '')
       date_obj = datetime.datetime.fromisoformat(date_str)
       self.tweet['display_date'] = date_obj.strftime("%H:%M %b %d, %Y")
-      print(f"[twitter] formatted date")
+      log.info('twitter', "formatted date")
 
       # Fetch image (it could change)
       img_data = urllib.request.urlopen(self.image_url).read()
-      print(f"[twitter] Got image")
+      log.info('twitter', "Got image")
       self.image = Image.open(BytesIO(img_data)).resize((IMAGE_SIZE, IMAGE_SIZE)).convert('RGBA')
       self.convert_image()
-      print(f"[twitter] Converted image")
+      log.info('twitter', "Converted image")
 
-      print(f"[twitter] {self.tweet}")
+      log.info('twitter', self.tweet)
       self.unset_error()
     except Exception as err:
       self.set_error(err)

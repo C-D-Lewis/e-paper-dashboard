@@ -1,7 +1,8 @@
 import os
 import time
 from datetime import datetime
-from modules import fonts, helpers, epaper, timer, config
+from modules import fonts, helpers, epaper, timer, config, log
+from widgets.DateTimeWidget import DateTimeWidget
 from widgets.WeatherWidget import WeatherWidget
 from widgets.NewsWidget import NewsWidget
 from widgets.TwitterWidget import TwitterWidget
@@ -10,10 +11,11 @@ from widgets.QuotesWidget import QuotesWidget
 from widgets.SpotifyWidget import SpotifyWidget
 from widgets.NasaPodWidget import NasaPodWidget
 from widgets.OnThisDayWidget import OnThisDayWidget
-from modules.constants import DIVIDER_SIZE, WIDGET_BOUNDS_BOTTOM_LEFT, WIDGET_BOUNDS_RIGHT, WIDGET_BOUNDS_TOP, WIDGET_BOUNDS_TOP_LEFT, MIDWAY
+from modules.constants import DIVIDER_SIZE, WIDGET_BOUNDS_LEFT_BOTTOM, WIDGET_BOUNDS_RIGHT, WIDGET_BOUNDS_TOP, WIDGET_BOUNDS_LEFT_TOP, MIDWAY
 
-# Top-right widget
-TOP_RIGHT_WIDGET = WeatherWidget()
+TOP_WIDGET = { 'widget': DateTimeWidget(), 'interval': 1 }
+# Top-right widget (TODO: Pass bounds to constructor?)
+TOP_RIGHT_WIDGET = { 'widget': WeatherWidget(), 'interval': 15 }
 # Right rotation widgets and update intervals
 RIGHT_WIDGETS = [
   { 'widget': NewsWidget(),     'interval': 60 },
@@ -22,29 +24,16 @@ RIGHT_WIDGETS = [
   { 'widget': QuotesWidget(),   'interval': 15 },
   { 'widget': NasaPodWidget(),  'interval': 60 },
 ]
+# Left-top widget
+LEFT_TOP_WIDGET = { 'widget': SpotifyWidget(), 'interval': 1 }
+# Left-bottom widget
+LEFT_BOTTOM_WIDGET = { 'widget': OnThisDayWidget(), 'interval': 15 }
 # Number of cycling widget pages
 NUM_PAGES = len(RIGHT_WIDGETS)
-# Left-top widget
-LEFT_TOP_WIDGET = SpotifyWidget()
-# Left-bottom widget
-LEFT_BOTTOM_WIDGET = OnThisDayWidget()
 
 config.require(['DRAW_DIVIDERS'])
 
 ################################### Drawing ####################################
-
-#
-# Draw time module
-#
-def draw_date_and_time(image_draw):
-  root_x = 8
-  root_y = 10
-
-  now = datetime.now()
-  time_str = now.strftime("%H:%M")
-  image_draw.text((root_x, root_y), time_str, font = fonts.KEEP_CALM_80, fill = 0)
-  date_str = now.strftime("%a %-d %b %Y")
-  image_draw.text((root_x, root_y + 87), date_str, font = fonts.KEEP_CALM_46, fill = 0)
 
 #
 # Draw cycling page indicators
@@ -94,7 +83,7 @@ def draw_dividers(image_draw):
   )
 
   # Left 'half' top from bottom
-  divider_2_y = WIDGET_BOUNDS_TOP[3] + DIVIDER_SIZE + WIDGET_BOUNDS_TOP_LEFT[3]
+  divider_2_y = WIDGET_BOUNDS_TOP[3] + DIVIDER_SIZE + WIDGET_BOUNDS_LEFT_TOP[3]
   helpers.draw_divider(
     image_draw,
     0,
@@ -117,8 +106,8 @@ def draw_dividers(image_draw):
 # Draw all bounds for debugging purposes
 #
 def draw_all_bounds(image_draw):
-  helpers.draw_divider(image_draw, *WIDGET_BOUNDS_TOP_LEFT)
-  helpers.draw_divider(image_draw, *WIDGET_BOUNDS_BOTTOM_LEFT)
+  helpers.draw_divider(image_draw, *WIDGET_BOUNDS_LEFT_TOP)
+  helpers.draw_divider(image_draw, *WIDGET_BOUNDS_LEFT_BOTTOM)
   helpers.draw_divider(image_draw, *WIDGET_BOUNDS_RIGHT)
 
 ################################## Main loop ###################################
@@ -131,10 +120,10 @@ def draw():
   image, image_draw = epaper.prepare()
 
   # Top section
-  draw_date_and_time(image_draw)
-  TOP_RIGHT_WIDGET.draw(image_draw, image)
-  LEFT_TOP_WIDGET.draw(image_draw, image)
-  LEFT_BOTTOM_WIDGET.draw(image_draw, image)
+  TOP_WIDGET['widget'].draw(image_draw, image)
+  TOP_RIGHT_WIDGET['widget'].draw(image_draw, image)
+  LEFT_TOP_WIDGET['widget'].draw(image_draw, image)
+  LEFT_BOTTOM_WIDGET['widget'].draw(image_draw, image)
 
   # Decorations
   if config.get('DRAW_DIVIDERS'):
@@ -169,9 +158,10 @@ def wait_for_next_minute():
 def main():
   # Initial update and draw
   timer.start()
-  TOP_RIGHT_WIDGET.update_data()
-  LEFT_TOP_WIDGET.update_data()
-  LEFT_BOTTOM_WIDGET.update_data()
+  TOP_WIDGET['widget'].update_data()
+  TOP_RIGHT_WIDGET['widget'].update_data()
+  LEFT_TOP_WIDGET['widget'].update_data()
+  LEFT_BOTTOM_WIDGET['widget'].update_data()
   for item in RIGHT_WIDGETS:
     item['widget'].update_data()
   timer.end('initial update')
@@ -189,10 +179,22 @@ def main():
       this_minute = datetime.now().minute
       updated = False
       timer.start()
+
+      # All right widgets
       for item in RIGHT_WIDGETS:
         if this_minute % item['interval'] == 0:
           updated = True
           item['widget'].update_data()
+
+      # Other widgets
+      if this_minute % TOP_WIDGET['interval'] == 0:
+        TOP_WIDGET['widget'].update_data()
+      if this_minute % TOP_RIGHT_WIDGET['interval'] == 0:
+        TOP_RIGHT_WIDGET['widget'].update_data()
+      if this_minute % LEFT_TOP_WIDGET['interval'] == 0:
+        LEFT_TOP_WIDGET['widget'].update_data()
+      if this_minute % LEFT_BOTTOM_WIDGET['interval'] == 0:
+        LEFT_BOTTOM_WIDGET['widget'].update_data()
       timer.end('main update')
 
       # Draw all widgets
@@ -202,19 +204,19 @@ def main():
           draw()
           epaper.sleep()
       else:
-        print('No widget updated, not refreshing e-paper')
+        log.info('main', 'No widget updated, not refreshing e-paper')
     except TimeoutError as err:
       # Display lock, reboot the system
       os.system('sudo reboot')
     except Exception as err:
       # Failed to work normally
-      print(err)
+      log.error('main', err)
       time.sleep(5)
 
 if __name__ in '__main__':
   try:
     main()
   except KeyboardInterrupt:
-    print('Exiting')
+    log.error('main', 'Exiting')
     epaper.deinit()
     exit()

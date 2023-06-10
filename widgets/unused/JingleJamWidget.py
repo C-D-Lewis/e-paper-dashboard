@@ -1,10 +1,10 @@
 from datetime import datetime
 import json
-from modules import fetch, fonts, images
+from modules import fetch, fonts, images, log
 from widgets.Widget import Widget
-from modules.constants import WIDGET_BOUNDS_BOTTOM_LEFT
+from modules.constants import WIDGET_BOUNDS_LEFT_BOTTOM
 
-BOUNDS = WIDGET_BOUNDS_BOTTOM_LEFT
+BOUNDS = WIDGET_BOUNDS_LEFT_BOTTOM
 
 #
 # JingleJamWidget class
@@ -57,14 +57,14 @@ class JingleJamWidget(Widget):
           self.data['amount_last_hour'] = new_amount
 
         self.cache_last()
-        print(f"[jinglejam] {self.data}")
+        log.info('jinglejam', self.data)
         self.unset_error()
       except Exception as err:
-        print(err)
+        log.error('jinglejam', err)
 
         # Use saved data instead
         self.load_last()
-        print("[jinglejam] loaded cache")
+        log.error('jinglejam', "loaded cache instead")
     except Exception as err:
       self.set_error(err)
 

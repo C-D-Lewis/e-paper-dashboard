@@ -1,5 +1,5 @@
 from xml.dom import minidom
-from modules import fetch, helpers, images, fonts, config
+from modules import fetch, helpers, images, fonts, config, log
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS_RIGHT
 
@@ -42,7 +42,7 @@ class NewsWidget(Widget):
           'pubdate': item.getElementsByTagName('pubDate')[0].firstChild.data
         })
 
-      print(f"[news] {len(self.stories)} stories")
+      log.info('news', f"{len(self.stories)} stories")
       self.unset_error()
     except Exception as err:
       self.set_error(err)

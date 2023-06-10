@@ -1,4 +1,4 @@
-from modules import fonts
+from modules import fonts, log
 
 #
 # Widget base class
@@ -15,7 +15,7 @@ class Widget:
   # Set an error encountered
   #
   def set_error(self, err):
-    print(err)
+    log.error('Widget', err)
     self.error = err
 
   #

@@ -1,7 +1,7 @@
 import urllib
 from PIL import Image
 from io import BytesIO
-from modules import fetch, fonts
+from modules import fetch, fonts, log
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS_RIGHT
 
@@ -42,8 +42,8 @@ class NasaPodWidget(Widget):
         # <b>North America and the Pelican</b> <br>
         if '</b> <br>' in l and not self.description:
           self.description = l.split('<b>')[1].split('</b>')[0].strip()
-      print(f"[nasapod] {self.img_url}")
-      print(f"[nasapod] {self.description}")
+      log.info('nasapod', self.img_url)
+      log.info('nasapod', self.description)
 
       # Page format changed?
       if not self.img_url:
@@ -58,10 +58,10 @@ class NasaPodWidget(Widget):
       width, height = img.size
       ratio = width / height
       final_width = int(round(max_height * ratio, 0))
-      print(f"[nasapod] resize {width}x{height} -> {final_width}x{max_height} r: {ratio}")
+      log.info('nasapod', f"resize {width}x{height} -> {final_width}x{max_height} r: {ratio}")
       self.image = img.resize((final_width, max_height)).convert('RGBA')
       self.image_width = final_width
-      print(f"[nasapod] Got image")
+      log.info('nasapod', "Got image")
 
       self.unset_error()
     except Exception as err:

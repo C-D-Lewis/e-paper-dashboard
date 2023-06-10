@@ -1,10 +1,10 @@
 import time
 import random
-from modules import fetch, config, fonts, images, constants
+from modules import fetch, config, fonts, images, constants, log
 from widgets.Widget import Widget
-from modules.constants import WIDGET_BOUNDS_BOTTOM_LEFT
+from modules.constants import WIDGET_BOUNDS_LEFT_BOTTOM
 
-BOUNDS = WIDGET_BOUNDS_BOTTOM_LEFT
+BOUNDS = WIDGET_BOUNDS_LEFT_BOTTOM
 
 config.require(['NOMICS_KEY', 'BTC_AMOUNT', 'ETH_AMOUNT', 'CRYPTO_DISPLAY_MODE'])
 
@@ -27,7 +27,7 @@ class CryptoWidget(Widget):
   def update_data(self):
     # Random wait to avoid 1 rps limit at the same time as another running instance
     wait_time_s = random.randint(1, 4)
-    print(f"[crypto] random wait for {wait_time_s}s")
+    log.info('crypto', f"random wait for {wait_time_s}s")
     time.sleep(wait_time_s)
 
     # Fetch from Nomics API
@@ -48,7 +48,7 @@ class CryptoWidget(Widget):
       self.eth_data['change'] = round(ETH_AMOUNT * float(eth_res['1d']['price_change']), 2)
       self.eth_data['price_change_pct'] = round(float(eth_res['1d']['price_change_pct']) * 100, 1)
 
-      print(f"[crypto] {self.btc_data} {self.eth_data}")
+      log.info('crypto', f"{self.btc_data} {self.eth_data}")
       self.unset_error()
     except Exception as err:
       self.set_error(err)

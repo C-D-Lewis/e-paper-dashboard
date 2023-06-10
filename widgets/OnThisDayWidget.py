@@ -2,11 +2,11 @@ import json
 import os
 import random
 from datetime import datetime
-from modules import fonts, helpers, fetch
+from modules import fonts, helpers, fetch, log
 from widgets.Widget import Widget
-from modules.constants import WIDGET_BOUNDS_BOTTOM_LEFT
+from modules.constants import WIDGET_BOUNDS_LEFT_BOTTOM
 
-BOUNDS = WIDGET_BOUNDS_BOTTOM_LEFT
+BOUNDS = WIDGET_BOUNDS_LEFT_BOTTOM
 
 #
 # OnThisDayWidget class
@@ -39,7 +39,7 @@ class OnThisDayWidget(Widget):
       index = random.randint(0, len(selections) - 1)
       self.content = selections[index]['text']
 
-      print(f"[onthisday] {self.content}")
+      log.info('onthisday', self.content)
       self.unset_error()
     except Exception as err:
       self.set_error(err)

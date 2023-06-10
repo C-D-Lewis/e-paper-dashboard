@@ -1,16 +1,17 @@
 import json
 from urllib.request import Request, urlopen
+from modules import log
 
 #
 # Get a page body text
 #
 def fetch_text(url, headers = {}):
-  print(f"[fetch] {url}")
+  log.info('fetch', url)
   req = Request(url)
   for key, value in headers.items():
     req.add_header(key, value)
   res = urlopen(req).read()
-  print(f"[fetch] response")
+  log.info('fetch', "response")
   return res.decode()
 
 #

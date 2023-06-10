@@ -1,12 +1,12 @@
 import urllib
 from PIL import Image
 from io import BytesIO
-from modules import fonts, helpers
+from modules import fonts, helpers, log
 from widgets.Widget import Widget
-from modules.constants import WIDGET_BOUNDS_TOP_LEFT
+from modules.constants import WIDGET_BOUNDS_LEFT_TOP
 from modules.spotify import authorize, get_now_playing
 
-BOUNDS = WIDGET_BOUNDS_TOP_LEFT
+BOUNDS = WIDGET_BOUNDS_LEFT_TOP
 
 # Image icon size
 IMAGE_SIZE = 112
@@ -40,7 +40,7 @@ class SpotifyWidget(Widget):
       # Fetch now playing data
       new_data = get_now_playing()
       if not new_data:
-        print("[spotify] nothing is playing")
+        log.error('spotify', 'nothing is playing')
         raise Exception('Nothing is playing')
       self.track_data = new_data
 
@@ -48,7 +48,7 @@ class SpotifyWidget(Widget):
       img_data = urllib.request.urlopen(self.track_data['album_image']).read()
       self.album_image = Image.open(BytesIO(img_data)).resize((IMAGE_SIZE, IMAGE_SIZE)).convert('RGBA')
 
-      print(f"[spotify] {self.track_data}")
+      log.info('spotify', self.track_data)
       self.unset_error()
     except Exception as err:
       self.set_error(err)

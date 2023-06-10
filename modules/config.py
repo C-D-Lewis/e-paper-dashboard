@@ -1,5 +1,6 @@
 import os
 import json
+from modules import log
 
 # Config path
 CONFIG_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../config.json')
@@ -13,7 +14,7 @@ def load():
   with open(CONFIG_PATH, 'r') as file:
     config = json.loads(file.read())
 
-  print(f"[config] {config}")
+  log.info('config', config)
 
 load()
 

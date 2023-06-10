@@ -1,6 +1,6 @@
 import images
 import datetime
-from modules import fetch, fonts, images, config
+from modules import fetch, fonts, images, config, log
 from widgets.Widget import Widget
 from modules.constants import DAY_START_HOUR, DAY_END_HOUR, MPH_PER_KPH
 
@@ -64,7 +64,7 @@ class WeatherWidget(Widget):
     try:
       url = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{config.get('LATITUDE')}%2C{config.get('LONGITUDE')}?unitGroup=metric&include=current%2Cdays&key={config.get('WEATHER_KEY')}&contentType=json"
       json = fetch.fetch_json(url)
-      # print(json)
+      # log.info('weather', json)
 
       # Current conditions
       current = json['currentConditions']
@@ -81,7 +81,7 @@ class WeatherWidget(Widget):
       self.temp_high = round(daily['tempmax'])
       self.temp_low = round(daily['tempmin'])
 
-      print(f"[weather] {self.current}")
+      log.info('weather', self.current)
       self.unset_error()
     except Exception as err:
       self.set_error(err)

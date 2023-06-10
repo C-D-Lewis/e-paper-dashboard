@@ -1,6 +1,6 @@
 import images
 import datetime
-from modules import fetch, helpers, fonts, images, config
+from modules import fetch, helpers, fonts, images, config, log
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS_RIGHT, MPH_PER_KPH
 
@@ -72,7 +72,7 @@ class ForecastWidget(Widget):
         }
         self.forecast.append(day)
 
-      print(f"[forecast] {self.forecast}")
+      log.info('forecast', self.forecast)
       self.unset_error()
     except Exception as err:
       self.set_error(err)

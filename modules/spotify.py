@@ -1,7 +1,7 @@
 import spotipy
 import json
 from spotipy.oauth2 import SpotifyOAuth
-from modules import config
+from modules import config, log
 
 # Scopes to allow
 SCOPES = "user-read-private,user-read-currently-playing,user-read-playback-state"
@@ -61,17 +61,17 @@ def get_now_playing():
     }
 
     cache_last()
-    print("[spotify] cache updated")
+    log.info('spotify', "cache updated")
     return last_playing
   except Exception as err:
-    print(err)
+    log.error('spotify', err)
 
     # Try the local cache
     try:
       load_last()
-      print("[spotify] loaded cache")
+      log.info('spotify', "loaded cache")
       return last_playing
     except Exception as err2:
-      print(err2)
-      print("[spotify] no cache to fall back to")
+      log.error('spotify', err2)
+      log.error('spotify', "no cache to fall back to")
       return None
