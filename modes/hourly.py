@@ -57,7 +57,8 @@ def draw():
 #
 def wait_for_next_hour():
   now = datetime.now()
-  while now.minute != 0 and now.second != 0:
+  while now.minute != 0 or now.second != 0:
+    print(now)
     now = datetime.now()
     time.sleep(1)
 
@@ -82,10 +83,18 @@ def run_hourly():
       wait_for_next_hour()
 
       # Update once per hour, summary data only
+      timer.start()
       TOP_LEFT_WIDGET.update_data()
       TOP_RIGHT_WIDGET.update_data()
       LEFT_WIDGET.update_data()
       RIGHT_WIDGET.update_data()
+      timer.end('main update')
+
+      # Draw all widgets
+      with helpers.timeout(seconds=45):
+        epaper.init()
+        draw()
+        epaper.sleep()
     except Exception as err:
       # Failed to work normally
       log.error('main', err)
