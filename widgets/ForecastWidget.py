@@ -4,7 +4,9 @@ from modules import fetch, helpers, fonts, images, config, log
 from widgets.Widget import Widget
 from modules.constants import MPH_PER_KPH
 
-config.require(['LONGITUDE', 'LATITUDE', 'WEATHER_KEY'])
+config.require(['MODE', 'LONGITUDE', 'LATITUDE', 'WEATHER_KEY'])
+
+MODE = config.get('MODE')
 
 #
 # Get an appropriate weather icon for the forecast list
@@ -91,7 +93,8 @@ class ForecastWidget(Widget):
       image.paste(get_forecast_icon(day['icon']), (root_x, day_y))
 
       # Summary
-      image_draw.text((root_x + 55, day_y + 25), day['summary'], font = font, fill = 0)
+      if MODE == 'detailed':
+        image_draw.text((root_x + 55, day_y + 25), day['summary'], font = font, fill = 0)
 
       # Get day of the week for high/low
       future_day = datetime.date.today() + datetime.timedelta(days = index + 1)

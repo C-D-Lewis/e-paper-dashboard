@@ -13,7 +13,7 @@ from widgets.NasaPodWidget import NasaPodWidget
 from widgets.OnThisDayWidget import OnThisDayWidget
 from modules.constants import DIVIDER_SIZE, WIDGET_BOUNDS_LEFT_BOTTOM, WIDGET_BOUNDS_RIGHT, WIDGET_BOUNDS_TOP, WIDGET_BOUNDS_LEFT_TOP, MIDWAY
 
-TOP_WIDGET = { 'widget': DateTimeWidget('minutely'), 'interval': 1 }
+TOP_WIDGET = { 'widget': DateTimeWidget(), 'interval': 1 }
 # Top-right widget (TODO: Pass bounds to all constructors)
 TOP_RIGHT_WIDGET = { 'widget': WeatherWidget(), 'interval': 15 }
 # Right rotation widgets and update intervals
@@ -150,9 +150,9 @@ def wait_for_next_minute():
     time.sleep(1)
 
 #
-# Run in minutely mode
+# Run in detailed mode
 #
-def run_minutely():
+def run_detailed():
   # Initial update and draw
   timer.start()
   TOP_WIDGET['widget'].update_data()

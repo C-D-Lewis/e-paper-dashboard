@@ -1,6 +1,6 @@
 from modules import epaper, config, log
-from modes.hourly import run_hourly
-from modes.minutely import run_minutely
+from modes.summary import run_summary
+from modes.detailed import run_detailed
 
 config.require(['MODE'])
 
@@ -12,10 +12,10 @@ config.require(['MODE'])
 def main():
   mode = config.get('MODE')
 
-  if mode == 'hourly':
-    run_hourly()
-  elif mode == 'minutely':
-    run_minutely()
+  if mode == 'summary':
+    run_summary()
+  elif mode == 'detailed':
+    run_detailed()
   else:
     raise Exception(f'Invalid mode: {mode}')
 

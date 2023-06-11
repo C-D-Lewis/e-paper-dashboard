@@ -2,11 +2,15 @@ import json
 import os
 import random
 from datetime import datetime
-from modules import fonts, helpers, fetch, log
+from modules import fonts, helpers, fetch, log, config
 from widgets.Widget import Widget
 from modules.constants import WIDGET_BOUNDS_TOP
 
 BOUNDS = WIDGET_BOUNDS_TOP
+
+config.require(['MODE'])
+
+MODE = config.get('MODE')
 
 #
 # DateTimeWidget class
@@ -15,10 +19,9 @@ class DateTimeWidget(Widget):
   #
   # Constructor
   #
-  def __init__(self, mode):
+  def __init__(self):
     super().__init__(BOUNDS)
 
-    self.mode = mode
     self.time_str = ''
     self.time_str = ''
 
@@ -46,9 +49,9 @@ class DateTimeWidget(Widget):
     root_x = 8
     root_y = 10
 
-    if self.mode == 'minutely':
+    if MODE == 'detailed':
       image_draw.text((root_x, root_y), self.time_str, font = fonts.KEEP_CALM_80, fill = 0)
       image_draw.text((root_x, root_y + 87), self.date_str, font = fonts.KEEP_CALM_46, fill = 0)
-    elif self.mode == 'hourly':
+    elif MODE == 'summary':
       image_draw.text((root_x, root_y), self.weekday_str, font = fonts.KEEP_CALM_80, fill = 0)
       image_draw.text((root_x, root_y + 87), self.long_date_str, font = fonts.KEEP_CALM_46, fill = 0)

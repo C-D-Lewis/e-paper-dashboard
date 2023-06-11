@@ -3,18 +3,21 @@
 > Requires Python >= 3.7
 
 E-paper photo frame Python app for Waveshare 7.5in V2 e-paper display with
-information widgets.
+information widgets. Runs in two modes - `detailed` and `summary`.
 
 ![](photo.jpg)
 
-Included static widgets:
+_Detailed mode_
+
+### Detailed mode
+
+Updates up to once a minute, variable per-widget. Included static widgets:
 
 * Time and date
 * Current weather - type, temperature, day high/low, chance of precipitation,
   and wind speed using a weather API.
-* Status of two railway operators from
-  [National Rail](http://www.nationalrail.co.uk/service_disruptions/indicator.aspx) (currently hidden).
 * Now Playing track with art from Spotify API.
+* 'On this day' information.
 
 Pages of widgets that rotate once a minute:
 
@@ -25,6 +28,15 @@ Pages of widgets that rotate once a minute:
   [https://type.fit/api/quotes](https://type.fit/api/quotes).
 * NASA Astronomy Picture of the Day.
 
+### Summary mode
+
+Updates once per hour. All widgets are static:
+
+* Time and date
+* Current weather - type, temperature, day high/low, chance of precipitation,
+  and wind speed using a weather API.
+* 5 news headlines from BBC News in a chosen category.
+* Next 5 days weather forecast.
 
 ## Setup
 
@@ -39,10 +51,9 @@ sudo pip3 install RPi.GPIO spidev
 
 Install additional Python dependencies:
 
-* `termcolor`
-* `spotipy`
-* `PIL`
-
+```shell
+pip3 install termcolor spotipy pillow
+```
 
 ## Configuration
 
@@ -50,7 +61,7 @@ Copy `config.json.example` and add values appropriate to you:
 
 | Name | Type | Description |
 |------|------|-------------|
-| `MODE` | String | Mode to run - `minutely` widgets, or `hourly` summary data only. |
+| `MODE` | String | Mode to run - `detailed` widgets, or `summary` data only. |
 | `LATITUDE` | String | Local latitude |
 | `LONGITUDE` | String | Local longitude |
 | `WEATHER_KEY` | String | Key for the weather API |
@@ -87,7 +98,7 @@ python3 main.py
 `crontab` can be used to run on boot:
 
 ```
-@reboot pip3 install spotipy; python3 /home/pi/code/e-paper-dashboard/main.py > /home/pi/e-paper-dashboard.log 2>&1
+@reboot pip3 install spotipy termcolor; python3 /home/pi/code/e-paper-dashboard/main.py > /home/pi/e-paper-dashboard.log 2>&1
 ```
 
 When run on a platform other than Raspberry Pi (i.e: not ARM) the display image

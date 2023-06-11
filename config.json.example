@@ -1,5 +1,5 @@
 {
-  "MODE": "minutely",
+  "MODE": "detailed",
   "LATITUDE": "51.513770",
   "LONGITUDE": "-0.075949",
   "WEATHER_KEY": "",

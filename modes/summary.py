@@ -24,7 +24,7 @@ FORECAST_BOUNDS = (
 )
 
 # Top 'left' widget
-TOP_LEFT_WIDGET = DateTimeWidget('hourly')
+TOP_LEFT_WIDGET = DateTimeWidget()
 # Top right widget
 TOP_RIGHT_WIDGET = WeatherWidget()
 # Left widget
@@ -63,9 +63,9 @@ def wait_for_next_hour():
     time.sleep(1)
 
 #
-# Run in hourly mode, summary data only
+# Run in summary mode, summary data only
 #
-def run_hourly():
+def run_summary():
   # Initial update and draw
   timer.start()
   TOP_LEFT_WIDGET.update_data()
