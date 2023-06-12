@@ -95,6 +95,8 @@ class ForecastWidget(Widget):
       # Summary
       if MODE == 'detailed':
         image_draw.text((root_x + 55, day_y + 25), day['summary'], font = font, fill = 0)
+      elif MODE == 'summary':
+        day_y += 15
 
       # Get day of the week for high/low
       future_day = datetime.date.today() + datetime.timedelta(days = index + 1)

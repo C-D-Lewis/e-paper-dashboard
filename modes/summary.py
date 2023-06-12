@@ -58,7 +58,6 @@ def draw():
 def wait_for_next_hour():
   now = datetime.now()
   while now.minute != 0 or now.second != 0:
-    print(now)
     now = datetime.now()
     time.sleep(1)
 
