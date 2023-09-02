@@ -35,7 +35,8 @@ class DateTimeWidget(Widget):
       self.date_str = now.strftime("%a %-d %b %Y")
 
       self.weekday_str = now.strftime('%A,')
-      self.long_date_str = now.strftime("%-dth of %B %Y")
+      suffix = {1:'st', 2:'nd', 3:'rd' }.get(now.day % 20, 'th')
+      self.long_date_str = now.strftime(f"%B %-d{suffix} %Y")
 
       log.info('datetime', f"{self.time_str} {self.date_str} // {self.weekday_str} {self.long_date_str}")
       self.unset_error()
