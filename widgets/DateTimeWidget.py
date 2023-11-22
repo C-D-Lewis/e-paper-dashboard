@@ -36,7 +36,10 @@ class DateTimeWidget(Widget):
 
       self.weekday_str = now.strftime('%A,')
       suffix = {1:'st', 2:'nd', 3:'rd' }.get(now.day % 20, 'th')
-      self.long_date_str = now.strftime(f"%B %-d{suffix} %Y")
+      month = now.strftime("%B")
+      if 'ember' in month:
+        month = f"{month[:3]}."
+      self.long_date_str = now.strftime(f"{month} %-d{suffix} %Y")
 
       log.info('datetime', f"{self.time_str} {self.date_str} // {self.weekday_str} {self.long_date_str}")
       self.unset_error()
