@@ -106,7 +106,7 @@ class NewsWidget(Widget):
     font = fonts.KEEP_CALM_20
     lines = helpers.get_wrapped_lines(story['description'], font, max_line_width)
     for line_index, line in enumerate(lines):
-      if line_index < 4:
+      if line_index <= 10:
         image_draw.text((root_x + icon_w_margin + 10, desc_y + (line_index * line_gap_y)), line, font = font, fill = 0)
 
   #
