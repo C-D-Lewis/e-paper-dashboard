@@ -66,6 +66,7 @@ Copy `config.json.example` and add values appropriate to you:
 | `LONGITUDE` | String | Local longitude |
 | `WEATHER_KEY` | String | Key for the weather API |
 | `NEWS_CATEGORY` | String | BBC News category identifier, from the list below |
+| `NEWS_MODE` | String | Display news in `rotation` or as a `list` |
 | `TWITTER_SCREEN_NAME` | String | Twitter name of an account to show latest tweet |
 | `TWITTER_BEARER_TOKEN` | String | Twitter API Bearer token |
 | `SPOTIFY_CLIENT_ID` | `String` | Spotify OAuth flow client ID |

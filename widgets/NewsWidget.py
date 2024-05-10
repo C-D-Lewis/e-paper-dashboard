@@ -1,11 +1,12 @@
 from xml.dom import minidom
+from datetime import datetime
 from modules import fetch, helpers, images, fonts, config, log
 from widgets.Widget import Widget
 
 # Max number of displayed stories
 MAX_STORIES = 5
 
-config.require(['NEWS_CATEGORY'])
+config.require(['NEWS_CATEGORY', 'NEWS_MODE'])
 
 #
 # News widget class
@@ -16,6 +17,11 @@ class NewsWidget(Widget):
   #
   def __init__(self, bounds):
     super().__init__(bounds)
+
+    # Validate NEWS_MODE
+    news_mode = config.get('NEWS_MODE')
+    if news_mode not in ['list', 'rotation']:
+      raise Exception(f'Invaid NEWS_MODE {news_mode}')
 
     self.stories = []
 
@@ -45,9 +51,9 @@ class NewsWidget(Widget):
       self.set_error(err)
 
   #
-  # Draw the news stories
+  # Draw news items as a list
   #
-  def draw_data(self, image_draw, image):
+  def draw_list(self, image_draw, image):
     root_x = self.bounds[0]
     root_y = self.bounds[1] + 10
     story_gap = 60
@@ -68,3 +74,51 @@ class NewsWidget(Widget):
       lines = helpers.get_wrapped_lines(story['title'], font, max_line_width)[:2]
       for line_index, line in enumerate(lines):
         image_draw.text((story_x, story_y + 5 + (line_index * text_gap)), line, font = font, fill = 0)
+
+  #
+  # Draw news items as a rotation once a minute
+  #
+  def draw_rotation(self, image_draw, image):
+    root_x = self.bounds[0]
+    root_y = self.bounds[1] + 25
+    icon_w_margin = 55
+    max_line_width = self.bounds[2] - icon_w_margin - 20
+    
+    # Choose story
+    now = datetime.now()
+    index = now.minute % len(self.stories)
+    story = self.stories[index]
+
+    # Icon
+    image.paste(images.ICON_NEWS, (root_x + 10, root_y - 5))
+    
+    # Title
+    line_gap_y = 26
+    font = fonts.KEEP_CALM_24
+    lines = helpers.get_wrapped_lines(story['title'], font, max_line_width)
+    for line_index, line in enumerate(lines):
+      if line_index <= 3:
+        image_draw.text((root_x + icon_w_margin + 10, root_y + (line_index * line_gap_y)), line, font = font, fill = 0)
+
+    # Description
+    desc_y = root_y + 90
+    line_gap_y = 24
+    font = fonts.KEEP_CALM_20
+    lines = helpers.get_wrapped_lines(story['description'], font, max_line_width)
+    for line_index, line in enumerate(lines):
+      if line_index < 4:
+        image_draw.text((root_x + icon_w_margin + 10, desc_y + (line_index * line_gap_y)), line, font = font, fill = 0)
+
+  #
+  # Draw the news stories
+  #
+  def draw_data(self, image_draw, image):
+    news_mode = config.get('NEWS_MODE')
+
+    if news_mode == 'list':
+      self.draw_list(image_draw, image)
+      return
+    
+    if news_mode == 'rotation':
+      self.draw_rotation(image_draw, image)
+      return

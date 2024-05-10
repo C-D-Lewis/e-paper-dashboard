@@ -7,6 +7,7 @@
   "ETH_AMOUNT": 0.04848811,
   "CRYPTO_DISPLAY_MODE": "earnings",
   "NEWS_CATEGORY": "technology",
+  "NEWS_MODE": "list",
   "TWITTER_SCREEN_NAME": "Chris_DL",
   "TWITTER_BEARER_TOKEN": "",
   "SPOTIFY_CLIENT_ID": "",
