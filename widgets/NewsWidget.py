@@ -86,7 +86,7 @@ class NewsWidget(Widget):
     
     # Choose story
     now = datetime.now()
-    index = now.minute % len(self.stories)
+    index = now.hour % len(self.stories)
     story = self.stories[index]
 
     # Icon
