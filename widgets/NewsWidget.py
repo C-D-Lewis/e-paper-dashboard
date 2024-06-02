@@ -86,8 +86,8 @@ class NewsWidget(Widget):
     
     # Choose story
     now = datetime.now()
-    index = now.hour % len(self.stories)
-    story = self.stories[index]
+    story_index = now.hour % len(self.stories)
+    story = self.stories[story_index]
 
     # Icon
     image.paste(images.ICON_NEWS, (root_x + 10, root_y - 5))
@@ -108,6 +108,22 @@ class NewsWidget(Widget):
     for line_index, line in enumerate(lines):
       if line_index <= 10:
         image_draw.text((root_x + icon_w_margin + 10, desc_y + (line_index * line_gap_y)), line, font = font, fill = 0)
+    
+    # Story index
+    bar_margin = 20
+    bar_root_x = root_x + bar_margin
+    box_gap = 25
+    bar_len = (self.bounds[2] - (2 * bar_margin))
+    total_gap = ((MAX_STORIES - 1) * box_gap)
+    box_w = ((bar_len - total_gap) / MAX_STORIES)
+    box_h = 8
+    for index in range(0, MAX_STORIES):
+      x = bar_root_x + (index * (box_w + box_gap))
+      y = root_y + 262
+      box_rhs = x + box_w
+      box_bottom = y + box_h
+      this_fill = 0 if index == story_index else 1
+      image_draw.rectangle([x, y, box_rhs, box_bottom], fill = this_fill, outline = 0, width = 2)
 
   #
   # Draw the news stories
