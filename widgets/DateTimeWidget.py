@@ -34,7 +34,7 @@ class DateTimeWidget(Widget):
       self.time_str = now.strftime("%H:%M")
       self.date_str = now.strftime("%a %-d %b %Y")
 
-      self.weekday_str = now.strftime('%A,')
+      self.weekday_str = now.strftime('%A')
       suffix = {1:'st', 2:'nd', 3:'rd' }.get(now.day % 20, 'th')
       month = now.strftime("%B")
       if 'ember' in month:
