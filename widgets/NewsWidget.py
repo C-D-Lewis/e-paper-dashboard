@@ -89,8 +89,9 @@ class NewsWidget(Widget):
     story_index = now.hour % len(self.stories)
     story = self.stories[story_index]
 
-    # Icon
-    image.paste(images.ICON_NEWS, (root_x + 10, root_y - 5))
+    # Icons
+    # image.paste(images.ICON_NEWS, (root_x + 10, root_y - 5))
+    image.paste(images.ICON_BBC, (root_x + 8, root_y))
     
     # Title
     line_gap_y = 26

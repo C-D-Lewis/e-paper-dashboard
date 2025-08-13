@@ -41,6 +41,7 @@ ICON_ETH = Image.open(os.path.join(IMAGES_DIR, 'eth.bmp'))
 
 # News icons
 ICON_NEWS = Image.open(os.path.join(IMAGES_DIR, 'news.bmp'))
+ICON_BBC = Image.open(os.path.join(IMAGES_DIR, 'bbc.bmp'))
 
 # Twitter icons
 ICON_HEART = Image.open(os.path.join(IMAGES_DIR, 'heart.bmp'))

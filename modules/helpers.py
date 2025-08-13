@@ -1,6 +1,19 @@
 import signal
 
 #
+# Get the width of a text string regardless of Pillow version <10 or above
+def get_text_width(text, font):
+  if hasattr(font, 'getbbox'):
+    # Pillow 10+
+    bbox = font.getbbox(text)
+    return bbox[2] - bbox[0]
+  elif hasattr(font, 'textsize'):
+    return font.textsize(text)[0]
+  else:
+    # Old
+    return font.getsize(text)[0]
+
+#
 # Wrap text based on line length
 #   Adapted from https://itnext.io/how-to-wrap-text-on-image-using-python-8f569860f89e
 #
@@ -11,7 +24,7 @@ def get_wrapped_lines(text, font, max_width):
   i = 0
   while i < len(words):
     line = ''
-    while i < len(words) and font.getsize(line + words[i])[0] <= max_width:
+    while i < len(words) and get_text_width(line + words[i], font) <= max_width:
       line = line + words[i]+ " "
       i += 1
     if not line:

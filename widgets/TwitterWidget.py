@@ -46,9 +46,6 @@ class TwitterWidget(Widget):
       'display_date': ''
     }
 
-    # Initial data
-    self.resolve_user_name()
-
   #
   # Format the user's image to a circle
   #
