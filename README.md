@@ -45,7 +45,7 @@ Follow the steps in the
 required libraries for the 7.5 inch V2 e-paper display:
 
 ```shell
-sudo apt-get install python3-pip python3-pil python3-numpy
+sudo apt-get install python3-pip python3-pil python3-numpy libopenjp2-7
 sudo pip3 install RPi.GPIO spidev
 ```
 
